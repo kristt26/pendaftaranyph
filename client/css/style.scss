@@ -1,0 +1,89 @@
+.siswa {
+    padding: 30px;
+    text-align: center;
+
+    .siswa-logo {
+        img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    .siswa-header {
+        margin-top: 60px;
+    }
+
+    .siswa-body {
+        margin: 60px;
+        h1 {
+            margin: 30px;
+            text-transform: uppercase;
+        }
+
+        .status {
+            padding: 10px;
+            color: white;
+            background-color: greenyellow;
+        }
+    }
+    .siswa-download {
+        margin-top: 40px;
+        a {
+            width: 30%;
+            padding: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .siswa {
+        min-height: 95vh;
+        padding: 20px;
+        text-align: center;
+
+        .siswa-logo {
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .siswa-header {
+            margin-top: 30px;
+            h2 {
+                font-size: 18px;
+            }
+
+            h4 {
+                font-size: 14px;
+            }
+        }
+
+        .siswa-body {
+            margin: 30px;
+            h1 {
+                font-size: 18px;
+                text-transform: uppercase;
+            }
+        }
+        .siswa-download {
+            margin-top: 5px;
+            a {
+                width: 100%;
+                padding: 20px;
+            }
+            padding: 20px;
+        }
+    }
+
+    td {
+        a {
+            margin-right: 0px;
+        }
+
+        .btn {
+            padding: 1px !important;
+            border-color: transparent;
+        }
+    }
+}
