@@ -5,8 +5,8 @@ application/cache/*
 
 
 application/logs/*
-application/config/*
-!application/config/database.php
+#application/config/*
+#!application/config/database.php
 !application/logs/index.html
 
 
@@ -35,4 +35,4 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 
 test/*
-application/config/database.php
+#application/config/database.php
