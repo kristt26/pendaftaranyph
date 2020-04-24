@@ -1,8 +1,9 @@
 <div class="dashboard-main-wrapper">
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
+            <div class="img-logo"><img src="client/images/ypk.png" alt=""></div>
             <a class="navbar-brand" ui-sref="adminsuper-home">
-                <h5>SMA YPK DIASPORA KOTARAJA</h5>
+                <h5>SMA YPK DIASPORA</h5>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +19,7 @@
         </nav>
     </div>
 
-    <div class="nav-left-sidebar sidebar-dark">
+    <div class="nav-left-sidebar bg-dark">
         <div class="menu-list">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
@@ -33,6 +34,11 @@
                                 aria-controls="">
                                 <i class="fa fa-fw fa-home"></i>Home
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" ui-sref="admin-ta"><i class="fa fa-fw fa-rocket"></i>Tahun
+                                Ajaran</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" ui-sref="admin-pegawai"><i class="fa fa-fw fa-rocket"></i>Pegawai</a>
                         </li>
@@ -40,10 +46,7 @@
                         <li class="nav-item">
                             <a class="nav-link" ui-sref="admin-siswa"><i class="fa fa-fw fa-rocket"></i>Siswa</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" ui-sref="admin-ta"><i class="fa fa-fw fa-rocket"></i>Tahun
-                                Ajaran</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" ui-sref="admin-kelulusan"><i
                                     class="fa fa-fw fa-rocket"></i>Kelulusan</a>
@@ -60,21 +63,20 @@
             <div class="container-fluid dashboard-content ">
                 <ui-view></ui-view>
             </div>
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            Copyright © 2020
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="text-md-right footer-links d-none d-sm-block">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+        </div>
+        <app.footer></app.footer>
 
 
     </div>
+
+
+</div>
+
+
+
+<style>
+    .dashboard-content {
+        min-height: 85vh;
+    }
+</style>

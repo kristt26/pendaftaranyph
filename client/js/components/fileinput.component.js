@@ -1,4 +1,4 @@
-angular.module('app.fileInput.conponent', []).component('fileinput', {
+angular.module('app.fileinput.conponent', []).component('fileinput', {
 	bindings: {
 		model: '=',
 		showview: '<',
@@ -43,5 +43,5 @@ angular.module('app.fileInput.conponent', []).component('fileinput', {
 			inp.click();
 		};
 	},
-	templateUrl: 'client/js/components/templates/fileInput.html'
+	templateUrl: 'client/js/components/templates/fileinput.html'
 });

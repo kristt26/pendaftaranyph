@@ -1,3 +1,11 @@
+.form-control {
+    border-radius: 5px;
+}
+
+.card {
+    border-radius: 0;
+}
+
 .siswa {
     padding: 30px;
     text-align: center;
@@ -32,6 +40,15 @@
             width: 30%;
             padding: 20px;
         }
+    }
+}
+.navbar-brand {
+    font-size: 18px;
+}
+.img-logo {
+    img {
+        height: 50px;
+        width: 50px;
     }
 }
 

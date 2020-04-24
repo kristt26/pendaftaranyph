@@ -8,9 +8,9 @@ angular
 	.controller('adminHomeController', adminHomeController);
 
 function adminController($scope, $state, AuthService) {
-	if (!AuthService.userIsLogin()) {
-		$state.go('login');
-	}
+	// if (!AuthService.userIsLogin()) {
+	// 	$state.go('login');
+	// }
 }
 function adminSiswaController($scope, message, SiswaService, helperServices) {
 	$scope.helper = helperServices;

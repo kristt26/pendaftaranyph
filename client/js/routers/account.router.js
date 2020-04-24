@@ -1,5 +1,4 @@
 angular.module('account.router', [ 'ui.router' ]).config(function($stateProvider, $urlRouterProvider) {
-	$urlRouterProvider.otherwise('/account/login');
 	$stateProvider
 		.state('account', {
 			url: '/account',
