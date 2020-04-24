@@ -30,6 +30,7 @@ class Siswa_Model extends CI_Model
             LEFT JOIN `kelulusan` ON `kelulusan`.`idsiswa` = `siswa`.`idsiswa`
             ");
             return $result->result_array();
+            
         }
     }
     public function insert($data)
