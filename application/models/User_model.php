@@ -76,11 +76,12 @@ class User_Model extends CI_Model
         $this->db->where('password', $Pass);
         $this->db->where('status', true);
         $q = $this->db->get('user');
+        $z = $q->result_array();
 
         if ($q->num_rows()) {
             $x = $q->result_object();
             $a = $x[0];
-            if ($q->row('rolename') == 'siswa') {
+            if ($q->row('rolename') == 'calonsiswa') {
                 $iduser = $q->row('iduser');
                 $Biodata = $this->db->query("
                 SELECT

@@ -60,9 +60,9 @@ $route['API'] = 'Rest_server';
 $route['api/users']['post'] = 'Users/login';
 
 // Siswa
-$route['api/siswa']['get'] = 'Siswa/GetSiswa';
-$route['api/siswa']['post'] = 'Siswa/Simpan';
-$route['api/siswa']['put'] = 'Siswa/ubah';
+$route['api/calonsiswa']['get'] = 'CalonSiswa/GetSiswa';
+$route['api/calonsiswa']['post'] = 'CalonSiswa/Simpan';
+$route['api/calonsiswa']['put'] = 'CalonSiswa/ubah';
 $route['api/siswa/:num']['delete'] = 'Siswa/Hapus';
 
 $route['api/pegawai']['get'] = 'Pegawai/Ambil';
