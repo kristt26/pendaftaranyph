@@ -8,9 +8,18 @@ class CalonSiswa_Model extends CI_Model
             $xd = $this->db->query("
             SELECT
             `calonsiswa`.*,
+            `detailpersyaratan`.`iddetailpersyaratan`,
+            `detailpersyaratan`.`idpersyaratan`,
+            `detailpersyaratan`.`berkas`,
+            `prestasi`.`idprestasi`,
+            `prestasi`.`penyelenggaraan`,
+            `prestasi`.`jenisprestasi`,
+            `prestasi`.`tingkat`,
+            `prestasi`.`namaprestasi`,
+            `prestasi`.`tahun`,
             `beasiswa`.`idbeasiswa`,
             `beasiswa`.`jenisbeasiswa`,
-            `beasiswa`.`penyelenggaraan`,
+            `beasiswa`.`penyelenggaraan` AS `penyelenggaraan1`,
             `beasiswa`.`tahunmulai`,
             `beasiswa`.`tahunselesai`,
             `kesejahteraan`.`idkesejahteraan`,
@@ -18,12 +27,6 @@ class CalonSiswa_Model extends CI_Model
             `kesejahteraan`.`nomor`,
             `kesejahteraan`.`daritahun`,
             `kesejahteraan`.`sampaitahun`,
-            `prestasi`.`idprestasi`,
-            `prestasi`.`penyelenggaraan` AS `penyelenggaraan1`,
-            `prestasi`.`jenisprestasi`,
-            `prestasi`.`tingkat`,
-            `prestasi`.`namaprestasi`,
-            `prestasi`.`tahun`,
             `orangtua`.`idorangtua`,
             `orangtua`.`nik`,
             `orangtua`.`tahunlahir`,
@@ -31,13 +34,10 @@ class CalonSiswa_Model extends CI_Model
             `orangtua`.`pekerjaan`,
             `orangtua`.`pendidikan`,
             `orangtua`.`penghasilan`,
-            `orangtua`.`jenisorangtua`,
-            `detailpesyaratan`.`iddetailpesyaratan`,
-            `detailpesyaratan`.`idpersyaratan`,
-            `detailpesyaratan`.`berkas`
+            `orangtua`.`jenisorangtua`
             FROM
             `calonsiswa`
-            LEFT JOIN `prestasi` ON `prestasi`.`idcalonsiswa` =
+            LEFT JOIN `detailpersyaratan` ON `detailpersyaratan`.`idcalonsiswa` =
                 `calonsiswa`.`idcalonsiswa`
             LEFT JOIN `beasiswa` ON `beasiswa`.`idcalonsiswa` =
                 `calonsiswa`.`idcalonsiswa`
@@ -45,8 +45,9 @@ class CalonSiswa_Model extends CI_Model
                 `calonsiswa`.`idcalonsiswa`
             LEFT JOIN `orangtua` ON `orangtua`.`idcalonsiswa` =
                 `calonsiswa`.`idcalonsiswa`
-            LEFT JOIN `detailpesyaratan` ON `calonsiswa`.`idcalonsiswa` =
-                `detailpesyaratan`.`idcalonsiswa` WHERE calonsiswa.idcalonsiswa='$idcalonsiswa'
+            LEFT JOIN `prestasi` ON `prestasi`.`idcalonsiswa` =
+                `calonsiswa`.`idcalonsiswa`
+            WHERE calonsiswa.idcalonsiswa='$idcalonsiswa'
             ");
             $result = $xd->result_object();
             $orangtua = [];
@@ -113,7 +114,7 @@ class CalonSiswa_Model extends CI_Model
                     array_push($detailpersyaratan, $item);
                 }
             }
-            $biodata = (object) [
+            $biodata = [
                 'idcalonsiswa' => $result[0]->idcalonsiswa,
                 'nis' => $result[0]->nis,
                 'nama' => $result[0]->nama,
