@@ -4,21 +4,19 @@ use Restserver\Libraries\REST_Controller;
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Siswa extends \Restserver\Libraries\REST_Controller
+class CalonSiswa extends \Restserver\Libraries\REST_Controller
 {
     public function __construct($config = 'rest')
     {
         parent::__construct($config);
-        $this->load->model('Siswa_model', 'SiswaModel');
+        $this->load->model('CalonSiswa_model');
     }
 
     public function GetSiswa_get()
     {
-        $output = $this->SiswaModel->select(null);
-        if($output){
-            $this->response($output, REST_Controller::HTTP_OK);
-        }
-        
+        $output = $this->CalonSiswa_model->select(isset($_GET)? $_GET['idcalonsiswa']: false);
+        $this->response($output, REST_Controller::HTTP_OK);
+
     }
     public function simpan_post()
     {
@@ -26,13 +24,13 @@ class Siswa extends \Restserver\Libraries\REST_Controller
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
             $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            $Output = $this->SiswaModel->insert($POST);
+            $Output = $this->CalonSiswa_model->insert($POST);
             if ($Output) {
                 $this->response($Output, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
             }
-        }else{
+        } else {
             $this->response(null, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
@@ -42,10 +40,10 @@ class Siswa extends \Restserver\Libraries\REST_Controller
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
             $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            $Output = $this->SiswaModel->update($POST);
+            $Output = $this->CalonSiswa_model->update($POST);
             if ($Output) {
                 $this->response(true, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
             }
         }
@@ -55,10 +53,10 @@ class Siswa extends \Restserver\Libraries\REST_Controller
         $this->load->library('Authorization_Token');
         $is_valid_token = $this->authorization_token->validateToken();
         if ($is_valid_token['status'] === true) {
-            $Output = $this->SiswaModel->delete($this->uri->segment(3));
+            $Output = $this->CalonSiswa_model->delete($this->uri->segment(3));
             if ($Output) {
                 $this->response(true, REST_Controller::HTTP_OK);
-            }else{
+            } else {
                 $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
             }
         }
