@@ -1,14 +1,22 @@
 const appHtmlEditor = {
+	bindings: {
+		model: '='
+	},
 	controller: function($scope, AuthService) {
-		tinymce.init({
-			selector: 'textarea#basic-example',
+		$scope.$ctrl.tinymceModel = 'Initial content';
+
+		$scope.getContent = function() {
+			console.log('Editor content:', $scope.tinymceModel);
+		};
+
+		$scope.tinymceOptions = {
 			height: 500,
 			menubar: true,
 			plugins: [
 				'advlist autolink lists link image charmap print preview anchor',
 				'searchreplace visualblocks code fullscreen',
 				'image',
-				'insertdatetime media table paste code help wordcount'
+				'insertdatetime media table paste code  wordcount'
 			],
 			toolbar:
 				'undo redo | formatselect | ' +
@@ -16,7 +24,7 @@ const appHtmlEditor = {
 				'alignright alignjustify | bullist numlist outdent indent | ' +
 				'removeformat | help | image',
 			content_css: 'client/assets/vendor/bootstrap/css/bootstrap.min.css'
-		});
+		};
 
 		$scope.isLogin = AuthService.userIsLogin();
 		if ($scope.isLogin) {
@@ -37,11 +45,12 @@ const appHtmlEditor = {
 };
 
 const appHtmlView = {
+	bindings: { model: '=' },
 	controller: function($scope, AuthService) {},
 	templateUrl: 'client/js/components/htmleditor/htmlview.html'
 };
 
 angular
-	.module('app.htmleditor.conponent', [])
+	.module('app.htmleditor.conponent', [ 'ui.tinymce' ])
 	.component('app.htmleditor', appHtmlEditor)
 	.component('app.htmlview', appHtmlView);

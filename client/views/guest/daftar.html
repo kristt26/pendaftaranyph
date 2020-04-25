@@ -1,0 +1,59 @@
+<ul class="nav nav-tabs stepper" id="myTab" role="tablist">
+    <li class="nav-item stepper-item" ng-class="{'stepper-complete':item.complete, 'stepper-selected':item.selected}"
+        ng-repeat="item in steppers">
+        <a class="stepper-node" ng-click="select(item.idstepper)" ng-class="$index==0?'active':''" id="home-tab"
+            data-toggle="tab" href="" data-target="#tab{{item.idstepper}}" role="tab" aria-controls="home"
+            aria-selected="true">{{item.name}} </a>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="profile-tab">
+            <div id="content-left"></div>
+            <div id="content-right">
+                <Button ng-click="next(1)">Next</Button>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="messages-tab">Prestasi
+            <div id="content-left"></div>
+            <div id="content-right">
+                <Button ng-click="next(2)">Next</Button>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="settings-tab">Orang Tua
+            <div id="content-left"></div>
+            <div id="content-right">
+                <Button ng-click="next(3)">Next</Button>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="settings-tab">Apakek
+            <div id="content-left"></div>
+            <div id="content-right">
+                <Button ng-click="next(4)">Next</Button>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">Home2
+            <div id="content-left"></div>
+            <div id="content-right">
+                <Button ng-click="next(5)">Next</Button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .tab-content {
+        min-height: 80vh;
+    }
+</style>

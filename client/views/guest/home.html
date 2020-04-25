@@ -1,40 +1,44 @@
 <div id="home" class="row">
     <div id="left-side" class="col-md-9">
-        <div class="card">
-            <div id="left-side-content" class="card-body">
-                <app.htmlview></app.htmlview>
-            </div>
-        </div>
+        <app.htmlview model="selectedContent"></app.htmlview>
     </div>
     <div id="right-side" class="col-md-3">
         <div class="card">
-            <div class="card-body bg-primary">
-                <h5 class="card-title">PENGUMUMAN</h5>
-                <p class="card-text">PENGUMUMAN Some quick example text to build on the card title and make up the bulk
-                    of the
-                    card's content.</p>
+            <div class="card-body bg-success">
+                <p class="card-text text-light">PENDAFTARAN</p>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+            <div class="card-body text-center">
+                <button ng-if="!taActive" class="btn btn-outline-danger">
+                    BELUM DIBUKA
+                </button>
+                <a ui-sref="guest-daftar" ng-if="taActive" class="btn btn-outline-success">
+                    DAFTAR SEKARANG
+                </a>
+            </div>
+        </div>
+        <hr />
+        <div class="card">
+            <div class="card-body bg-primary">
+                <p class="card-text">INFORMASI</p>
+            </div>
+            <ul class="list-group list-group-flush" ng-repeat="item in informasi">
+                <li class="list-group-item"><a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+                </li>
+
             </ul>
             <div class="card-body">
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link">Another link</a>
             </div>
         </div>
-
+        <hr />
         <div class="card">
             <div class="card-body bg-warning">
-                <h5 class="card-title">INFORMASI</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
+                <h5 class="card-title">PENGUMUMAN</h5>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+            <ul class="list-group list-group-flush" ng-repeat="item in pengumuman">
+                <li class="list-group-item"><a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+                </li>
             </ul>
             <div class="card-body">
                 <a href="#" class="card-link">Card link</a>
@@ -47,21 +51,17 @@
 
 
 
-
 <style>
     #home {
+        margin: 10px;
         min-height: 80vh;
     }
 
-    #right-side {
-        padding: 10px;
-    }
-
-    #left-side {
-        padding: 10px;
-    }
-
     #left-side-content {
-        padding: 20px;
+        padding: 5px;
+    }
+
+    a:hover {
+        color: white;
     }
 </style>

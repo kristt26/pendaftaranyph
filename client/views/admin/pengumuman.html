@@ -1,31 +1,25 @@
 <div class="row">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="page-header">
-            <h2 class="pageheader-title"><i class="fa fa-fw fa-home"></i> Kelulusan </h2>
+            <h2 class="pageheader-title"><i class="fa fa-fw fa-home"></i> Pengumuman </h2>
             <div class="page-breadcrumb">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a ui-sref="admin-home" class="breadcrumb-link">Kelulusan</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Kelulusan</li>
+                        <li class="breadcrumb-item"><a ui-sref="admin-home" class="breadcrumb-link">Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Pengumuman</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
+    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
         <div class="card border-3 border-top border-top-primary">
             <div class="card-body">
-                <h3 class="text-muted">Data Kelulusan</h3>
                 <div class="d-flex justify-content-between">
-                    <div class="form-group" style="width: 100px;">
-                        <label class="col-form-label">Tahun Ajaran</label>
-                        <select class="form-control" ng-model="ta"
-                            ng-options="item as item.tahunajaran for item in tahuns">
-                        </select>
-                    </div>
-                    <div> <a ng-show="selectedTa" class="btn btn-outline-success" data-toggle="modal"
-                            data-target="#exampleModal" href="" ng-click="model=null;title='Tambah Kelulusan'"><i
+                    <h3 class="text-muted">Data Pengumuman</h3>
+                    <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" href=""
+                            ng-click="model={type:'pengumuman', publish:true};title='Tambah Pengumuman'"><i
                                 class="fa fa-plus-square fa-2x"></i></a>
                     </div>
                 </div>
@@ -36,22 +30,26 @@
                         <thead class="bg-light">
                             <tr class="border-0">
                                 <th rowspan="2">#</th>
-                                <th rowspan="2">Nomor Peserta</th>
-                                <th rowspan="2">NIS</th>
-                                <th rowspan="2">Nama Siswa</th>
-                                <th rowspan="2">Status</th>
-                                <th rowspan="2">Berkas</th>
+                                <th rowspan="2">Tanggal</th>
+                                <th rowspan="2">Judul</th>
+                                <th rowspan="2">Publish</th>
                                 <th rowspan="2">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr ng-repeat="item in source | filter:{idtahunajaran:ta.idtahunajaran}">
                                 <td>{{$index+1}}</td>
-                                <td>{{item.kontak}}</td>
-                                <td>{{item.nis}}</td>
-                                <td>{{item.nama}}</td>
-                                <td>{{item.status}} </td>
-                                <td><a href="client/berkas/{{item.Berkas}}">Download</a></td>
+                                <td>{{item.created|date:'dd-MM-yyyy hh:ss'}}</td>
+                                <td>{{item.title}}</td>
+                                <td>
+                                    <div class="checkbox-custom">
+                                        <label>
+                                            <input ng-model="item.publish" disabled type="checkbox">
+                                            <b></b>
+                                        </label>
+                                    </div>
+                                </td>
                                 <td nowrap>
                                     <div class="tdaction justify-content-start">
                                         <a class="btn btn-outline-warning" href="" data-toggle="modal"
@@ -70,7 +68,7 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
@@ -80,31 +78,29 @@
             </div>
             <div class="modal-body">
                 <form ng-submit="save(model)">
-                    <div class="form-group" ng-show="!model.siswa.idkelulusan">
-                        <label class="col-form-label">Nama Siswa</label>
-                        <select class="form-control" ng-model="model.siswa"
-                            ng-options="item as item.nama+' - '+item.nis for item in source|filter: {idkelulusan:null}"></select>
+                    <div class="form-group">
+                        <label class="col-form-label">Judul</label>
+                        <input ng-model="model.title" required class="form-control">
                     </div>
-                    <div class="form-group" ng-show="model.siswa.idkelulusan">
-                        <label class="col-form-label">Nama Siswa</label>
-                        <input value="{{model.siswa.nama}} - {{model.siswa.nis}}" disabled required
-                            class="form-control">
+                    <div class="d-inline-flex" style="margin-bottom: 15px;">
+                        <label style="margin-top: 4px; margin-right: 20px;">Publish</label>
+                        <div class="checkbox-custom">
+                            <label>
+
+                                <input ng-model="model.publish" type="checkbox">
+                                <b></b>
+
+                            </label>
+
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Status Kelulusan</label>
-                        <select class="form-control" ng-model="model.siswa.status" required ng-disabled="!model.siswa"
-                            ng-options="item as item for item in helper.statusLulus">
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Berkas</label>
-                        <fileinput model="model.siswa.file" ng-disabled="!model.siswa" class="form-control"
-                            idname="'berkas'"></fileinput>
+                        <app.htmleditor model="model.content"></app.htmleditor>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" ng-disabled="!model.siswa" class="btn btn-primary"><i
+                        <button type="submit" ng-disabled="!model" class="btn btn-primary"><i
                                 class=" fa fa-spinner fa-spin" ng-show="helper.IsBusy"></i>Simpan </button>
                     </div>
                 </form>

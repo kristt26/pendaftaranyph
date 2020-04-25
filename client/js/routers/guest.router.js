@@ -12,16 +12,28 @@ angular.module('guest.router', [ 'ui.router' ]).config(function($stateProvider, 
 			controller: 'guestHomeController',
 			templateUrl: './client/views/guest/home.html'
 		})
-		.state('informasi', {
+		.state('guest-daftar', {
+			url: '/daftar',
+			parent: 'guest',
+			controller: 'daftarController',
+			templateUrl: './client/views/guest/daftar.html'
+		})
+		.state('guest-informasi', {
 			url: '/informasi',
 			parent: 'guest',
 			controller: 'informasiController',
 			templateUrl: './client/views/guest/informasi.html'
 		})
-		.state('pengumuman', {
+		.state('guest-pengumuman', {
 			url: '/pengumuman',
 			parent: 'guest',
 			controller: 'pengumumanController',
 			templateUrl: './client/views/guest/pengumuman.html'
+		})
+		.state('guest-detail', {
+			url: '/detail/:id',
+			parent: 'guest',
+			controller: 'detailController',
+			templateUrl: './client/views/guest/detail.html'
 		});
 });
