@@ -11,12 +11,6 @@ angular.module('admin.router', [ 'ui.router' ]).config(function($stateProvider, 
 			controller: 'adminHomeController',
 			templateUrl: './client/views/admin/home.html'
 		})
-		.state('admin-pegawai', {
-			url: '/pegawai',
-			parent: 'admin',
-			controller: 'adminPegawaiController',
-			templateUrl: './client/views/admin/pegawai.html'
-		})
 		.state('admin-siswa', {
 			url: '/siswa',
 			parent: 'admin',
@@ -29,10 +23,16 @@ angular.module('admin.router', [ 'ui.router' ]).config(function($stateProvider, 
 			controller: 'adminTahunAjaranController',
 			templateUrl: './client/views/admin/tahunajaran.html'
 		})
-		.state('admin-kelulusan', {
-			url: '/kelulusan',
+		.state('admin-pengumuman', {
+			url: '/pengumuman',
 			parent: 'admin',
-			controller: 'adminKelulusanController',
-			templateUrl: './client/views/admin/kelulusan.html'
+			controller: 'adminPengumumanController',
+			templateUrl: './client/views/admin/pengumuman.html'
+		})
+		.state('admin-informasi', {
+			url: '/informasi',
+			parent: 'admin',
+			controller: 'adminInformasiController',
+			templateUrl: './client/views/admin/informasi.html'
 		});
 });

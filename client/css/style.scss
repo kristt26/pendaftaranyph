@@ -1,3 +1,11 @@
+.form-control {
+    border-radius: 5px;
+}
+
+.card {
+    border-radius: 0;
+}
+
 .siswa {
     padding: 30px;
     text-align: center;
@@ -31,6 +39,103 @@
         a {
             width: 30%;
             padding: 20px;
+        }
+    }
+}
+
+.navbar-brand {
+    font-size: 18px;
+}
+.img-logo {
+    img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+td {
+    a {
+        margin-right: 0px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 4px 7px;
+        border-radius: 2px;
+        margin-left: 5px;
+    }
+}
+
+.checkbox-custom {
+    position: relative;
+}
+
+.checkbox-custom input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom input[type="checkbox"] ~ b {
+    cursor: pointer;
+    outline: 0;
+    position: relative;
+    display: inline-block;
+    margin: 6px 1px 0;
+    background-color: #ffffff;
+    border: 2px solid #acabab;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    line-height: 0.5;
+    text-align: center;
+    font-size: 20px;
+    color: #3ff691;
+}
+
+.checkbox-custom input[type="checkbox"]:checked ~ b:after {
+    content: "\2713";
+    margin-top: -15px;
+}
+
+.stepper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin: auto;
+    height: 100px;
+    width: 50%;
+    align-items: center;
+
+    .stepper-item {
+        width: 20%;
+        border-radius: 5px;
+        background: #efeff6;
+        box-shadow: 9px 9px 18px #d4d3d3;
+        margin: 2px;
+        padding: 15px;
+        font-size: 15px;
+        height: 50px;
+        color: rgb(195, 195, 195);
+        .stepper-node {
+            text-align: center;
+            margin: auto;
+        }
+    }
+
+    .stepper-selected {
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 18px;
+        background-color: #25d5f2 !important;
+        height: 60px;
+        a {
+            color: white !important;
+        }
+    }
+    .stepper-complete {
+        background-color: #2ec551;
+        a {
+            color: white !important;
         }
     }
 }
@@ -82,8 +187,13 @@
         }
 
         .btn {
-            padding: 1px !important;
-            border-color: transparent;
+            font-size: 14px;
+            padding: 4px 7px;
+            border-radius: 2px;
         }
+    }
+
+    .stepper {
+        width: 90%;
     }
 }

@@ -4,17 +4,17 @@
             <div class="card">
                 <div class="card-body">
                     <div class="logo text-center">
-                        <img src="client/images/ypk.png" alt="">
+                        <img src="/client/images/ypk.png" alt="">
                     </div>
                     <form ng-submit="login(model)">
                         <h3 class="mb-3">Sign In</h3>
                         <div class="form-group">
-                            <input class="form-control " id="username" ng-model="model.Username" required type="text"
+                            <input id="username" ng-model="model.Username" class="form-control" required type="text"
                                 placeholder="Username" autocomplete="off">
                         </div>
                         <div class="form-group">
-                            <input ng-model="model.Password" required class="form-control " id="password"
-                                type="password" placeholder="Password">
+                            <input ng-model="model.Password" required class="form-control" id="password" type="password"
+                                placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                     </form>
