@@ -63,7 +63,30 @@ $route['api/users']['post'] = 'Users/login';
 $route['api/calonsiswa']['get'] = 'CalonSiswa/GetSiswa';
 $route['api/calonsiswa']['post'] = 'CalonSiswa/Simpan';
 $route['api/calonsiswa']['put'] = 'CalonSiswa/ubah';
-$route['api/siswa/:num']['delete'] = 'Siswa/Hapus';
+// $route['api/siswa/:num']['delete'] = 'Siswa/Hapus';
+
+
+// orangtua
+$route['api/orangtua']['get'] = 'OrangTua/Ambil';
+$route['api/orangtua']['post'] = 'OrangTua/Simpan';
+$route['api/orangtua']['put'] = 'OrangTua/ubah';
+
+
+// Beasiswa
+$route['api/beasiswa']['get'] = 'Beasiswa/Ambil';
+$route['api/beasiswa']['post'] = 'Beasiswa/Simpan';
+$route['api/beasiswa']['put'] = 'Beasiswa/ubah';
+
+// kesejahteraan
+$route['api/kesejahteraan']['get'] = 'Kesejahteraan/Ambil';
+$route['api/kesejahteraan']['post'] = 'Kesejahteraan/Simpan';
+$route['api/kesejahteraan']['put'] = 'Kesejahteraan/ubah';
+
+// prestasi
+$route['api/prestasi']['get'] = 'Prestasi/Ambil';
+$route['api/prestasi']['post'] = 'Prestasi/Simpan';
+$route['api/prestasi']['put'] = 'Prestasi/ubah';
+
 
 $route['api/pegawai']['get'] = 'Pegawai/Ambil';
 $route['api/pegawai']['post'] = 'Pegawai/Simpan';
@@ -76,8 +99,14 @@ $route['api/tahunajaran']['post'] = 'TahunAjaran/Simpan';
 $route['api/tahunajaran']['put'] = 'TahunAjaran/ubah';
 $route['api/tahunajaran/:num']['delete'] = 'TahunAjaran/Hapus';
 
-// transaksi
-$route['api/kelulusan']['get'] = 'Kelulusan/Ambil';
-$route['api/kelulusan']['post'] = 'Kelulusan/simpan';
+// berkas
+$route['api/berkas']['get'] = 'DetailPersyaratan/Ambil';
+$route['api/berkas']['post'] = 'DetailPersyaratan/simpan';
+
+// Tahun Ajaran
+$route['api/content']['get'] = 'Content/Ambil';
+$route['api/content']['post'] = 'Content/Simpan';
+$route['api/content']['put'] = 'Content/ubah';
+$route['api/content/:num']['delete'] = 'Content/Hapus';
 
 

@@ -31,7 +31,10 @@ class CalonSiswa_Model extends CI_Model
             `orangtua`.`pekerjaan`,
             `orangtua`.`pendidikan`,
             `orangtua`.`penghasilan`,
-            `orangtua`.`jenisorangtua`
+            `orangtua`.`jenisorangtua`,
+            `detailpesyaratan`.`iddetailpesyaratan`,
+            `detailpesyaratan`.`idpersyaratan`,
+            `detailpesyaratan`.`berkas`
             FROM
             `calonsiswa`
             LEFT JOIN `prestasi` ON `prestasi`.`idcalonsiswa` =
@@ -41,13 +44,16 @@ class CalonSiswa_Model extends CI_Model
             LEFT JOIN `kesejahteraan` ON `kesejahteraan`.`idcalonsiswa` =
                 `calonsiswa`.`idcalonsiswa`
             LEFT JOIN `orangtua` ON `orangtua`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa` WHERE calonsiswa.idcalonsiswa='$idcalonsiswa'
+                `calonsiswa`.`idcalonsiswa`
+            LEFT JOIN `detailpesyaratan` ON `calonsiswa`.`idcalonsiswa` =
+                `detailpesyaratan`.`idcalonsiswa` WHERE calonsiswa.idcalonsiswa='$idcalonsiswa'
             ");
             $result = $xd->result_object();
             $orangtua = [];
             $beasiswa = [];
             $kesejahteraan = [];
             $prestasi = [];
+            $detailpersyaratan = [];
             foreach ($result as $key => $value) {
                 if (!is_null($value->idbeasiswa)) {
                     $item = [
@@ -56,7 +62,7 @@ class CalonSiswa_Model extends CI_Model
                         'penyelenggaraan' => $value->penyelenggaraan,
                         'tahunmulai' => $value->tahunmulai,
                         'tahunselesai' => $value->tahunselesai,
-                        'idbeasiswa' => $value->idbeasiswa,
+                        'idcalonsiswa' => $value->idcalonsiswa
                     ];
                     array_push($beasiswa, $item);
                 }
@@ -70,6 +76,7 @@ class CalonSiswa_Model extends CI_Model
                         'pendidikan' => $value->pendidikan,
                         'penghasilan' => $value->penghasilan,
                         'jenisorangtua' => $value->jenisorangtua,
+                        'idcalonsiswa' => $value->idcalonsiswa
                     ];
                     array_push($orangtua, $item);
                 }
@@ -80,6 +87,7 @@ class CalonSiswa_Model extends CI_Model
                         'nomor' => $value->nomor,
                         'daritahun' => $value->daritahun,
                         'sampaitahun' => $value->sampaitahun,
+                        'idcalonsiswa' => $value->idcalonsiswa
                     ];
                     array_push($kesejahteraan, $item);
                 }
@@ -91,8 +99,18 @@ class CalonSiswa_Model extends CI_Model
                         'tingkat' => $value->tingkat,
                         'namaprestasi' => $value->namaprestasi,
                         'tahun' => $value->tahun,
+                        'idcalonsiswa' => $value->idcalonsiswa
                     ];
                     array_push($prestasi, $item);
+                }
+                if (!is_null($value->iddetailpersyaratan)) {
+                    $item = [
+                        'iddetailpersyaratan' => $value->iddetailpersyaratan,
+                        'idcalonsiswa' => $value->idcalonsiswa,
+                        'idpersyaratan' => $value->idpersyaratan,
+                        'berkas' => $value->berkas
+                    ];
+                    array_push($detailpersyaratan, $item);
                 }
             }
             $biodata = (object) [
@@ -106,16 +124,19 @@ class CalonSiswa_Model extends CI_Model
                 'tanggallahir' => $result[0]->tanggallahir,
                 'asalsekolah' => $result[0]->asalsekolah,
                 'iduser' => $result[0]->iduser,
+                'idtahunajaran' => $result[0]->idtahunajaran,
+                'jurusan' => $result[0]->jurusan,
                 'orangtua' => $orangtua,
                 'beasiswa' => $beasiswa,
                 'kesejahteraan' => $kesejahteraan,
+                'detailpersyaratan' => $detailpersyaratan,
                 'prestasi' => $prestasi,
             ];
             if ($biodata) {
                 return (array) $biodata;
             } else {
                 return [];
-            }
+            }   
 
         } else {
             $result = $this->db->query("
@@ -145,6 +166,8 @@ class CalonSiswa_Model extends CI_Model
             'tanggallahir' => $data['tanggallahir'],
             'asalsekolah' => $data['asalsekolah'],
             "iduser" => $iduser,
+            'idtahunajaran' => $data['idtahunajaran'],
+            'jurusan' => $data['jurusan']
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
@@ -169,6 +192,8 @@ class CalonSiswa_Model extends CI_Model
             'tanggallahir' => $data['tanggallahir'],
             'asalsekolah' => $data['asalsekolah'],
             "iduser" => $data['iduser'],
+            'idtahunajaran' => $data['idtahunajaran'],
+            'jurusan' => $data['jurusan']
         ];
         $this->db->trans_begin();
         $this->db->where('idcalonsiswa', $data['idcalonsiswa']);
@@ -181,26 +206,26 @@ class CalonSiswa_Model extends CI_Model
             return true;
         }
     }
-    public function delete($id)
-    {
-        $this->db->trans_start();
-        $a = $this->select($id);
-        $siswa = $a[0];
-        $this->db->where('iduser', $siswa['iduser']);
-        $this->db->delete('userinrole');
-        $this->db->where('idsiswa', $id);
-        $this->db->delete('siswa');
-        $this->db->where('iduser', $siswa['iduser']);
-        $this->db->delete('user');
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            $this->db->trans_commit();
-            return true;
-        }
-        $this->db->where('idsiswa', $id);
-        $result = $this->db->delete('siswa');
-        return $result;
-    }
+    // public function delete($id)
+    // {
+    //     $this->db->trans_start();
+    //     $a = $this->select($id);
+    //     $siswa = $a[0];
+    //     $this->db->where('iduser', $siswa['iduser']);
+    //     $this->db->delete('userinrole');
+    //     $this->db->where('idsiswa', $id);
+    //     $this->db->delete('siswa');
+    //     $this->db->where('iduser', $siswa['iduser']);
+    //     $this->db->delete('user');
+    //     if ($this->db->trans_status() === false) {
+    //         $this->db->trans_rollback();
+    //         return false;
+    //     } else {
+    //         $this->db->trans_commit();
+    //         return true;
+    //     }
+    //     $this->db->where('idsiswa', $id);
+    //     $result = $this->db->delete('siswa');
+    //     return $result;
+    // }
 }

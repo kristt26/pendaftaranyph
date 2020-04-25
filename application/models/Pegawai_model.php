@@ -16,12 +16,12 @@ class Pegawai_model extends CI_Model
     public function insert($data)
     {
         $this->db->trans_begin();
-        $pass = md5($data['nis']);
-        $user = $data['nis'];
+        $pass = md5($data['nip']);
+        $user = $data['nip'];
         $this->db->query("INSERT INTO user values('','$user', '$pass','true')");
         $iduser = $this->db->insert_id();
         $item = [
-            "nis" => $data['nis'],
+            "nip" => $data['nip'],
             "nama" => $data['nama'],
             "jeniskelamin" => $data['jeniskelamin'],
             "jabatan" => $data['jabatan'],

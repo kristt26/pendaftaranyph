@@ -34,6 +34,8 @@ class Tahun_model extends CI_Model
             "tahunajaran" => $data['tahunajaran'],
             "semester" => $data['semester'],
             "status" => $data['status']? 1: 0,
+            "tanggalbuka" => $data['tanggalbuka'],
+            "tanggaltutup" => $data['tanggaltutup']
         ];
         $this->db->insert('tahunajaran', $item);
         $item['idtahunajaran'] = $this->db->insert_id();
@@ -51,7 +53,9 @@ class Tahun_model extends CI_Model
         $item = [
             "tahunajaran" => $data['tahunajaran'],
             "semester" => $data['semester'],
-            "status" => $data['status']? 1: 0 ,
+            "status" => $data['status']? 1: 0,
+            "tanggalbuka" => $data['tanggalbuka'],
+            "tanggaltutup" => $data['tanggaltutup']
         ];
         $this->db->trans_begin();
         $this->db->where('idtahunajaran', $data['idtahunajaran']);
