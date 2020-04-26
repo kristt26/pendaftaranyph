@@ -1,8 +1,9 @@
 <ul class="nav nav-tabs stepper" id="myTab" role="tablist">
     <li class="nav-item stepper-item" ng-class="{'stepper-complete':item.complete, 'stepper-selected':item.selected}"
         ng-repeat="item in steppers">
-        <a class="stepper-node" ng-click="select(item.idstepper)" ng-class="$index==0?'active':''" id="home-tab"
-            data-toggle="tab" href="" data-target="#tab{{item.idstepper}}" role="tab" aria-controls="home"
+        <a class="stepper-node" ng-click="select(item.idstepper)" ng-disabled="!item.complete"
+            ng-class="{'active':$index==0, 'disabled':!item.selected && !item.complete}" id="home-tab" data-toggle="tab"
+            href="" data-target="#tab{{item.idstepper}}" role="tab" aria-controls="home"
             aria-selected="true">{{item.name}} </a>
     </li>
 </ul>
@@ -15,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-info">
-                        <h2>Biodata</h2>
+                        <h4>BIODATA</h4>
                     </div>
                     <form ng-submit="save(1,siswa)">
                         <div class="card-body">
@@ -102,241 +103,159 @@
             </div>
 
         </div>
-        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="messages-tab">ORANG TUA
-            <div class="row col-md-12">
-                <div id="content-left" class="col-md-6">
-                    <h1>DATA ORANG TUA</h1>
+        <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="messages-tab">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4> ORANG TUA</h4>
                 </div>
-                <div id="content-right" class="col-md-6">
-                    <div class="card text-left">
-                        <div class="card-body">
-                            <form ng-submit="save(2,model)">
-                                <div class="card ">
-                                    <div class="card-header bg-primary">AYAH</div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Nama</label>
-                                            <input ng-model="model.ayah.nama" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">NIK</label>
-                                            <input ng-model="model.ayah.nik" type="text" class="form-control">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="col-form-label">Tahun Lahir</label>
-                                            <select class="form-control" ng-model="model.ayah.tahunlahir"
-                                                ng-options="item as item for item in helper.tahunlahir">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pekerjaan</label>
-                                            <select class="form-control" ng-model="model.ayah.pekerjaan"
-                                                ng-options="item as item for item in helper.pekerjaan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pendidikan</label>
-                                            <select class="form-control" ng-model="model.ayah.pendidikan"
-                                                ng-options="item as item for item in helper.pendidikan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pendapatan</label>
-                                            <select class="form-control" ng-model="model.ayah.pendapatan"
-                                                ng-options="item as item for item in helper.pendapatan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
-                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
-                                                    Khusus</label>
-                                                <div class="checkbox-custom">
-                                                    <label>
-                                                        <input ng-model="model.ayah.kebutuhankhusus" type="checkbox">
-                                                        <b></b>
-                                                    </label>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                <div class="card-body">
+                    <form ng-submit="save(2,siswa.orangtua)">
+                        <div class="card" ng-repeat="item in siswa.orangtua">
+                            <div class="card-header bg-primary">{{item.jenisorangtua}}</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="col-form-label">Nama</label>
+                                    <input ng-model="item.nama" type="text" class="form-control">
                                 </div>
-                                <div class="card ">
-                                    <div class="card-header bg-primary">IBU</div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Nama</label>
-                                            <input ng-model="model.ibu.nama" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">NIK</label>
-                                            <input ng-model="model.ibu.nik" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Tahun Lahir</label>
-                                            <select class="form-control" ng-model="model.ibu.tahunlahir"
-                                                ng-options="item as item for item in helper.tahunlahir">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pekerjaan</label>
-                                            <select class="form-control" ng-model="model.ibu.pekerjaan"
-                                                ng-options="item as item for item in helper.pekerjaan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pendidikan</label>
-                                            <select class="form-control" ng-model="model.ibu.pendidikan"
-                                                ng-options="item as item for item in helper.pendidikan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
-                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
-                                                    Khusus</label>
-                                                <div class="checkbox-custom">
-                                                    <label>
-                                                        <input ng-model="model.ibu.kebutuhankhusus" type="checkbox">
-                                                        <b></b>
-                                                    </label>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">NIK</label>
+                                    <input ng-model="item.nik" type="text" class="form-control">
                                 </div>
-                                <div class="card ">
-                                    <div class="card-header bg-primary">WALI</div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Nama</label>
-                                            <input ng-model="model.wali.nama" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">NIK</label>
-                                            <input ng-model="model.wali.nik" type="text" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Tahun Lahir</label>
-                                            <select class="form-control" ng-model="model.wali.tahunlahir"
-                                                ng-options="item as item for item in helper.tahunlahir">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pekerjaan</label>
-                                            <select class="form-control" ng-model="model.wali.pekerjaan"
-                                                ng-options="item as item for item in helper.pekerjaan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pendidikan</label>
-                                            <select class="form-control" ng-model="model.wali.pendidikan"
-                                                ng-options="item as item for item in helper.pendidikan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-form-label">Pendapatan</label>
-                                            <select class="form-control" ng-model="model.wali.pendapatan"
-                                                ng-options="item as item for item in helper.pendapatan">
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
-                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
-                                                    Khusus</label>
-                                                <div class="checkbox-custom">
-                                                    <label>
-                                                        <input ng-model="model.wali.kebutuhankhusus" type="checkbox">
-                                                        <b></b>
-                                                    </label>
 
-                                                </div>
-                                            </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Tahun Lahir</label>
+                                    <select class="form-control" ng-model="item.tahunlahir"
+                                        ng-options="item as item for item in helper.tahunlahir">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Pekerjaan</label>
+                                    <select class="form-control" ng-model="item.pekerjaan"
+                                        ng-options="item as item for item in helper.pekerjaan">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Pendidikan</label>
+                                    <select class="form-control" ng-model="item.pendidikan"
+                                        ng-options="item as item for item in helper.pendidikan">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-form-label">Pendapatan</label>
+                                    <select class="form-control" ng-model="item.pendapatan"
+                                        ng-options="item as item for item in helper.pendapatan">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="d-inline-flex" style="margin-bottom: 15px;">
+                                        <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
+                                            Khusus</label>
+                                        <div class="checkbox-custom">
+                                            <label>
+                                                <input ng-model="item.kebutuhankhusus" type="checkbox">
+                                                <b></b>
+                                            </label>
+
                                         </div>
                                     </div>
                                 </div>
 
-
-
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
-                                            ng-show="helper.IsBusy"></i>Simpan</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="messages-tab">Prestasi
-            <div class="row">
-                <div id="content-left" class="col-md-6">
-                    <h1>DATA PRESTASI</h1>
-                </div>
-                <div id="content-right" class="col-md-6">
-                    <div class="card text-left">
-                        <img class="card-img-top" src="holder.js/100px180/" alt="">
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tahun</th>
-                                        <th>Nama Prestasi</th>
-                                        <th>Tingkat</th>
-                                        <th>Pengelenggara</th>
-                                        <th>Jenis Prestasi</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in siswa.prestasi">
-                                        <td scope="row">{{$index+1}}</td>
-                                        <td scope="row">{{item.tahun}}</td>
-                                        <td scope="row">{{item.namaprestasi}</td>
-                                        <td scope="row">{{item.tingkat}}</td>
-                                        <td scope="row">{{item.penyelenggaraan}}</td>
-                                        <td scope="row">{{item.jenisprestasi}}</td>
-                                        <td scope="row">
-                                        <td nowrap>
-                                            <div class="tdaction justify-content-start">
-                                                <a class="btn btn-outline-warning" href="" data-toggle="modal"
-                                                    data-target="#modalPrestasi" ng-click="edit(3,item)"><i
-                                                        class="fa fa-edit fa-1x"></i></a>
-                                                <a class="btn btn-outline-danger" href="" ng-click="delete(3,item)"><i
-                                                        class="fa fa-trash fa-1x"></i></a>
-
-                                            </div>
-                                        </td>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
                         </div>
-                    </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="messages-tab">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4>PRESTASI</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tahun</th>
+                                <th>Nama Prestasi</th>
+                                <th>Tingkat</th>
+                                <th>Pengelenggara</th>
+                                <th>Jenis Prestasi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in siswa.prestasi">
+                                <td scope="row">{{$index+1}}</td>
+                                <td scope="row">{{item.tahun}}</td>
+                                <td scope="row">{{item.namaprestasi}</td>
+                                    <td scope="row">{{item.tingkat}}</td>
+                                <td scope="row">{{item.penyelenggaraan}}</td>
+                                <td scope="row">{{item.jenisprestasi}}</td>
+                                <td scope="row">
+                                <td nowrap>
+                                    <div class="tdaction justify-content-start">
+                                        <a class="btn btn-outline-warning" href="" data-toggle="modal"
+                                            data-target="#modalPrestasi" ng-click="edit(3,item)"><i
+                                                class="fa fa-edit fa-1x"></i></a>
+                                        <a class="btn btn-outline-danger" href="" ng-click="delete(3,item)"><i
+                                                class="fa fa-trash fa-1x"></i></a>
+
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                            ng-show="helper.IsBusy"></i>Next</button>
                 </div>
             </div>
 
         </div>
-        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="settings-tab">Apakek
-            <div id="content-left"></div>
-            <div id="content-right">
-                <Button ng-click="next(4)">Next</Button>
+        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4>KESEJAHTERAAN</h4>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Title</h4>
+                    <p class="card-text">Text</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                            ng-show="helper.IsBusy"></i>Next</button>
+                </div>
             </div>
 
         </div>
-        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">Home2
-            <div id="content-left"></div>
-            <div id="content-right">
-                <Button ng-click="next(5)">Next</Button>
+        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4>BERKAS</h4>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Title</h4>
+                    <p class="card-text">Text</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                            ng-show="helper.IsBusy"></i>Next</button>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -404,5 +323,10 @@
 <style>
     .tab-content {
         min-height: 80vh;
+    }
+
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
     }
 </style>

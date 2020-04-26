@@ -109,43 +109,43 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.saveOrangTua = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/orangtua';
-		model.idcalonsiswa = service.siswa.idcalonsiswa;
-		if (model.nama) {
-			if (!model.idorangtua) {
-				$http({
-					method: 'Post',
-					url: url,
-					headers: AuthService.getHeader(),
-					data: model
-				}).then(
-					(response) => {
-						service.siswa.orangtua.push(response.data);
-						def.resolve(response.data);
-					},
-					(err) => {
-						message.error(err.data);
-						def.reject(err);
-					}
-				);
-			} else {
-				$http({
-					method: 'PUT',
-					url: url,
-					headers: AuthService.getHeader(),
-					data: model
-				}).then(
-					(response) => {
-						//update Item
-						def.resolve(response.data);
-					},
-					(err) => {
-						message.error(err.data);
-						def.reject(err);
-					}
-				);
-			}
+
+		model.forEach((element) => {
+			model.idcalonsiswa = service.siswa.idcalonsiswa;
+		});
+
+		if (!model[0].idorangtua) {
+			$http({
+				method: 'Post',
+				url: url,
+				headers: AuthService.getHeader(),
+				data: model
+			}).then(
+				(response) => {
+					service.siswa.orangtua.push(response.data);
+					def.resolve(response.data);
+				},
+				(err) => {
+					message.error(err.data);
+					def.reject(err);
+				}
+			);
 		} else {
-			def.resolve(null);
+			$http({
+				method: 'PUT',
+				url: url,
+				headers: AuthService.getHeader(),
+				data: model
+			}).then(
+				(response) => {
+					//update Item
+					def.resolve(response.data);
+				},
+				(err) => {
+					message.error(err.data);
+					def.reject(err);
+				}
+			);
 		}
 
 		return def.promise;

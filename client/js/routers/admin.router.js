@@ -34,5 +34,11 @@ angular.module('admin.router', [ 'ui.router' ]).config(function($stateProvider, 
 			parent: 'admin',
 			controller: 'adminInformasiController',
 			templateUrl: './client/views/admin/informasi.html'
+		})
+		.state('admin-persyaratan', {
+			url: '/persyaratan',
+			parent: 'admin',
+			controller: 'adminPersyaratanController',
+			templateUrl: './client/views/admin/persyaratan.html'
 		});
 });

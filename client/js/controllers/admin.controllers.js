@@ -5,12 +5,64 @@ angular
 	.controller('adminPengumumanController', adminPengumumanController)
 	.controller('adminInformasiController', adminInformasiController)
 	.controller('adminTahunAjaranController', adminTahunAjaranController)
+	.controller('adminPersyaratanController', adminPersyartanController)
 	.controller('adminHomeController', adminHomeController);
 
 function adminController($scope, $state, AuthService) {
 	// if (!AuthService.userIsLogin()) {
 	// 	$state.go('login');
 	// }
+}
+
+function adminPersyartanController($scope, message, PersyaratanService, helperServices) {
+	$scope.helper = helperServices;
+	PersyaratanService.get().then((result) => {
+		$scope.source = result;
+	});
+
+	$scope.edit = (model) => {
+		$scope.model = angular.copy(model);
+		$scope.title = 'Edit Persyaratan';
+	};
+	$scope.save = (model) => {
+		$scope.helper.IsBusy = true;
+		if (model.idpegawai) {
+			PersyaratanService.put(model).then(
+				(x) => {
+					$scope.helper.IsBusy = false;
+					message.info('Data Berhasil Disimpan');
+				},
+				(err) => {
+					$scope.helper.IsBusy = false;
+					message.error('Data Gagal Disimpan');
+				}
+			);
+		} else {
+			PersyaratanService.post(model).then(
+				(result) => {
+					$scope.helper.IsBusy = false;
+					message.info('Data Berhasil Disimpan');
+				},
+				(err) => {
+					$scope.helper.IsBusy = false;
+					message.error('Data Gagal Disimpan');
+				}
+			);
+		}
+	};
+
+	$scope.delete = (item) => {
+		message.dialog().then(
+			(x) => {
+				PersyaratanService.delete(item.idpegawai).then((x) => {
+					message.info('Data Berhasil Dihapus');
+				});
+			},
+			(err) => {
+				message.error('Data Gagal Dihapus');
+			}
+		);
+	};
 }
 function adminSiswaController($scope, message, SiswaService, helperServices) {
 	$scope.helper = helperServices;

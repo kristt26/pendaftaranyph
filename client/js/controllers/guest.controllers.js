@@ -29,22 +29,23 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 	if (AuthService.userIsLogin()) {
 		AuthService.profile().then((profile) => {
 			CalonSiswaService.get(profile.biodata.idcalonsiswa).then((x) => {
+				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
+					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
+				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ibu'))
+					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
+				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Wali'))
+					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Wali' });
 				$scope.siswa = x;
-				if (x.orangtua) {
-					x.ayah = x.orangtua.find((ortu) => ortu.jenisorangtua == 'ayah');
-					x.ayah = !x.ayah ? {} : x.ayah;
-					x.ibu = x.orangtua.find((ortu) => ortu.jenisorangtua == 'ibu');
-					x.ibu = !x.ibu ? {} : x.ibu;
-					x.wali = x.orangtua.find((ortu) => ortu.jenisorangtua == 'wali');
-					x.wali = !x.wali ? {} : x.wali;
-				}
 			});
 		});
 	} else {
 		$scope.siswa = CalonSiswaService.siswa;
-		$scope.siswa.ayah = {};
-		$scope.siswa.ibu = {};
-		$scope.siswa.wali = {};
+		$scope.siswa.orangtua = [];
+		$scope.siswa.prestasi = [];
+		$scope.siswa.kesejahteraan = [];
+		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Ayah' });
+		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Ibu' });
+		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Wali' });
 	}
 
 	$scope.helper = helperServices;
@@ -78,18 +79,7 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 				});
 				break;
 			case 2:
-				model.idtahunajaran = $scope.taActive.idtahunajaran;
-				model.ayah.jenisorangtua = 'Ayah';
-				CalonSiswaService.saveOrangTua(model.ayah).then((x) => {
-					model.ayah.jenisorangtua = 'Ibu';
-					CalonSiswaService.saveOrangTua(model.ibu).then((x) => {
-						model.ayah.jenisorangtua = 'Wali';
-						CalonSiswaService.saveOrangTua(model.wali).then((x) => {
-							next(idstepper);
-							$scope.helper.IsBusy = false;
-						});
-					});
-				});
+				CalonSiswaService.saveOrangTua(model).then((x) => {});
 				break;
 
 			default:
@@ -100,10 +90,14 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 	function next(id) {
 		$scope.steppers.forEach((element) => {
 			element.selected = false;
+			if (element.idstepper == id) element.complete = true;
+
 			if (element.idstepper == id + 1) element.selected = true;
 		});
-		var tabName = '#tab' + (id + 1).toString();
-		$('#myTab a[data-target="' + tabName + '"]').tab('show');
+		setTimeout(() => {
+			var tabName = '#tab' + (id + 1).toString();
+			$('#myTab a[data-target="' + tabName + '"]').tab('show');
+		}, 200);
 	}
 
 	function saveCalonSiswa(id, model) {
