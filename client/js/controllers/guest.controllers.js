@@ -25,9 +25,12 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 
 function informasiController($scope, $state) {}
 function pengumumanController($scope, $state) {}
-function daftarController($scope, $state, CalonSiswaService, helperServices) {
+function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService) {
 	$scope.siswa = $scope.siswa;
 	$scope.helper = helperServices;
+	TahunAjaranService.get().then((result) => {
+		$scope.taActive = result.find((x) => x.status);
+	});
 	$scope.steppers = [
 		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
 		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
@@ -45,8 +48,10 @@ function daftarController($scope, $state, CalonSiswaService, helperServices) {
 
 	$scope.save = (idstepper, model) => {
 		$scope.helper.IsBusy = true;
+
 		switch (idstepper) {
 			case 1:
+				model.idtahunajaran = $scope.taActive.idtahunajaran;
 				CalonSiswaService.saveCalonSiswa(model).then((x) => {
 					next(idstepper);
 					$scope.helper.IsBusy = false;

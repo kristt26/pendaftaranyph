@@ -314,10 +314,7 @@ function SiswaService($http, $q, message, AuthService, helperServices) {
 function TahunAjaranService($http, $q, message, AuthService, helperServices) {
 	var url = helperServices.url + '/api/tahunajaran';
 	var service = {
-		instance: true,
-		Items: [
-			{ idtahunajaran: 1, tahun: 2020, buka: new Date(), tutup: new Date(), status: true, created: new Date() }
-		]
+		Items: []
 	};
 
 	service.get = function() {
