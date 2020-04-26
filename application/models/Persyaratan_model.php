@@ -5,13 +5,13 @@ class Persyaratan_model extends CI_Model
     public function select($idpersyaratan)
     {
         if ($idpersyaratan) {
-            $this->db->query("SELECT * FROM persyaratan WHERE idpersyaratan = '$idpersyaratan'");
+            $result = $this->db->query("SELECT * FROM persyaratan WHERE idpersyaratan = '$idpersyaratan'");
             $item = $result->result_array();
             $item = $item[0];
             $item['status'] = $item['status'] == 1 ? true : false;
-            return $item[0];
+            return $item;
         } else {
-            $this->db->get("persyaratan");
+            $result = $this->db->get("persyaratan");
             $item = $result->result_object();
             foreach ($item as $key => $value) {
                 $value->status = $value->status == 1 ? true : false;
@@ -26,7 +26,7 @@ class Persyaratan_model extends CI_Model
         $data = (object) $data;
         $item = [
             'persyaratan' => $data->persyaratan,
-            'status' => $value->status ? 1 : 0
+            'status' => $data->status ? 1 : 0
         ];
         $this->db->insert('persyaratan', $item);
         $data->idpersyaratan = $this->db->insert_id();
@@ -44,7 +44,7 @@ class Persyaratan_model extends CI_Model
         $data = (object) $data;
         $item = [
             'persyaratan' => $data->persyaratan,
-            'status' => $value->status ? 1 : 0
+            'status' => $data->status ? 1 : 0
         ];
         $this->db->where('idpersyaratan', $data->idpersyaratan);
         $this->db->update('persyaratan', $item);

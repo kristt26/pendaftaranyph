@@ -12,9 +12,9 @@ class Persyaratan extends \Restserver\Libraries\REST_Controller
         $this->load->model('Persyaratan_model');
     }
 
-    public function GetSiswa_get()
+    public function Ambil_get()
     {
-        $output = $this->Persyaratan_model->select(isset($_GET)? $_GET['idpersyaratan']: false);
+        $output = $this->Persyaratan_model->select(isset($_GET['idpersyaratan'])? $_GET['idpersyaratan']: false);
         $this->response($output, REST_Controller::HTTP_OK);
     }
     public function simpan_post()

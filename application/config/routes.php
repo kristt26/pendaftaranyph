@@ -109,4 +109,10 @@ $route['api/content']['post'] = 'Content/Simpan';
 $route['api/content']['put'] = 'Content/ubah';
 $route['api/content/:num']['delete'] = 'Content/Hapus';
 
+// Persyaratan
+$route['api/persyaratan']['get'] = 'Persyaratan/Ambil';
+$route['api/persyaratan']['post'] = 'Persyaratan/Simpan';
+$route['api/persyaratan']['put'] = 'Persyaratan/ubah';
+$route['api/persyaratan/:num']['delete'] = 'Persyaratan/Hapus';
+
 
