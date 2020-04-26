@@ -85,14 +85,9 @@ class User_Model extends CI_Model
                 $iduser = $q->row('iduser');
                 $Biodata = $this->db->query("
                 SELECT
-                    `siswa`.*,
-                    `kelulusan`.`idkelulusan`,
-                    `kelulusan`.`idtahunajaran`,
-                    `kelulusan`.`status`,
-                    `kelulusan`.`Berkas`
+                    *
                 FROM
-                `siswa`
-                LEFT JOIN `kelulusan` ON `kelulusan`.`idsiswa` = `siswa`.`idsiswa` WHERE siswa.iduser='$iduser'
+                `calonsiswa` WHERE calonsiswa.iduser='$iduser'
                 ");
                 $a->nama = $Biodata->row('nama');
                 $itemm = $Biodata->result_object();
