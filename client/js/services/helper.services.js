@@ -27,6 +27,7 @@ function helperServices($location) {
 	service.jurusan = [ 'IPA', 'IPS', 'BAHASA' ];
 	service.statusLulus = [ 'Lulus', 'Tidak Lulus' ];
 	service.kelas = [ 'Fisika', 'Kimia', 'Biologi', 'Ekonomi', 'Sosiologi', 'Geografi' ];
+	service.tingkat = [ 'Daerah', 'Nasional', 'Internasional' ];
 
 	return service;
 }
