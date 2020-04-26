@@ -24,9 +24,9 @@ class CalonSiswa extends \Restserver\Libraries\REST_Controller
         $Output = $this->CalonSiswa_model->insert($POST);
         if ($Output) {
             $this->load->library('Authorization_Token');
-            $token_data['id'] = $Output->iduser;
-            $token_data['Username'] = $Output->username;
-            $token_data['Nama'] = $Output->nama;
+            $token_data['id'] = $Output['iduser'];
+            $token_data['Username'] = $POST['username'];
+            $token_data['Nama'] = $Output['nama'];
             $token_data['Role'] = 'calonsiswa';
             $token_data['time'] = time();
 
@@ -35,9 +35,9 @@ class CalonSiswa extends \Restserver\Libraries\REST_Controller
             // exit;
 
             $return_data = [
-                'iduser' => $Output->iduser,
-                'username' => $Output->username,
-                'nama' => $Output->nama,
+                'iduser' => $Output['iduser'],
+                'username' => $POST['username'],
+                'nama' => $Output['nama'],
                 'role' => 'calonsiswa',
                 'status' => true,
                 'Token' => $UserToken,
