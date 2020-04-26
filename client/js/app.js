@@ -75,6 +75,38 @@ angular
 				});
 			}
 		};
+	})
+	.directive('dateInput', function() {
+		return {
+			restrict: 'A',
+			require: 'ngModel',
+			link: textDateLink
+		};
+		function textDateLink(scope, element, attributes, ngModel) {
+			// Simple date regex to accept YYYY/MM/DD formatted dates.
+			var dateTestRegex = /\d{4}\/\d{1,2}\/\d{1,2}/;
+			ngModel.$parsers.push(parser);
+			ngModel.$formatters.push(formatter);
+			function parser(value) {
+				if (dateTestRegex.test(value) && !isNaN(Date.parse(value))) {
+					// Input value passes basic date format tests. Parse and store Date.
+					value = new Date(value);
+					ngModel.$setValidity('textDate', true);
+				} else {
+					value = null;
+					ngModel.$setValidity('textDate', false);
+				}
+				// Return value to store in model.
+				return value;
+			}
+			function formatter(value) {
+				var formatted = '';
+				if (value && !angular.isDate(value)) {
+					value = new Date(value);
+				}
+				return value;
+			}
+		}
 	});
 
 function homeController($scope, AuthService) {

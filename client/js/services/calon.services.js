@@ -1,8 +1,29 @@
 angular.module('calon.service', []).factory('CalonSiswaService', CalonSiswaService);
 
-function CalonSiswaService($http, $q, message, AuthService, helperServices) {
+function CalonSiswaService($http, $q, message, AuthService, helperServices, StorageService) {
 	var service = {};
 	service.siswa = {};
+
+	service.get = (id) => {
+		var def = $q.defer();
+		var url = helperServices.url + '/api/calonsiswa';
+		$http({
+			method: 'Get',
+			url: url + '?idcalonsiswa=' + id,
+			headers: AuthService.getHeader()
+		}).then(
+			(response) => {
+				service.siswa = response.data;
+				def.resolve(service.siswa);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
+
+		return def.promise;
+	};
 
 	service.saveCalonSiswa = function(model) {
 		var def = $q.defer();
@@ -16,6 +37,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices) {
 			}).then(
 				(response) => {
 					service.siswa = response.data;
+					StorageService.addObject('user', response.data);
 					def.resolve(response.data);
 				},
 				(err) => {
@@ -84,41 +106,46 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices) {
 		return def.promise;
 	};
 
-	service.addOrangTua = function(model) {
+	service.saveOrangTua = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/orangtua';
-		if (!model.idorangtua) {
-			$http({
-				method: 'Post',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					service.siswa.orangtua.push(response.data);
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
+		model.idcalonsiswa = service.siswa.idcalonsiswa;
+		if (model.nama) {
+			if (!model.idorangtua) {
+				$http({
+					method: 'Post',
+					url: url,
+					headers: AuthService.getHeader(),
+					data: model
+				}).then(
+					(response) => {
+						service.siswa.orangtua.push(response.data);
+						def.resolve(response.data);
+					},
+					(err) => {
+						message.error(err.data);
+						def.reject(err);
+					}
+				);
+			} else {
+				$http({
+					method: 'PUT',
+					url: url,
+					headers: AuthService.getHeader(),
+					data: model
+				}).then(
+					(response) => {
+						//update Item
+						def.resolve(response.data);
+					},
+					(err) => {
+						message.error(err.data);
+						def.reject(err);
+					}
+				);
+			}
 		} else {
-			$http({
-				method: 'PUT',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					//update Item
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
+			def.resolve(null);
 		}
 
 		return def.promise;

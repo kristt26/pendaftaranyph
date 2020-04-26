@@ -6,7 +6,8 @@ angular
 function LoginController($scope, $state, AuthService) {
 	$scope.login = function(user) {
 		AuthService.login(user).then((x) => {
-			$state.go(x.role + '-home');
+			if (x.role == 'calonsiswa') $state.go('guest' + '-home');
+			else $state.go(x.role + '-home');
 		});
 	};
 }

@@ -35,7 +35,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Tanggal Lahir</label>
-                                        <input ng-model="siswa.tanggallahir" type="date" class="form-control">
+                                        <input ng-model="siswa.tanggallahir" date-input type="date"
+                                            class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Jenis Kelamin</label>
@@ -123,60 +124,142 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label class="col-form-label">Tahun Lahir</label>
+                                            <select class="form-control" ng-model="model.ayah.tahunlahir"
+                                                ng-options="item as item for item in helper.tahunlahir">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-form-label">Pekerjaan</label>
-                                            <select class="form-control" ng-model="modal.ayah.pekerjaan"
+                                            <select class="form-control" ng-model="model.ayah.pekerjaan"
                                                 ng-options="item as item for item in helper.pekerjaan">
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Pendidikan</label>
-                                            <select class="form-control" ng-model="modal.ayah.pendidikan"
+                                            <select class="form-control" ng-model="model.ayah.pendidikan"
                                                 ng-options="item as item for item in helper.pendidikan">
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-form-label">Pendapatan</label>
-                                            <select class="form-control" ng-model="modal.ayah.pendapaan"
+                                            <select class="form-control" ng-model="model.ayah.pendapatan"
                                                 ng-options="item as item for item in helper.pendapatan">
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
+                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
+                                                    Khusus</label>
+                                                <div class="checkbox-custom">
+                                                    <label>
+                                                        <input ng-model="model.ayah.kebutuhankhusus" type="checkbox">
+                                                        <b></b>
+                                                    </label>
+
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
                                 </div>
-
                                 <div class="card ">
-                                    <div class="card-header bg-warning">IBU</div>
+                                    <div class="card-header bg-primary">IBU</div>
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label class="col-form-label">Nama</label>
-                                            <input ng-model="model.ayah.nama" type="text" class="form-control">
+                                            <input ng-model="model.ibu.nama" type="text" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-form-label">nik</label>
-                                            <input ng-model="model.ayah.nik" type="text" class="form-control">
+                                            <label class="col-form-label">NIK</label>
+                                            <input ng-model="model.ibu.nik" type="text" class="form-control">
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="col-form-label">Tingkat</label>
-                                            <select class="form-control" ng-model="modal.ayah.pekerjaan"
+                                            <label class="col-form-label">Tahun Lahir</label>
+                                            <select class="form-control" ng-model="model.ibu.tahunlahir"
+                                                ng-options="item as item for item in helper.tahunlahir">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Pekerjaan</label>
+                                            <select class="form-control" ng-model="model.ibu.pekerjaan"
                                                 ng-options="item as item for item in helper.pekerjaan">
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-form-label">Tingkat</label>
-                                            <select class="form-control" ng-model="modal.ayah.pendidikan"
+                                            <label class="col-form-label">Pendidikan</label>
+                                            <select class="form-control" ng-model="model.ibu.pendidikan"
                                                 ng-options="item as item for item in helper.pendidikan">
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-form-label">Tingkat</label>
-                                            <select class="form-control" ng-model="modal.ayah.pendapaan"
+                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
+                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
+                                                    Khusus</label>
+                                                <div class="checkbox-custom">
+                                                    <label>
+                                                        <input ng-model="model.ibu.kebutuhankhusus" type="checkbox">
+                                                        <b></b>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card ">
+                                    <div class="card-header bg-primary">WALI</div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Nama</label>
+                                            <input ng-model="model.wali.nama" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">NIK</label>
+                                            <input ng-model="model.wali.nik" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Tahun Lahir</label>
+                                            <select class="form-control" ng-model="model.wali.tahunlahir"
+                                                ng-options="item as item for item in helper.tahunlahir">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Pekerjaan</label>
+                                            <select class="form-control" ng-model="model.wali.pekerjaan"
+                                                ng-options="item as item for item in helper.pekerjaan">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Pendidikan</label>
+                                            <select class="form-control" ng-model="model.wali.pendidikan"
+                                                ng-options="item as item for item in helper.pendidikan">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Pendapatan</label>
+                                            <select class="form-control" ng-model="model.wali.pendapatan"
                                                 ng-options="item as item for item in helper.pendapatan">
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="d-inline-flex" style="margin-bottom: 15px;">
+                                                <label style="margin-top: 4px; margin-right: 20px;">Berkebutuhan
+                                                    Khusus</label>
+                                                <div class="checkbox-custom">
+                                                    <label>
+                                                        <input ng-model="model.wali.kebutuhankhusus" type="checkbox">
+                                                        <b></b>
+                                                    </label>
 
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+
+
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -284,7 +367,7 @@
 
                     <div class="form-group">
                         <label class="col-form-label">Tingkat</label>
-                        <select class="form-control" ng-model="modal.tingkat"
+                        <select class="form-control" ng-model="model.tingkat"
                             ng-options="item as item for item in helper.tingkat">
                         </select>
                     </div>

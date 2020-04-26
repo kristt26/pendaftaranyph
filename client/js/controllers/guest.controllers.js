@@ -25,8 +25,28 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 
 function informasiController($scope, $state) {}
 function pengumumanController($scope, $state) {}
-function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService) {
-	$scope.siswa = $scope.siswa;
+function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService, AuthService) {
+	if (AuthService.userIsLogin()) {
+		AuthService.profile().then((profile) => {
+			CalonSiswaService.get(profile.biodata.idcalonsiswa).then((x) => {
+				$scope.siswa = x;
+				if (x.orangtua) {
+					x.ayah = x.orangtua.find((ortu) => ortu.jenisorangtua == 'ayah');
+					x.ayah = !x.ayah ? {} : x.ayah;
+					x.ibu = x.orangtua.find((ortu) => ortu.jenisorangtua == 'ibu');
+					x.ibu = !x.ibu ? {} : x.ibu;
+					x.wali = x.orangtua.find((ortu) => ortu.jenisorangtua == 'wali');
+					x.wali = !x.wali ? {} : x.wali;
+				}
+			});
+		});
+	} else {
+		$scope.siswa = CalonSiswaService.siswa;
+		$scope.siswa.ayah = {};
+		$scope.siswa.ibu = {};
+		$scope.siswa.wali = {};
+	}
+
 	$scope.helper = helperServices;
 	TahunAjaranService.get().then((result) => {
 		$scope.taActive = result.find((x) => x.status);
@@ -55,6 +75,20 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 				CalonSiswaService.saveCalonSiswa(model).then((x) => {
 					next(idstepper);
 					$scope.helper.IsBusy = false;
+				});
+				break;
+			case 2:
+				model.idtahunajaran = $scope.taActive.idtahunajaran;
+				model.ayah.jenisorangtua = 'Ayah';
+				CalonSiswaService.saveOrangTua(model.ayah).then((x) => {
+					model.ayah.jenisorangtua = 'Ibu';
+					CalonSiswaService.saveOrangTua(model.ibu).then((x) => {
+						model.ayah.jenisorangtua = 'Wali';
+						CalonSiswaService.saveOrangTua(model.wali).then((x) => {
+							next(idstepper);
+							$scope.helper.IsBusy = false;
+						});
+					});
 				});
 				break;
 

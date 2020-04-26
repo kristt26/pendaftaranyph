@@ -28,7 +28,20 @@ function helperServices($location) {
 	service.statusLulus = [ 'Lulus', 'Tidak Lulus' ];
 	service.kelas = [ 'Fisika', 'Kimia', 'Biologi', 'Ekonomi', 'Sosiologi', 'Geografi' ];
 	service.tingkat = [ 'Daerah', 'Nasional', 'Internasional' ];
+	service.pekerjaan = [ 'Pegawai', 'Petani', 'Guru' ];
+	service.pendidikan = [ 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3' ];
 	service.semester = [ '1', '2' ];
+
+	service.pendapatan = [ '> 1000000', '> 200000', '> 3000000' ];
+	service.tahunlahir = range(1930, 2010);
+
+	function range(start, end) {
+		var ans = [];
+		for (let i = start; i <= end; i++) {
+			ans.push(i);
+		}
+		return ans;
+	}
 
 	return service;
 }
