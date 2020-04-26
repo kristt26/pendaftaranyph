@@ -25,13 +25,15 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 
 function informasiController($scope, $state) {}
 function pengumumanController($scope, $state) {}
-function daftarController($scope, $state) {
+function daftarController($scope, $state, CalonSiswaService, helperServices) {
+	$scope.siswa = $scope.siswa;
+	$scope.helper = helperServices;
 	$scope.steppers = [
 		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
-		{ selected: false, idstepper: 2, name: 'Prestasi', complete: false },
-		{ selected: false, idstepper: 3, name: 'Orang Tua', complete: false },
-		{ selected: false, idstepper: 4, name: 'Catatan Lain', complete: false },
-		{ selected: false, idstepper: 5, name: 'Catatan Apa Kek', complete: false }
+		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
+		{ selected: false, idstepper: 3, name: 'Prestasi', complete: false },
+		{ selected: false, idstepper: 4, name: 'Kesejahteraan', complete: false },
+		{ selected: false, idstepper: 5, name: 'Selesai', complete: false }
 	];
 
 	$scope.select = (id) => {
@@ -41,7 +43,20 @@ function daftarController($scope, $state) {
 		});
 	};
 
-	$scope.save = model;
+	$scope.save = (idstepper, model) => {
+		$scope.helper.IsBusy = true;
+		switch (idstepper) {
+			case 1:
+				CalonSiswaService.saveCalonSiswa(model).then((x) => {
+					next(idstepper);
+					$scope.helper.IsBusy = false;
+				});
+				break;
+
+			default:
+				break;
+		}
+	};
 
 	function next(id) {
 		$scope.steppers.forEach((element) => {
@@ -50,6 +65,12 @@ function daftarController($scope, $state) {
 		});
 		var tabName = '#tab' + (id + 1).toString();
 		$('#myTab a[data-target="' + tabName + '"]').tab('show');
+	}
+
+	function saveCalonSiswa(id, model) {
+		if (model.idcalonsiswa <= 0) {
+			SiswaService;
+		}
 	}
 }
 

@@ -153,6 +153,10 @@ td .btn {
   color: white !important;
 }
 
+.fa-spinner {
+  margin: 2px;
+}
+
 @media screen and (max-width: 600px) {
   .siswa {
     min-height: 95vh;
