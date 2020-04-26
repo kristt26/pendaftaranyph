@@ -43,15 +43,19 @@
                                             ng-options="item as item for item in helper.genders">
                                         </select>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Alamat</label>
+                                        <label class="col-form-label">Alamat</label>
                                         <textarea ng-model="siswa.alamat" class="form-control"
                                             id="message-text"></textarea>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6">
-
+                                    <div class="form-group">
+                                        <label class="col-form-label">Kontak</label>
+                                        <input ng-model="siswa.kontak" type="text" class="form-control">
+                                    </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Asal Sekolah</label>
                                         <textarea ng-model="siswa.asalsekolah" class="form-control"></textarea>
@@ -64,18 +68,19 @@
                                     </div>
 
 
-                                    <div style="margin-top: 30px;" ng-if="!siswa.idcalonsiswa">
+                                    <div style="margin-top: 30px;" ng-show="!siswa.idcalonsiswa">
                                         <h3>Data Akun</h3>
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">User Name</label>
-                                            <input ng-model="siswa.username" type="text" class="form-control">
+                                            <label class="col-form-label">User Name</label>
+                                            <input ng-model="siswa.username" type="text" class="form-control"
+                                                autocomplete="false">
                                         </div>
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Password</label>
+                                            <label class="col-form-label">Password</label>
                                             <input ng-model="siswa.password" type="password" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Confirm Password</label>
+                                            <label class="col-form-label">Confirm Password</label>
                                             <input ng-model="siswa.confirm" type="password" class="form-control">
                                         </div>
                                     </div>

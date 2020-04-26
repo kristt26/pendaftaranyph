@@ -176,7 +176,8 @@ function adminTahunAjaranController($scope, message, TahunAjaranService, helperS
 
 	$scope.edit = (model) => {
 		$scope.model = angular.copy(model);
-		$scope.model.tanggallahir = new Date(model.tanggallahir);
+		$scope.model.tanggalbuka = new Date(model.tanggalbuka);
+		$scope.model.tanggaltutup = new Date(model.tanggaltutup);
 		$scope.title = 'Edit Tahun Ajaran';
 	};
 	$scope.save = (model) => {

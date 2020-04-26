@@ -28,6 +28,7 @@ function helperServices($location) {
 	service.statusLulus = [ 'Lulus', 'Tidak Lulus' ];
 	service.kelas = [ 'Fisika', 'Kimia', 'Biologi', 'Ekonomi', 'Sosiologi', 'Geografi' ];
 	service.tingkat = [ 'Daerah', 'Nasional', 'Internasional' ];
+	service.semester = [ '1', '2' ];
 
 	return service;
 }
