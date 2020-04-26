@@ -23,7 +23,27 @@ class CalonSiswa extends \Restserver\Libraries\REST_Controller
         $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
         $Output = $this->CalonSiswa_model->insert($POST);
         if ($Output) {
-            $this->response($Output, REST_Controller::HTTP_OK);
+            $this->load->library('Authorization_Token');
+            $token_data['id'] = $Output->iduser;
+            $token_data['Username'] = $Output->username;
+            $token_data['Nama'] = $Output->nama;
+            $token_data['Role'] = 'calonsiswa';
+            $token_data['time'] = time();
+
+            $UserToken = $this->authorization_token->generateToken($token_data);
+            // print_r($this->authorization_token->userData());
+            // exit;
+
+            $return_data = [
+                'iduser' => $Output->iduser,
+                'username' => $Output->username,
+                'nama' => $Output->nama,
+                'role' => 'calonsiswa',
+                'status' => true,
+                'Token' => $UserToken,
+                'biodata' => $Output,
+            ];
+            $this->response( $return_data, REST_Controller::HTTP_OK);
         } else {
             $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
         }

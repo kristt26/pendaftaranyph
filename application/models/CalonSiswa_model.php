@@ -157,7 +157,6 @@ class CalonSiswa_Model extends CI_Model
         $this->db->query("INSERT INTO user values('','$user', '$pass','true')");
         $iduser = $this->db->insert_id();
         $item = [
-            'idcalonsiswa' => $iduser,
             'nis' => $data['nis'],
             'nama' => $data['nama'],
             'jeniskelamin' => $data['jeniskelamin'],
@@ -172,7 +171,7 @@ class CalonSiswa_Model extends CI_Model
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
-        $idsiswa = $this->db->insert_id();
+        $item['idcalonsiswa'] = $this->db->insert_id();
         if ($this->db->trans_status() === false) {
             $this->db->trans_rollback();
             return false;
