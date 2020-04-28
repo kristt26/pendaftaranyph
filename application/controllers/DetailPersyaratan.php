@@ -27,7 +27,7 @@ class DetailPersyaratan extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $this->load->library('my_lib');
             $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            if (isset($POST['iddetailpersyaratan'])) {
+            if ((int)$POST['iddetailpersyaratan']!=0) {
                 if (isset($POST['file'])) {
                     $itempersyaratan = $this->DetailPersyaratan_model->select($POST['iddetailpersyaratan']);
                     $dirFile = './client/berkas/' . $itempersyaratan['berkas'];

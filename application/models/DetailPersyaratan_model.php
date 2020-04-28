@@ -2,22 +2,21 @@
 
 class DetailPersyaratan_Model extends CI_Model
 {
-    // public function select($iddetailpersyaratan)
-    // {
-    //     if($iddetailpersyaratan){
-    //         $this->db->where('iddetailpersyaratan', $iddetailpersyaratan);
-    //         $result = $this->db->get('detailpersyaratan');
-    //         $item = $result->result_array();
-    //         return $item[0];
-    //     }else{
-    //         $result = $this->db->get('detailpersyaratan');
-    //         return $result->result_array();
-    //     }
-    // }
+    public function select($iddetailpersyaratan)
+    {
+        if($iddetailpersyaratan){
+            $this->db->where('iddetailpersyaratan', $iddetailpersyaratan);
+            $result = $this->db->get('detailpersyaratan');
+            $item = $result->result_array();
+            return $item[0];
+        }else{
+            $result = $this->db->get('detailpersyaratan');
+            return $result->result_array();
+        }
+    }
     public function insert($data)
     {
         $item = [
-            'persyaratan'=>$data['persyaratan'],
             'idcalonsiswa'=> $data['idcalonsiswa'],
             'idpersyaratan'=> $data['idpersyaratan'],
             'berkas'=> $data['berkas']
