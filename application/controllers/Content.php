@@ -14,7 +14,7 @@ class Content extends \Restserver\Libraries\REST_Controller
 
     public function Ambil_get()
     {
-        $output = $this->Content_model->select(isset($_GET) ? $_GET['idcontent'] : false);
+        $output = $this->Content_model->select(isset($_GET['idcontent']) ? $_GET['idcontent'] : false);
         $this->response($output, REST_Controller::HTTP_OK);
 
     }

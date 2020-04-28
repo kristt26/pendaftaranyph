@@ -11,7 +11,7 @@ class Content_Model extends CI_Model
             $item['status'] = $item['status'] == 1 ? true : false;
             return $item[0];
         } else {
-            $this->db->get("content");
+            $result=$this->db->get("content");
             $item = $result->result_object();
             foreach ($item as $key => $value) {
                 $value->status = $value->status == 1 ? true : false;
