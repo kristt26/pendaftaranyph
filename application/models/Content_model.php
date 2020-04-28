@@ -37,6 +37,7 @@ class Content_Model extends CI_Model
             $this->exceptions->checkForError();
             $data['idcontent'] = $this->db->insert_id();
             return $data;
+            $this->db->trans_commit();
         } catch (IMySQLException $th) {
             $model = $th->getErrorMessage();
             throw new Exception($model['error']['message']);
