@@ -16,7 +16,9 @@ function adminController($scope, $state, AuthService) {
 
 function adminPersyartanController($scope, message, PersyaratanService, helperServices) {
 	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
 	PersyaratanService.get().then((result) => {
+		$scope.helper.IsBusy = false;
 		$scope.source = result;
 	});
 
@@ -26,7 +28,7 @@ function adminPersyartanController($scope, message, PersyaratanService, helperSe
 	};
 	$scope.save = (model) => {
 		$scope.helper.IsBusy = true;
-		if (model.idpegawai) {
+		if (model.idpersyaratan) {
 			PersyaratanService.put(model).then(
 				(x) => {
 					$scope.helper.IsBusy = false;
@@ -66,8 +68,10 @@ function adminPersyartanController($scope, message, PersyaratanService, helperSe
 }
 function adminSiswaController($scope, message, SiswaService, helperServices) {
 	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
 	SiswaService.get().then((result) => {
 		$scope.source = result;
+		$scope.helper.IsBusy = false;
 	});
 
 	$scope.edit = (model) => {
@@ -117,8 +121,10 @@ function adminSiswaController($scope, message, SiswaService, helperServices) {
 }
 function adminPengumumanController($scope, message, ContentService, helperServices) {
 	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
 	ContentService.get().then((result) => {
 		$scope.source = result;
+		$scope.helper.IsBusy = false;
 	});
 
 	$scope.edit = (model) => {
@@ -168,10 +174,12 @@ function adminPengumumanController($scope, message, ContentService, helperServic
 
 function adminInformasiController($scope, ContentService, message, helperServices, TahunAjaranService) {
 	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
 	TahunAjaranService.get().then((ta) => {
 		$scope.tahuns = ta;
 		$scope.selectedTa = ta.find((x) => x.status);
 		$scope.ta = angular.copy($scope.selectedTa);
+		$scope.helper.IsBusy = false;
 	});
 
 	$scope.edit = (model) => {
@@ -222,8 +230,10 @@ function adminInformasiController($scope, ContentService, message, helperService
 }
 function adminTahunAjaranController($scope, message, TahunAjaranService, helperServices) {
 	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
 	TahunAjaranService.get().then((result) => {
 		$scope.source = result;
+		$scope.helper.IsBusy = false;
 	});
 
 	$scope.edit = (model) => {

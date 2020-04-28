@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-
+    <app.loading busy="helper.IsBusy"></app.loading>
     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
         <div class="card border-3 border-top border-top-primary">
             <div class="card-body">
@@ -30,9 +30,8 @@
                         <thead class="bg-light">
                             <tr class="border-0">
                                 <th rowspan="2">#</th>
-                                <th rowspan="2">Tanggal</th>
-                                <th rowspan="2">Judul</th>
-                                <th rowspan="2">Publish</th>
+                                <th rowspan="2">Persyaratan</th>
+                                <th rowspan="2">Status</th>
                                 <th rowspan="2">Aksi</th>
                             </tr>
                         </thead>
@@ -40,12 +39,11 @@
 
                             <tr ng-repeat="item in source | filter:{idtahunajaran:ta.idtahunajaran}">
                                 <td>{{$index+1}}</td>
-                                <td>{{item.created|date:'dd-MM-yyyy hh:ss'}}</td>
-                                <td>{{item.title}}</td>
+                                <td class="text-left">{{item.persyaratan}}</td>
                                 <td>
                                     <div class="checkbox-custom">
                                         <label>
-                                            <input ng-model="item.publish" disabled type="checkbox">
+                                            <input ng-model="item.status" disabled type="checkbox">
                                             <b></b>
                                         </label>
                                     </div>
@@ -79,25 +77,21 @@
             <div class="modal-body">
                 <form ng-submit="save(model)">
                     <div class="form-group">
-                        <label class="col-form-label">Judul</label>
-                        <input ng-model="model.title" required class="form-control">
+                        <label class="col-form-label">Nama Persyaratan</label>
+                        <input ng-model="model.persyaratan" required class="form-control">
                     </div>
                     <div class="d-inline-flex" style="margin-bottom: 15px;">
-                        <label style="margin-top: 4px; margin-right: 20px;">Publish</label>
+                        <label style="margin-top: 4px; margin-right: 20px;">Status Persyaratan</label>
                         <div class="checkbox-custom">
                             <label>
 
-                                <input ng-model="model.publish" type="checkbox">
+                                <input ng-model="model.status" type="checkbox">
                                 <b></b>
 
                             </label>
 
                         </div>
                     </div>
-                    <div class="form-group">
-                        <app.htmleditor model="model.content"></app.htmleditor>
-                    </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" ng-disabled="!model" class="btn btn-primary"><i

@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-
+    <app.loading busy="helper.IsBusy"></app.loading>
     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
         <div class="card border-3 border-top border-top-primary">
             <div class="card-body">
@@ -51,8 +51,8 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{item.tahunajaran}}/{{item.tahunajaran+1}}</td>
                                 <td>{{item.semester}}</td>
-                                <td>{{item.tanggalbuka|date:'dd MM yyyy hh:ss'}}</td>
-                                <td>{{item.tanggaltutup|date:'dd MM yyyy hh:ss'}}</td>
+                                <td>{{item.tanggalbuka|date:'dd-MM-yyyy'}}</td>
+                                <td>{{item.tanggaltutup|date:'dd-MM-yyyy'}}</td>
                                 <td>
                                     <div class="checkbox-custom">
                                         <label>

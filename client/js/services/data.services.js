@@ -6,7 +6,7 @@ angular
 	.factory('TahunAjaranService', TahunAjaranService);
 
 function ContentService($http, $q, message, AuthService, helperServices) {
-	var url = helperServices.url + '/api/pegawai';
+	var url = helperServices.url + '/api/content';
 	var service = {
 		instance: true,
 		Items: [
@@ -402,8 +402,7 @@ function PersyaratanService($http, $q, message, AuthService, helperServices) {
 			(response) => {
 				var data = service.Items.find((x) => x.idsiswa == param.idtahunajaran);
 				if (data) {
-					data.tahunajaran = param.tahunajaran;
-					data.semester = param.semester;
+					data.persyaratan = param.persyaratan;
 					data.status = param.status;
 				}
 				def.resolve(response.data);

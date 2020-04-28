@@ -18,4 +18,10 @@ const appFooter = {
 	templateUrl: 'client/js/components/layouts/footer.html'
 };
 
-angular.module('app.layout.conponent', []).component('app.footer', appFooter);
+const loading = {
+	bindings: { busy: '=' },
+	controller: function($scope) {},
+	templateUrl: 'client/js/components/layouts/loading.html'
+};
+
+angular.module('app.layout.conponent', []).component('app.footer', appFooter).component('app.loading', loading);

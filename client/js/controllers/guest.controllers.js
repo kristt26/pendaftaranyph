@@ -28,13 +28,28 @@ function pengumumanController($scope, $state) {}
 function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService, AuthService) {
 	if (AuthService.userIsLogin()) {
 		AuthService.profile().then((profile) => {
-			CalonSiswaService.get(profile.biodata.idcalonsiswa).then((x) => {
+			CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
 				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
-					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
+					x.orangtua.push({
+						idorangtua: 0,
+						idcalonsiswa: x.idcalonsiswa,
+						kebutuhankhusus: false,
+						jenisorangtua: 'Ayah'
+					});
 				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ibu'))
-					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
+					x.orangtua.push({
+						idorangtua: 0,
+						idcalonsiswa: x.idcalonsiswa,
+						kebutuhankhusus: false,
+						jenisorangtua: 'Ibu'
+					});
 				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Wali'))
-					x.orangtua.push({ idcalonsiswa: x.idcalonsiswa, kebutuhankhusus: false, jenisorangtua: 'Wali' });
+					x.orangtua.push({
+						idorangtua: 0,
+						idcalonsiswa: x.idcalonsiswa,
+						kebutuhankhusus: false,
+						jenisorangtua: 'Wali'
+					});
 				$scope.siswa = x;
 			});
 		});
@@ -43,9 +58,9 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 		$scope.siswa.orangtua = [];
 		$scope.siswa.prestasi = [];
 		$scope.siswa.kesejahteraan = [];
-		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Ayah' });
-		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Ibu' });
-		$scope.siswa.orangtua.push({ kebutuhankhusus: false, jenisorangtua: 'Wali' });
+		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
+		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
+		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Wali' });
 	}
 
 	$scope.helper = helperServices;

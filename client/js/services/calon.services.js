@@ -4,7 +4,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	var service = {};
 	service.siswa = {};
 
-	service.get = (id) => {
+	service.get;
+
+	service.getById = (id) => {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/calonsiswa';
 		$http({
@@ -111,7 +113,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		var url = helperServices.url + '/api/orangtua';
 
 		model.forEach((element) => {
-			model.idcalonsiswa = service.siswa.idcalonsiswa;
+			element.idcalonsiswa = service.siswa.idcalonsiswa;
 		});
 
 		if (!model[0].idorangtua) {
@@ -122,7 +124,11 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				data: model
 			}).then(
 				(response) => {
-					service.siswa.orangtua.push(response.data);
+					response.data.forEach((item) => {
+						ortu = service.siswa.orangtua.find((x) => x.jenisorangtua == item.jenisprestasi);
+						ortu.idorangtua = item.idorangtua;
+					});
+					service.siswa.orangtua = response.data;
 					def.resolve(response.data);
 				},
 				(err) => {

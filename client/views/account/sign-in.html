@@ -3,7 +3,7 @@
         <div style="margin: auto; width: 350px" class="card card-block">
             <div class="card">
                 <div class="card-body">
-                    <div class="logo text-center">
+                    <div class="logo text-center" ui-sref="guest-home">
                         <img src="/client/images/ypk.png" alt="">
                     </div>
                     <form ng-submit="login(model)">
@@ -16,7 +16,8 @@
                             <input ng-model="model.Password" required class="form-control" id="password" type="password"
                                 placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class=" fa fa-spinner fa-spin"
+                                ng-show="helper.IsBusy"></i>Sign in</button>
                     </form>
                 </div>
 
