@@ -27,11 +27,11 @@ class Content_Model extends CI_Model
         $data = $data;
         try {
             $item = [
-                'content' => $data->content,
-                'publish' => $data->publish ? 1 : 0,
-                'created' => $data->created,
-                'title' => $data->title,
-                'type' => $data->type,
+                'content' => $data['content'],
+                'publish' => $data['publish'] ? 1 : 0,
+                'created' => $data['created'],
+                'title' => $data['title'],
+                'type' => $data['type'],
             ];
             $this->db->insert('content', $item);
             $this->exceptions->checkForError();
@@ -48,13 +48,13 @@ class Content_Model extends CI_Model
         $data = (object) $data;
         try {
             $item = [
-                'content' => $data->content,
-                'publish' => $data->publish ? 1 : 0,
-                'created' => $data->created,
-                'title' => $data->title,
-                'type' => $data->type,
+                'content' => $data['content'],
+                'publish' => $data['publish'] ? 1 : 0,
+                'created' => $data['created'],
+                'title' => $data['title'],
+                'type' => $data['type'],
             ];
-            $this->db->where('idcontent', $data->idcontent);
+            $this->db->where('idcontent', $data['idcontent']);
             $this->db->update('content', $item);
             return $data;
         } catch (\Throwable $th) {
