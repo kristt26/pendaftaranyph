@@ -4,26 +4,36 @@ class Beasiswa_model extends CI_Model
 {
     public function insert($data)
     {
-        $this->db->trans_begin();
-        $data = (object) $data;
-        foreach ($data as $key => $value) {
-            $item = [
-                'jenisbeasiswa' => $value->jenisbeasiswa,
-                'penyelenggaraan' => $value->penyelenggaraan,
-                'tahunmulai' => $value->tahunmulai,
-                'tahunselesai' => $value->tahunselesai,
-                'idcalonsiswa' => $value->idcalonsiswa
-            ];
-            $this->db->insert('beasiswa', $item);
-            $item->idbeasiswa = $this->db->insert_id();
-        }
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
+        $this->load->library('Exceptions');
+            $this->db->trans_begin();
+            $data = $data;
+           try {
+            foreach ($data as $key => $value) {
+                $item = [
+                    'jenisbeasiswa' => $value['jenisbeasiswa'],
+                    'penyelenggaraan' => $value['penyelenggaraan'],
+                    'tahunmulai' => $value['tahunmulai'],
+                    'tahunselesai' => $value['tahunselesai'],
+                    'idcalonsiswa' => $value['idcalonsiswa']
+                ];
+                if((int)$value['idbeasiswa']==0){
+                    $this->db->insert('beasiswa', $item);
+                    $this->exceptions->checkForError();
+                    $item['idbeasiswa'] = $this->db->insert_id();
+                    $data[$key]= $item;
+                }else{
+                    $this->db->where('idbeasiswa', $value['idbeasiswa']);
+                    $this->db->update('beasiswa', $item);
+                }
+            }
             $this->db->trans_commit();
             return $data;
-        }
+           } catch (IMySQLException  $th) {
+               $this->db->trans_rollback();
+               $model = $th->getErrorMessage();
+              throw new Exception($model['error']['message']);
+              return false;
+           }
     }
     public function update($data)
     {

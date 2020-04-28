@@ -1,29 +1,38 @@
 <?php
 
-class Beasiswa_model extends CI_Model
+class Prestasi_model extends CI_Model
 {
     public function insert($data)
     {
+        $this->load->library('Exceptions');
         $this->db->trans_begin();
-        $data = (object) $data;
-        foreach ($data as $key => $value) {
-            $item = [
-                'penyelenggaraan' => $value->penyelenggaraan,
-                'jenisprestasi' => $value->jenisprestasi,
-                'tingkat' => $value->tingkat,
-                'namaprestasi' => $value->namaprestasi,
-                'tahun' => $value->tahun,
-                'idcalonsiswa' => $value->idcalonsiswa
-            ];
-            $this->db->insert('prestasi', $item);
-            $item->idprestasi = $this->db->insert_id();
-        }
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
+        $data = $data;
+        try {
+            foreach ($data as $key => $value) {
+                $item = [
+                    'penyelenggaraan' => $value['penyelenggaraan'],
+                    'jenisprestasi' => $value['jenisprestasi'],
+                    'tingkat' => $value['tingkat'],
+                    'namaprestasi' => $value['namaprestasi'],
+                    'tahun' => $value['tahun'],
+                    'idcalonsiswa' => $value['idcalonsiswa']
+                ];
+                if ((int)$value['idprestasi'] == 0) {
+                    $this->db->insert('prestasi', $item);
+                    $this->exceptions->checkForError();
+                    $item['idprestasi'] = $this->db->insert_id();
+                    $data[$key] = $item;
+                } else {
+                    $this->db->where('idprestasi', $value['idprestasi']);
+                    $this->db->update('prestasi', $item);
+                }
+            }
             $this->db->trans_commit();
             return $data;
+        } catch (IMySQLException $th) {
+            $this->db->trans_rollback();
+            $model = $th->getErrorMessage();
+            throw new Exception($model['error']['message']);
         }
     }
     public function update($data)
