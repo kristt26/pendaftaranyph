@@ -26,47 +26,50 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 function informasiController($scope, $state) {}
 function pengumumanController($scope, $state) {}
 function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService, AuthService) {
-	if (AuthService.userIsLogin()) {
-		AuthService.profile().then((profile) => {
-			CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
-				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
-					x.orangtua.push({
-						idorangtua: 0,
-						idcalonsiswa: x.idcalonsiswa,
-						kebutuhankhusus: false,
-						jenisorangtua: 'Ayah'
-					});
-				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ibu'))
-					x.orangtua.push({
-						idorangtua: 0,
-						idcalonsiswa: x.idcalonsiswa,
-						kebutuhankhusus: false,
-						jenisorangtua: 'Ibu'
-					});
-				if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Wali'))
-					x.orangtua.push({
-						idorangtua: 0,
-						idcalonsiswa: x.idcalonsiswa,
-						kebutuhankhusus: false,
-						jenisorangtua: 'Wali'
-					});
-				$scope.siswa = x;
-			});
-		});
-	} else {
-		$scope.siswa = CalonSiswaService.siswa;
-		$scope.siswa.orangtua = [];
-		$scope.siswa.prestasi = [];
-		$scope.siswa.kesejahteraan = [];
-		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
-		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
-		$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Wali' });
-	}
-
 	$scope.helper = helperServices;
 	TahunAjaranService.get().then((result) => {
 		$scope.taActive = result.find((x) => x.status);
+		if (AuthService.userIsLogin()) {
+			$scope.helper.IsBusy = true;
+			AuthService.profile().then((profile) => {
+				CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
+					if (!x.orangtua) x.orangtua = [];
+					if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
+						x.orangtua.push({
+							idorangtua: 0,
+							idcalonsiswa: x.idcalonsiswa,
+							kebutuhankhusus: false,
+							jenisorangtua: 'Ayah'
+						});
+					if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ibu'))
+						x.orangtua.push({
+							idorangtua: 0,
+							idcalonsiswa: x.idcalonsiswa,
+							kebutuhankhusus: false,
+							jenisorangtua: 'Ibu'
+						});
+					if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Wali'))
+						x.orangtua.push({
+							idorangtua: 0,
+							idcalonsiswa: x.idcalonsiswa,
+							kebutuhankhusus: false,
+							jenisorangtua: 'Wali'
+						});
+					$scope.siswa = x;
+					$scope.helper.IsBusy = false;
+				});
+			});
+		} else {
+			$scope.siswa = CalonSiswaService.siswa;
+			$scope.siswa.orangtua = [];
+			$scope.siswa.prestasi = [];
+			$scope.siswa.kesejahteraan = [];
+			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
+			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
+			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Wali' });
+		}
 	});
+
 	$scope.steppers = [
 		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
 		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
@@ -82,6 +85,12 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 		});
 	};
 
+	$scope.addPrestasi = (model) => {
+		if (!$scope.siswa.prestasi) $scope.siswa.prestasi = [];
+
+		$scope.siswa.prestasi.push(model);
+	};
+
 	$scope.save = (idstepper, model) => {
 		$scope.helper.IsBusy = true;
 
@@ -94,7 +103,15 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 				});
 				break;
 			case 2:
-				CalonSiswaService.saveOrangTua(model).then((x) => {});
+				CalonSiswaService.saveOrangTua(model).then((x) => {
+					next(idstepper);
+					$scope.helper.IsBusy = false;
+				});
+
+				break;
+
+			case 3:
+				CalonSiswaService.addPrestasi(model).then((x) => {});
 				break;
 
 			default:

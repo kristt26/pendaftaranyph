@@ -123,10 +123,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-form-label">Tahun Lahir</label>
-                                    <select class="form-control" ng-model="item.tahunlahir"
-                                        ng-options="item as item for item in helper.tahunlahir">
-                                    </select>
+                                    <label class="col-form-label">Tanggal Lahir</label>
+                                    <input ng-model="item.tahunlahir" date-input type="date" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label">Pekerjaan</label>
@@ -176,7 +174,14 @@
         <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="messages-tab">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h4>PRESTASI</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-muted">Data Persyaratan</h4>
+                        <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#modalPrestasi"
+                                href=""
+                                ng-click="model={idprestasi:0, iccalonsiswa:siswa.idcalonsiswa};title='Tambah Prestasi'"><i
+                                    class="fa fa-plus-square fa-2x"></i></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -194,11 +199,11 @@
                         <tbody>
                             <tr ng-repeat="item in siswa.prestasi">
                                 <td scope="row">{{$index+1}}</td>
-                                <td scope="row">{{item.tahun}}</td>
-                                <td scope="row">{{item.namaprestasi}</td>
-                                    <td scope="row">{{item.tingkat}}</td>
-                                <td scope="row">{{item.penyelenggaraan}}</td>
+                                <td scope="row">{{item.namaprestasi}}</td>
                                 <td scope="row">{{item.jenisprestasi}}</td>
+                                <td scope="row">{{item.penyelenggaraan}}</td>
+                                <td scope="row">{{item.tingkat}}</td>
+                                <td scope="row">{{item.tahun}}</td>
                                 <td scope="row">
                                 <td nowrap>
                                     <div class="tdaction justify-content-start">
@@ -274,7 +279,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form ng-submit="save(2,model)">
+                <form ng-submit="addPrestasi(model)">
                     <div class="form-group">
                         <label class="col-form-label">Penyelenggara</label>
                         <input ng-model="model.penyelenggaraan" type="text" class="form-control">

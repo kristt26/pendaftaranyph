@@ -203,7 +203,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 
 		if (!model.idcalonsiswa) model.idcalonsiswa = service.idcalonsiswa;
 
-		if (!model.idorangtua) {
+		if (!model.idprestasi) {
 			$http({
 				method: 'Post',
 				url: url,
@@ -234,7 +234,6 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 					data.namaprestasi = model.namaprestasi;
 					data.jenisprestasi = model.jenisprestasi;
 					data.penyelengaraan = model.penyelengaraan;
-
 					def.resolve(response.data);
 				},
 				(err) => {
