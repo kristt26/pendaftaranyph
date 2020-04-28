@@ -127,17 +127,13 @@ function ContentService($http, $q, message, AuthService, helperServices) {
 			data: param
 		}).then(
 			(response) => {
-				var data = service.Items.find((x) => x.idpegawai == param.idpegawai);
+				var data = service.Items.find((x) => x.idcontent == param.idcontent);
 				if (data) {
-					data.nip = param.nip;
-					data.nama = param.nama;
-					data.jeniskelamin = param.jeniskelamin;
-					data.jabatan = param.jabatan;
-					data.alamat = param.alamat;
-					data.kontak = param.kontak;
-					data.pendidikan = param.penidikan;
+					data.content = param.content;
+					data.publish = param.publish;
+					data.created = param.created;
+					data.title = param.title;
 				}
-
 				def.resolve(response.data);
 			},
 			(err) => {

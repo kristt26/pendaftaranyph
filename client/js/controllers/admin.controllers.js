@@ -175,50 +175,46 @@ function adminPengumumanController($scope, message, ContentService, helperServic
 function adminInformasiController($scope, ContentService, message, helperServices, TahunAjaranService) {
 	$scope.helper = helperServices;
 	$scope.helper.IsBusy = true;
-	TahunAjaranService.get().then((ta) => {
-		$scope.tahuns = ta;
-		$scope.selectedTa = ta.find((x) => x.status);
-		$scope.ta = angular.copy($scope.selectedTa);
+	ContentService.get().then((result) => {
+		$scope.source = result;
 		$scope.helper.IsBusy = false;
 	});
 
 	$scope.edit = (model) => {
-		$scope.model = { siswa: angular.copy(model) };
-		$scope.title = 'Edit Kelulusan';
+		$scope.model = angular.copy(model);
+		$scope.title = 'Edit Informasi';
 	};
 	$scope.save = (model) => {
-		if (!model.siswa.idtahunajaran) {
-			model.siswa.idtahunajaran = $scope.selectedTa.idtahunajaran;
-		}
 		$scope.helper.IsBusy = true;
-		ContentService.post(model.siswa).then(
-			(result) => {
-				$scope.helper.IsBusy = false;
-				var data = $scope.source.find((x) => x.idsiswa == model.siswa.idsiswa);
-				if (data) {
-					data.idkelulusan = result.idkelulusan;
-					data.idtahunajaran = result.idtahunajaran;
-					data.idsiswa = result.idsiswa;
-					data.nilaisekolah = result.nilaisekolah;
-					data.nilaiun = result.nilaiun;
-					data.nilaiakhir = result.nilaiakhir;
-					data.status = result.status;
-					data.Berkas = result.Berkas;
+		if (model.idpegawai) {
+			ContentService.put(model).then(
+				(x) => {
+					$scope.helper.IsBusy = false;
+					message.info('Data Berhasil Disimpan');
+				},
+				(err) => {
+					$scope.helper.IsBusy = false;
+					message.error('Data Gagal Disimpan');
 				}
-
-				message.info('Data Berhasil Disimpan');
-			},
-			(err) => {
-				$scope.helper.IsBusy = false;
-				message.error('Data Gagal Disimpan');
-			}
-		);
+			);
+		} else {
+			ContentService.post(model).then(
+				(result) => {
+					$scope.helper.IsBusy = false;
+					message.info('Data Berhasil Disimpan');
+				},
+				(err) => {
+					$scope.helper.IsBusy = false;
+					message.error('Data Gagal Disimpan');
+				}
+			);
+		}
 	};
 
 	$scope.delete = (item) => {
 		message.dialog().then(
 			(x) => {
-				ContentService.delete(item.idkelulusan).then((x) => {
+				ContentService.delete(item.idpegawai).then((x) => {
 					message.info('Data Berhasil Dihapus');
 				});
 			},
