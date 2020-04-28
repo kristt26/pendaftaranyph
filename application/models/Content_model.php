@@ -5,16 +5,16 @@ class Content_Model extends CI_Model
     public function select($idcontent)
     {
         if ($idcontent) {
-            $this->db->query("SELECT * FROM content WHERE idcontent = '$idcontent'");
+            $result = $this->db->query("SELECT * FROM content WHERE idcontent = '$idcontent'");
             $item = $result->result_array();
             $item = $item[0];
-            $item['status'] = $item['status'] == 1 ? true : false;
-            return $item[0];
+            $item['publish'] = $item['publish'] == 1 ? true : false;
+            return $item;
         } else {
             $result=$this->db->get("content");
             $item = $result->result_object();
             foreach ($item as $key => $value) {
-                $value->status = $value->status == 1 ? true : false;
+                $value->publish = $value->publish == 1 ? true : false;
             }
             return (array) $item;
         }
@@ -47,7 +47,7 @@ class Content_Model extends CI_Model
     {
         $this->load->library('Exceptions');
         $this->db->trans_begin();
-        $data = (object) $data;
+        $data = $data;
         try {
             $item = [
                 'content' => $data['content'],
@@ -64,7 +64,6 @@ class Content_Model extends CI_Model
             $this->db->trans_rollback();
             $model = $th->getErrorMessage();
             throw new Exception($model['error']['message']);
-            return false;
         }
     }
     public function delete($id)
