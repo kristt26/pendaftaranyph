@@ -4,29 +4,37 @@ class OrangTua_model extends CI_Model
 {
     public function insert($data)
     {
+        $this->load->library('Exceptions');
         $this->db->trans_begin();
-        $data = (object) $data;
-        foreach ($data as $key => $value) {
-            $item = [
-                'idorangtua' => $value->idorangtua,
-                'nik' => $value->nik,
-                'tahunlahir' => $value->tahunlahir,
-                'kebutuhankhusus' => $value->kebutuhankhusus,
-                'pekerjaan' => $value->pekerjaan,
-                'pendidikan' => $value->pendidikan,
-                'penghasilan' => $value->penghasilan,
-                'jenisorangtua' => $value->jenisorangtua,
-                'idcalonsiswa' => $value->idcalonsiswa
-            ];
-            $this->db->insert('orangtua', $item);
-            $item->idorangtua = $this->db->insert_id();
-        }
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
+        $data = $data;
+        try {
+            foreach ($data as $key => $value) {
+                $item = [
+                    'nik' => $value['nik'],
+                    'tahunlahir' => $value['tahunlahir'],
+                    'berkebutuhankhusus' => $value['berkebutuhankhusus'],
+                    'pekerjaan' => $value['pekerjaan'],
+                    'pendidikan' => $value['pendidikan'],
+                    'penghasilan' => $value['penghasilan'],
+                    'jenisorangtua' => $value['jenisorangtua'],
+                    'idcalonsiswa' => $value['idcalonsiswa'],
+                ];
+                if ($value['idorangtua'] == 0) {
+                    $this->db->insert('orangtua', $item);
+                    $this->exceptions->checkForError();
+                    $item['idorangtua'] = $this->db->insert_id();
+                    $data[$key] = $item;
+                } else {
+                    $this->db->where('idorangtua', $value['idorangtua']);
+                    $this->db->update('orangtua', $item);
+                }
+            }
             $this->db->trans_commit();
             return $data;
+        } catch (IMySQLException $th) {
+            $this->db->trans_rollback();
+            $model = $th->getErrorMessage();
+            throw new Exception($model['error']['message']);
         }
     }
     public function update($data)
@@ -41,7 +49,7 @@ class OrangTua_model extends CI_Model
                 'pendidikan' => $value->pendidikan,
                 'penghasilan' => $value->penghasilan,
                 'jenisorangtua' => $value->jenisorangtua,
-                'idcalonsiswa' => $value->idcalonsiswa
+                'idcalonsiswa' => $value->idcalonsiswa,
             ];
             $this->db->where('idorangtua', $value->idorangtua);
             $this->db->update('orangtua', $item);

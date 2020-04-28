@@ -7,46 +7,9 @@ class CalonSiswa_Model extends CI_Model
         if ($idcalonsiswa) {
             $xd = $this->db->query("
             SELECT
-            `calonsiswa`.*,
-            `detailpersyaratan`.`iddetailpersyaratan`,
-            `detailpersyaratan`.`idpersyaratan`,
-            `detailpersyaratan`.`berkas`,
-            `prestasi`.`idprestasi`,
-            `prestasi`.`penyelenggaraan`,
-            `prestasi`.`jenisprestasi`,
-            `prestasi`.`tingkat`,
-            `prestasi`.`namaprestasi`,
-            `prestasi`.`tahun`,
-            `beasiswa`.`idbeasiswa`,
-            `beasiswa`.`jenisbeasiswa`,
-            `beasiswa`.`penyelenggaraan` AS `penyelenggaraan1`,
-            `beasiswa`.`tahunmulai`,
-            `beasiswa`.`tahunselesai`,
-            `kesejahteraan`.`idkesejahteraan`,
-            `kesejahteraan`.`jeniskesejahteraan`,
-            `kesejahteraan`.`nomor`,
-            `kesejahteraan`.`daritahun`,
-            `kesejahteraan`.`sampaitahun`,
-            `orangtua`.`idorangtua`,
-            `orangtua`.`nik`,
-            `orangtua`.`tahunlahir`,
-            `orangtua`.`berkebutuhankhusus`,
-            `orangtua`.`pekerjaan`,
-            `orangtua`.`pendidikan`,
-            `orangtua`.`penghasilan`,
-            `orangtua`.`jenisorangtua`
+            *
             FROM
             `calonsiswa`
-            LEFT JOIN `detailpersyaratan` ON `detailpersyaratan`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa`
-            LEFT JOIN `beasiswa` ON `beasiswa`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa`
-            LEFT JOIN `kesejahteraan` ON `kesejahteraan`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa`
-            LEFT JOIN `orangtua` ON `orangtua`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa`
-            LEFT JOIN `prestasi` ON `prestasi`.`idcalonsiswa` =
-                `calonsiswa`.`idcalonsiswa`
             WHERE calonsiswa.idcalonsiswa='$idcalonsiswa'
             ");
             $result = $xd->result_object();
@@ -55,65 +18,22 @@ class CalonSiswa_Model extends CI_Model
             $kesejahteraan = [];
             $prestasi = [];
             $detailpersyaratan = [];
-            foreach ($result as $key => $value) {
-                if (!is_null($value->idbeasiswa)) {
-                    $item = [
-                        'idbeasiswa' => $value->idbeasiswa,
-                        'jenisbeasiswa' => $value->jenisbeasiswa,
-                        'penyelenggaraan' => $value->penyelenggaraan,
-                        'tahunmulai' => $value->tahunmulai,
-                        'tahunselesai' => $value->tahunselesai,
-                        'idcalonsiswa' => $value->idcalonsiswa
-                    ];
-                    array_push($beasiswa, $item);
-                }
-                if (!is_null($value->idorangtua)) {
-                    $item = [
-                        'idorangtua' => $value->idorangtua,
-                        'nik' => $value->nik,
-                        'tahunlahir' => $value->tahunlahir,
-                        'kebutuhankhusus' => $value->kebutuhankhusus,
-                        'pekerjaan' => $value->pekerjaan,
-                        'pendidikan' => $value->pendidikan,
-                        'penghasilan' => $value->penghasilan,
-                        'jenisorangtua' => $value->jenisorangtua,
-                        'idcalonsiswa' => $value->idcalonsiswa
-                    ];
-                    array_push($orangtua, $item);
-                }
-                if (!is_null($value->idkesejahteraan)) {
-                    $item = [
-                        'idkesejahteraan' => $value->idkesejahteraan,
-                        'jeniskesejahteraan' => $value->jeniskesejahteraan,
-                        'nomor' => $value->nomor,
-                        'daritahun' => $value->daritahun,
-                        'sampaitahun' => $value->sampaitahun,
-                        'idcalonsiswa' => $value->idcalonsiswa
-                    ];
-                    array_push($kesejahteraan, $item);
-                }
-                if (!is_null($value->idprestasi)) {
-                    $item = [
-                        'idprestasi' => $value->idprestasi,
-                        'penyelenggaraan' => $value->penyelenggaraan,
-                        'jenisprestasi' => $value->jenisprestasi,
-                        'tingkat' => $value->tingkat,
-                        'namaprestasi' => $value->namaprestasi,
-                        'tahun' => $value->tahun,
-                        'idcalonsiswa' => $value->idcalonsiswa
-                    ];
-                    array_push($prestasi, $item);
-                }
-                if (!is_null($value->iddetailpersyaratan)) {
-                    $item = [
-                        'iddetailpersyaratan' => $value->iddetailpersyaratan,
-                        'idcalonsiswa' => $value->idcalonsiswa,
-                        'idpersyaratan' => $value->idpersyaratan,
-                        'berkas' => $value->berkas
-                    ];
-                    array_push($detailpersyaratan, $item);
-                }
-            }
+            $itembeasiswa = $this->db->query("
+            SELECT
+            *
+            FROM
+            `beasiswa`
+            WHERE idcalonsiswa='$idcalonsiswa'
+            ");
+            $beasiswa = $itembeasiswa->result_array();
+            $itemorangtua = $this->db->query("SELECT * FROM `orangtua` WHERE idcalonsiswa='$idcalonsiswa'");
+            $orangtua = $itemorangtua->result_array();
+            $itemkesejahteraan = $this->db->query("SELECT * FROM `kesejahteraan` WHERE idcalonsiswa='$idcalonsiswa'");
+            $kesejahteraan = $itemkesejahteraan->result_array();
+            $itemprestasi = $this->db->query("SELECT * FROM `prestasi` WHERE idcalonsiswa='$idcalonsiswa'");
+            $prestasi = $itemprestasi->result_array();
+            $itempersyaratan = $this->db->query("SELECT * FROM `detailpersyaratan` WHERE idcalonsiswa='$idcalonsiswa'");
+            $detailpersyaratan = $itempersyaratan->result_array();
             $biodata = [
                 'idcalonsiswa' => $result[0]->idcalonsiswa,
                 'nis' => $result[0]->nis,
