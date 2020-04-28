@@ -175,7 +175,7 @@
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
-                        <h4 class="text-muted">Data Persyaratan</h4>
+                        <h4 class="text-muted">Data Prestasi</h4>
                         <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#modalPrestasi"
                                 href=""
                                 ng-click="model={idprestasi:0, iccalonsiswa:siswa.idcalonsiswa};title='Tambah Prestasi'"><i
@@ -184,82 +184,216 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Tahun</th>
-                                <th>Nama Prestasi</th>
-                                <th>Tingkat</th>
-                                <th>Pengelenggara</th>
-                                <th>Jenis Prestasi</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in siswa.prestasi">
-                                <td scope="row">{{$index+1}}</td>
-                                <td scope="row">{{item.namaprestasi}}</td>
-                                <td scope="row">{{item.jenisprestasi}}</td>
-                                <td scope="row">{{item.penyelenggaraan}}</td>
-                                <td scope="row">{{item.tingkat}}</td>
-                                <td scope="row">{{item.tahun}}</td>
-                                <td scope="row">
-                                <td nowrap>
-                                    <div class="tdaction justify-content-start">
-                                        <a class="btn btn-outline-warning" href="" data-toggle="modal"
-                                            data-target="#modalPrestasi" ng-click="edit(3,item)"><i
-                                                class="fa fa-edit fa-1x"></i></a>
-                                        <a class="btn btn-outline-danger" href="" ng-click="delete(3,item)"><i
-                                                class="fa fa-trash fa-1x"></i></a>
+                    <form ng-submit="save(3,siswa.prestasi)">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Prestasi</th>
+                                    <th>Jenis Prestasi</th>
+                                    <th>Pengelenggara</th>
+                                    <th>Tingkat</th>
+                                    <th>Tahun</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in siswa.prestasi">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td scope="row">{{item.namaprestasi}}</td>
+                                    <td scope="row">{{item.jenisprestasi}}</td>
+                                    <td scope="row">{{item.penyelenggaraan}}</td>
+                                    <td scope="row">{{item.tingkat}}</td>
+                                    <td scope="row">{{item.tahun|date:'dd-MM-yyyy'}}</td>
+                                    <td scope="row">
+                                    <td nowrap>
+                                        <div class="tdaction justify-content-start">
+                                            <a class="btn btn-outline-warning" href="" data-toggle="modal"
+                                                data-target="#modalPrestasi" ng-click="selectItem(item)"><i
+                                                    class="fa fa-edit fa-1x"></i></a>
+                                            <a class="btn btn-outline-danger" href="" ng-click="delete(3,item)"><i
+                                                    class="fa fa-trash fa-1x"></i></a>
 
-                                    </div>
-                                </td>
-                                </td>
-                            </tr>
+                                        </div>
+                                    </td>
+                                    </td>
+                                </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
-                            ng-show="helper.IsBusy"></i>Next</button>
-                </div>
+
             </div>
 
         </div>
         <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h4>KESEJAHTERAAN</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-muted">Data Kesejahteraan</h4>
+                        <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#modalKesejahteraan"
+                                href=""
+                                ng-click="model={idkesejahteraan:0, iccalonsiswa:siswa.idcalonsiswa};title='Tambah Kesejahteraan'"><i
+                                    class="fa fa-plus-square fa-2x"></i></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Title</h4>
-                    <p class="card-text">Text</p>
+                    <form ng-submit="save(4,siswa.kesejahteraan)">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nomor</th>
+                                    <th>Jenis </th>
+                                    <th>Dari Tanggal</th>
+                                    <th>Sampai Tanggal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in siswa.kesejahteraan">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td scope="row">{{item.nomor}}</td>
+                                    <td scope="row">{{item.jeniskesejahteraan}}</td>
+                                    <td scope="row">{{item.daritahun|date:'dd-MM-yyyy'}}</td>
+                                    <td scope="row">{{item.sampaitahun|date:'dd-MM-yyyy'}}</td>
+                                    <td scope="row">
+                                    <td nowrap>
+                                        <div class="tdaction justify-content-start">
+                                            <a class="btn btn-outline-warning" href="" data-toggle="modal"
+                                                data-target="#modalKesejahteraan" ng-click="selectItem(item)"><i
+                                                    class="fa fa-edit fa-1x"></i></a>
+                                            <a class="btn btn-outline-danger" href="" ng-click="delete(4,item)"><i
+                                                    class="fa fa-trash fa-1x"></i></a>
+
+                                        </div>
+                                    </td>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
-                            ng-show="helper.IsBusy"></i>Next</button>
-                </div>
+
             </div>
 
         </div>
+
         <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
-                    <h4>BERKAS</h4>
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-muted">Data Beasiswa</h4>
+                        <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#modalKesejahteraan"
+                                href=""
+                                ng-click="model={idkesejahteraan:0, iccalonsiswa:siswa.idcalonsiswa};title='Tambah Beasiswa'"><i
+                                    class="fa fa-plus-square fa-2x"></i></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Title</h4>
-                    <p class="card-text">Text</p>
+                    <form ng-submit="save(5,siswa.beasiswa)">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Jenis </th>
+                                    <th>Penyelenggara</th>
+                                    <th>Dari Tanggal</th>
+                                    <th>Sampai Tanggal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in siswa.beasiswa">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td scope="row">{{item.jenisbeasiswa}}</td>
+                                    <td scope="row">{{item.penyelenggaraan}}</td>
+                                    <td scope="row">{{item.tahunmulai|date:'dd-MM-yyyy'}}</td>
+                                    <td scope="row">{{item.tahunselesai|date:'dd-MM-yyyy'}}</td>
+                                    <td nowrap>
+                                        <div class="tdaction justify-content-start">
+                                            <a class="btn btn-outline-warning" href="" data-toggle="modal"
+                                                data-target="#modalBeasiswa" ng-click="selectItem(item)"><i
+                                                    class="fa fa-edit fa-1x"></i></a>
+                                            <a class="btn btn-outline-danger" href="" ng-click="delete(5,item)"><i
+                                                    class="fa fa-trash fa-1x"></i></a>
+
+                                        </div>
+                                    </td>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
-                            ng-show="helper.IsBusy"></i>Next</button>
+
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab6" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-muted">Data Persyaratan</h4>
+                        <div> <a class="btn btn-outline-success" data-toggle="modal" data-target="#modalKesejahteraan"
+                                href=""
+                                ng-click="model={idkesejahteraan:0, iccalonsiswa:siswa.idcalonsiswa};title='Tambah Beasiswa'"><i
+                                    class="fa fa-plus-square fa-2x"></i></a>
+                        </div>
+                    </div>
                 </div>
+                <div class="card-body">
+                    <form ng-submit="save(6,siswa.persyaratan">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Persyaratan </th>
+                                    <th>Berkas</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in siswa.detailpersyaratan">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td scope="row">{{item.persyaratan}}</td>
+                                    <td scope="row">
+                                        <fileinput model="item.file" filename="item.berkas" showview="false"
+                                            persyaratan="item" name="item.idpersyaratan">
+                                        </fileinput>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
@@ -281,13 +415,18 @@
             <div class="modal-body">
                 <form ng-submit="addPrestasi(model)">
                     <div class="form-group">
-                        <label class="col-form-label">Penyelenggara</label>
-                        <input ng-model="model.penyelenggaraan" type="text" class="form-control">
+                        <label class="col-form-label">Nama Prestasi</label>
+                        <input ng-model="model.namaprestasi" type="text" class="form-control">
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Jenis Prestasi</label>
                         <input ng-model="model.jenisprestasi" type="text" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Penyelenggara</label>
+                        <input ng-model="model.penyelenggaraan" type="text" class="form-control">
+                    </div>
+
 
                     <div class="form-group">
                         <label class="col-form-label">Tingkat</label>
@@ -297,12 +436,52 @@
                     </div>
                     <div class="form-group">
                         <label class="col-form-label">Tahun</label>
-                        <input ng-model="model.tahun" type="text" class="form-control">
+                        <input ng-model="model.tahun" date-input type="date" class="form-control">
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" data-dismiss="modal" class="btn btn-primary"><i
+                                class=" fa fa-spinner fa-spin" ng-show="helper.IsBusy"></i>Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalBeasiswa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Beasiswa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="addKesejahteraan(model)">
+                    <div class="form-group">
+                        <label class="col-form-label">Jenis Beasiswa</label>
+                        <input ng-model="model.jenisbeasiswa" type="text" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Nama Prestasi</label>
-                        <input ng-model="model.namaprestasi" type="text" class="form-control">
+                        <label class="col-form-label">Penyelenggara</label>
+                        <input ng-model="model.penyelenggaraan" type="text" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Berlaku Dari Tanggal</label>
+                        <input ng-model="model.tahunmulai" date-input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Beraku Hingga Tanggal</label>
+                        <input ng-model="model.tahunselesai" date-input type="date" class="form-control">
+                    </div>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -314,6 +493,52 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div class="modal fade" id="modalKesejahteraan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kesejahteraan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="addKesejahteraan(model)">
+                    <div class="form-group">
+                        <label class="col-form-label">Nomor</label>
+                        <input ng-model="model.nomor" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Jenis Kesejahteraan</label>
+                        <input ng-model="model.jeniskesejahteraan" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Berlaku Dari Tanggal</label>
+                        <input ng-model="model.daritahun" date-input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Beraku Hingga Tanggal</label>
+                        <input ng-model="model.sampaitahun" date-input type="date" class="form-control">
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                ng-show="helper.IsBusy"></i>Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

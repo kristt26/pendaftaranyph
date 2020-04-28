@@ -25,14 +25,34 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 
 function informasiController($scope, $state) {}
 function pengumumanController($scope, $state) {}
-function daftarController($scope, $state, CalonSiswaService, helperServices, TahunAjaranService, AuthService) {
+function daftarController(
+	$scope,
+	$state,
+	CalonSiswaService,
+	helperServices,
+	TahunAjaranService,
+	AuthService,
+	PersyaratanService
+) {
 	$scope.helper = helperServices;
+	$scope.steppers = [
+		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
+		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
+		{ selected: false, idstepper: 3, name: 'Prestasi', complete: false },
+		{ selected: false, idstepper: 4, name: 'Kesejahteraan', complete: false },
+		{ selected: false, idstepper: 5, name: 'Beasiswa', complete: false },
+		{ selected: false, idstepper: 6, name: 'Berkas', complete: false },
+		{ selected: false, idstepper: 7, name: 'Selesai', complete: false }
+	];
+
 	TahunAjaranService.get().then((result) => {
 		$scope.taActive = result.find((x) => x.status);
 		if (AuthService.userIsLogin()) {
 			$scope.helper.IsBusy = true;
 			AuthService.profile().then((profile) => {
 				CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
+					setLastSteper(x);
+
 					if (!x.orangtua) x.orangtua = [];
 					if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
 						x.orangtua.push({
@@ -57,6 +77,28 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 						});
 					$scope.siswa = x;
 					$scope.helper.IsBusy = false;
+
+					PersyaratanService.get().then((persyaratan) => {
+						var step = $scope.steppers.find((x) => x.idstepper == 6);
+						step.complete = true;
+						persyaratan.forEach((item) => {
+							var data = $scope.siswa.detailpersyaratan.find(
+								(x) => x.idpersyaratan == item.idpersyaratan
+							);
+							if (!data) {
+								step.complete = false;
+								$scope.siswa.detailpersyaratan.push({
+									iddetailpersyaratan: 0,
+									idcalonsiswa: x.idcalonsiswa,
+									idpersyaratan: item.idpersyaratan,
+									berkas: null,
+									persyaratan: item.persyaratan
+								});
+							} else {
+								data.persyaratan = item.persyaratan;
+							}
+						});
+					});
 				});
 			});
 		} else {
@@ -70,14 +112,6 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 		}
 	});
 
-	$scope.steppers = [
-		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
-		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
-		{ selected: false, idstepper: 3, name: 'Prestasi', complete: false },
-		{ selected: false, idstepper: 4, name: 'Kesejahteraan', complete: false },
-		{ selected: false, idstepper: 5, name: 'Selesai', complete: false }
-	];
-
 	$scope.select = (id) => {
 		$scope.steppers.forEach((element) => {
 			element.selected = false;
@@ -86,9 +120,34 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 	};
 
 	$scope.addPrestasi = (model) => {
-		if (!$scope.siswa.prestasi) $scope.siswa.prestasi = [];
+		if (!$scope.siswa.prestasi) {
+			$scope.siswa.prestasi = [];
+		}
+		if (!model.idprestasi || model.idprestasi <= 0) {
+			$scope.siswa.prestasi.push(model);
+		}
+	};
 
-		$scope.siswa.prestasi.push(model);
+	$scope.selectItem = (model) => {
+		$scope.model = model;
+	};
+
+	$scope.addKesejahteraan = (model) => {
+		if (!$scope.siswa.kesejahteraan) {
+			$scope.siswa.kesejahteraan = [];
+		}
+		if (!model.idkesejahteraan || model.idkesejahteraan <= 0) {
+			$scope.siswa.kesejahteraan.push(model);
+		}
+	};
+
+	$scope.addBeasiswa = (model) => {
+		if (!$scope.siswa.beasiswa) {
+			$scope.siswa.beasiswa = [];
+		}
+		if (!model.idbeasiswa || model.idbeasiswa <= 0) {
+			$scope.siswa.beasiswa.push(model);
+		}
 	};
 
 	$scope.save = (idstepper, model) => {
@@ -111,7 +170,23 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 				break;
 
 			case 3:
-				CalonSiswaService.addPrestasi(model).then((x) => {});
+				CalonSiswaService.addPrestasi(model).then((x) => {
+					next(idstepper);
+					$scope.helper.IsBusy = false;
+				});
+				break;
+			case 4:
+				CalonSiswaService.addKesejahteraan(model).then((x) => {
+					next(idstepper);
+					$scope.helper.IsBusy = false;
+				});
+				break;
+
+			case 5:
+				CalonSiswaService.addBeasiswa(model).then((x) => {
+					next(idstepper);
+					$scope.helper.IsBusy = false;
+				});
 				break;
 
 			default:
@@ -122,20 +197,65 @@ function daftarController($scope, $state, CalonSiswaService, helperServices, Tah
 	function next(id) {
 		$scope.steppers.forEach((element) => {
 			element.selected = false;
-			if (element.idstepper == id) element.complete = true;
-
-			if (element.idstepper == id + 1) element.selected = true;
+			if (element.idstepper == id) {
+				element.complete = true;
+				element.selected = false;
+			}
+			if (element.idstepper == id + 1) {
+				element.selected = true;
+			}
 		});
 		setTimeout(() => {
 			var tabName = '#tab' + (id + 1).toString();
 			$('#myTab a[data-target="' + tabName + '"]').tab('show');
-		}, 200);
+		}, 300);
 	}
 
-	function saveCalonSiswa(id, model) {
-		if (model.idcalonsiswa <= 0) {
-			SiswaService;
-		}
+	function setLastSteper(x) {
+		$scope.steppers.forEach((step) => {
+			switch (step.idstepper) {
+				case 1:
+					if (x.idcalonsiswa) {
+						step.complete = true;
+						step.selected = false;
+						next(step.idstepper);
+					}
+					break;
+
+				case 2:
+					if (x.orangtua && x.orangtua.length > 0) {
+						step.complete = true;
+						next(step.idstepper);
+					}
+					break;
+				case 3:
+					if (x.prestasi && x.prestasi.length > 0) {
+						step.complete = true;
+						next(step.idstepper);
+					}
+					break;
+				case 4:
+					if (x.kesejahteraan && x.kesejahteraan.length > 0) {
+						step.complete = true;
+						next(step.idstepper);
+					}
+					break;
+				case 5:
+					if (x.beasiswa && x.beasiswa.length > 0) {
+						step.complete = true;
+						next(step.idstepper);
+					}
+					break;
+				case 6:
+					if (x.detailpersyaratan && x.detailpersyaratan.length > 0) {
+						next(step.idstepper);
+					}
+					break;
+
+				default:
+					break;
+			}
+		});
 	}
 }
 

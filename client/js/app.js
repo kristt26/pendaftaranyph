@@ -88,15 +88,10 @@ angular
 			ngModel.$parsers.push(parser);
 			ngModel.$formatters.push(formatter);
 			function parser(value) {
-				if (dateTestRegex.test(value) && !isNaN(Date.parse(value))) {
-					// Input value passes basic date format tests. Parse and store Date.
+				if (!isNaN(Date.parse(value))) {
 					value = new Date(value);
-					ngModel.$setValidity('textDate', true);
-				} else {
-					value = null;
-					ngModel.$setValidity('textDate', false);
 				}
-				// Return value to store in model.
+
 				return value;
 			}
 			function formatter(value) {

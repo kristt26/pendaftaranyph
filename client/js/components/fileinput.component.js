@@ -1,16 +1,17 @@
 angular.module('app.fileinput.conponent', []).component('fileinput', {
 	bindings: {
 		model: '=',
-		showview: '<',
-		height: '<',
-		width: '<',
-		idname: '<',
-		src: '<'
+		filename: '=',
+		persyaratan: '=',
+		showview: '@',
+		height: '@',
+		width: '@',
+		name: '=',
+		src: '@'
 	},
-	controller: function($scope) {
-		$scope.fileName = 'test';
+	controller: function($scope, CalonSiswaService) {
 		setTimeout((x) => {
-			var inp = document.getElementById($scope.$ctrl.idname);
+			var inp = document.getElementById('data' + $scope.$ctrl.name);
 			inp.addEventListener('change', function(e) {
 				var files = e.target.files;
 				var f = files[0];
@@ -20,9 +21,13 @@ angular.module('app.fileinput.conponent', []).component('fileinput', {
 					reader.readAsDataURL(f);
 					reader.onload = function(xx) {
 						$scope.$apply((x) => {
-							$scope.$ctrl.fileName = f.name;
 							var data = reader.result.split(',');
-							$scope.$ctrl.model = data[1];
+							//$scope.$ctrl.model = data[1];
+							$scope.$ctrl.persyaratan.file = data[1];
+							CalonSiswaService.addBerkas($scope.$ctrl.persyaratan).then((x) => {
+								$scope.$ctrl.filename = x.berkas;
+								$scope.$ctrl.persyaratan.iddetailpersyaratan = x.iddetailpersyaratan;
+							});
 						});
 					};
 					reader.onerror = function(error) {
@@ -39,7 +44,7 @@ angular.module('app.fileinput.conponent', []).component('fileinput', {
 		};
 
 		$scope.openFile = function() {
-			var inp = document.getElementById($scope.$ctrl.idname);
+			var inp = document.getElementById('data' + $scope.$ctrl.name);
 			inp.click();
 		};
 	},

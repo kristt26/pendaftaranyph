@@ -71,40 +71,29 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.addBeasiswa = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/beasiswa';
-		if (!model.idbeasiswa) {
-			$http({
-				method: 'Post',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					service.siswa.beasiswa.push(response.data);
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		} else {
-			$http({
-				method: 'PUT',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					//update Item
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		}
+		model.forEach((element) => {
+			element.idcalonsiswa = service.siswa.idcalonsiswa;
+		});
 
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				response.data.forEach((item) => {
+					var ortu = service.siswa.beasiswa.find((x) => x.idbeasiswa == item.idbeasiswa);
+					ortu = item;
+				});
+				service.siswa.beasiswa = response.data;
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
 		return def.promise;
 	};
 
@@ -116,43 +105,25 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			element.idcalonsiswa = service.siswa.idcalonsiswa;
 		});
 
-		if (!model[0].idorangtua) {
-			$http({
-				method: 'Post',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					response.data.forEach((item) => {
-						ortu = service.siswa.orangtua.find((x) => x.jenisorangtua == item.jenisprestasi);
-						ortu.idorangtua = item.idorangtua;
-					});
-					service.siswa.orangtua = response.data;
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		} else {
-			$http({
-				method: 'PUT',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					//update Item
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		}
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				response.data.forEach((item) => {
+					var ortu = service.siswa.orangtua.find((x) => x.jenisorangtua == item.jenisorangtua);
+					ortu = item;
+				});
+				service.siswa.orangtua = response.data;
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
 
 		return def.promise;
 	};
@@ -160,39 +131,30 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.addKesejahteraan = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/kesejahteraan';
-		if (!model.idorangtua) {
-			$http({
-				method: 'Post',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					service.siswa.kesejahteraan.push(response.data);
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		} else {
-			$http({
-				method: 'PUT',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					//update Item
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		}
+		model.forEach((element) => {
+			element.idcalonsiswa = service.siswa.idcalonsiswa;
+		});
+
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				response.data.forEach((item) => {
+					var kesejahteraan = service.siswa.kesejahteraan.find(
+						(x) => x.idkesejahteraan == item.idkesejahteraan
+					);
+					kesejahteraan = item;
+				});
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
 
 		return def.promise;
 	};
@@ -201,9 +163,36 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		var def = $q.defer();
 		var url = helperServices.url + '/api/prestasi';
 
-		if (!model.idcalonsiswa) model.idcalonsiswa = service.idcalonsiswa;
+		model.forEach((element) => {
+			element.idcalonsiswa = service.siswa.idcalonsiswa;
+		});
 
-		if (!model.idprestasi) {
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				response.data.forEach((item) => {
+					var prestasi = service.siswa.prestasi.find((x) => x.idprestasi == item.idprestasi);
+					prestasi = item;
+				});
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
+
+		return def.promise;
+	};
+
+	service.addBerkas = function(model) {
+		var def = $q.defer();
+		var url = helperServices.url + '/api/berkas';
+		if (!model.iddetailpersyaratan) {
 			$http({
 				method: 'Post',
 				url: url,
@@ -211,8 +200,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				data: model
 			}).then(
 				(response) => {
-					service.siswa.prestasi.push(response.data);
-					def.resolve(response.data);
+					service.siswa = response.data;
 				},
 				(err) => {
 					message.error(err.data);
@@ -227,13 +215,6 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				data: model
 			}).then(
 				(response) => {
-					//update Item
-					var data = service.siswa.prestasi.find((x) => (x.idprestasi = model.idprestasi));
-					data.tahun = model.tahun;
-					data.tingkat = model.tingkat;
-					data.namaprestasi = model.namaprestasi;
-					data.jenisprestasi = model.jenisprestasi;
-					data.penyelengaraan = model.penyelengaraan;
 					def.resolve(response.data);
 				},
 				(err) => {
@@ -242,7 +223,6 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				}
 			);
 		}
-
 		return def.promise;
 	};
 
