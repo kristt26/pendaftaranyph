@@ -38,7 +38,8 @@ class Content_Model extends CI_Model
             $data['idcontent'] = $this->db->insert_id();
             return $data;
         } catch (IMySQLException $th) {
-            
+            $model = $th->getErrorMessage();
+            throw new Exception($model['error']['message']);
         }
     }
     public function update($data)
