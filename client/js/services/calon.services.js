@@ -192,37 +192,20 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.addBerkas = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/berkas';
-		if (!model.iddetailpersyaratan) {
-			$http({
-				method: 'Post',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					service.siswa = response.data;
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		} else {
-			$http({
-				method: 'PUT',
-				url: url,
-				headers: AuthService.getHeader(),
-				data: model
-			}).then(
-				(response) => {
-					def.resolve(response.data);
-				},
-				(err) => {
-					message.error(err.data);
-					def.reject(err);
-				}
-			);
-		}
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				def.reject(err);
+			}
+		);
 		return def.promise;
 	};
 

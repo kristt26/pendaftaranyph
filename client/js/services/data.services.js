@@ -8,18 +8,7 @@ angular
 function ContentService($http, $q, message, AuthService, helperServices) {
 	var url = helperServices.url + '/api/content';
 	var service = {
-		instance: true,
-		Items: [
-			{
-				idcontent: 1,
-				title: 'Pelaksanaan Test',
-				type: 'pengumuman',
-				content:
-					'<h5>Pengumuman</h5> <p> Kegunaan dan Fungsi Blog Ada banyak alasan mengapa orang atau perusahaan menggunakan blog. Sebagai contoh, Anda suka memelihara anjing dan ingin membagikan hobi serta kisah yang dimiliki ke audience di internet. Atau Anda sedang mempelajari efek kurang tidur dan ingin menuliskan hasil serta kesimpulan yang ditemukan. Atau mungkin Anda adalah seorang pebisnis dan ingin menawarkan produk yang dimiliki dengan menuliskannya di blog demi meningkatkan awareness dari audience yang lebih besar. Selain tentang alasan pembuatan blog, ada juga yang bertanya apakah benar kita bisa memperoleh penghasilan dengan mengonlinekan blog? Sama seperti website atau jurnal, blog juga memiliki struktur yang tidak kaku. Hal ini dikarenakan blog menawarkan berbagai macam desain dan bentuk, terlebih adanya update secara berkala. Namun, ada fitur yang standar dan terstruktur yang akan Anda sadari ketika membuka dan membaca blog.	</p>',
-				publish: true,
-				created: new Date()
-			}
-		]
+		Items: []
 	};
 
 	service.get = function() {
@@ -104,6 +93,12 @@ function ContentService($http, $q, message, AuthService, helperServices) {
 
 	service.post = function(param) {
 		var def = $q.defer();
+
+		if (!param.idcontent) {
+			param.idcontent = 0;
+			param.created = new Date();
+		}
+
 		$http({
 			method: 'Post',
 			url: url,
