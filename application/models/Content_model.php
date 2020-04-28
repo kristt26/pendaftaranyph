@@ -58,6 +58,7 @@ class Content_Model extends CI_Model
             ];
             $this->db->where('idcontent', $data['idcontent']);
             $this->db->update('content', $item);
+            $this->db->trans_commit();
             return $data;
         } catch (\Throwable $th) {
             $this->db->trans_rollback();
