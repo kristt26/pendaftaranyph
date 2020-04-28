@@ -12,6 +12,7 @@ class OrangTua_model extends CI_Model
                 $item = [
                     'nik' => $value['nik'],
                     'tahunlahir' => $value['tahunlahir'],
+                    'nama'=>$value['nama'],
                     'berkebutuhankhusus' => $value['berkebutuhankhusus'],
                     'pekerjaan' => $value['pekerjaan'],
                     'pendidikan' => $value['pendidikan'],
