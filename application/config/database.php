@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'smaypkdiaspora.sch.id',
+	'hostname' => 'localhost',
 	'username' => 'u9045941_root',
 	'password' => '26031988@Aj',
 	'database' => 'u9045941_pendaftaran',

@@ -6,7 +6,8 @@ angular
 	.controller('adminInformasiController', adminInformasiController)
 	.controller('adminTahunAjaranController', adminTahunAjaranController)
 	.controller('adminPersyaratanController', adminPersyartanController)
-	.controller('adminHomeController', adminHomeController);
+	.controller('adminHomeController', adminHomeController)
+	.controller('adminSiswaDetailController', adminSiswaDetailController);
 
 function adminController($scope, $state, AuthService) {
 	if (!AuthService.userIsLogin()) {
@@ -66,10 +67,67 @@ function adminPersyartanController($scope, message, PersyaratanService, helperSe
 		);
 	};
 }
-function adminSiswaController($scope, message, CalonSiswaService, helperServices) {
+function adminSiswaController($scope, message, CalonSiswaService, helperServices, $state) {
 	$scope.helper = helperServices;
 	$scope.helper.IsBusy = true;
 	CalonSiswaService.get().then(
+		(result) => {
+			$scope.source = result;
+			$scope.helper.IsBusy = false;
+		},
+		(err) => {
+			$scope.helper.IsBusy = false;
+		}
+	);
+	$scope.stringnumber = (number) => {
+		var str = '' + number;
+		while (str.length < 3) {
+			str = '0' + str;
+		}
+		return str;
+	}
+
+
+	$scope.edit = (model) => {
+		$scope.model = angular.copy(model);
+		$scope.model.tanggallahir = new Date(model.tanggallahir);
+		$scope.title = 'Edit Siswa';
+	};
+	$scope.detail = (model) => {
+		$state.go("admin-detailsiswa", { id: model.idcalonsiswa }, { reload: true });
+	};
+	$scope.save = (model) => {
+		$scope.helper.IsBusy = true;
+		CalonSiswaService.saveCalonSiswa(model).then(
+			(x) => {
+				$scope.helper.IsBusy = false;
+				message.info('Data Berhasil Disimpan');
+			},
+			(err) => {
+				$scope.helper.IsBusy = false;
+				message.error('Data Gagal Disimpan');
+			}
+		);
+	};
+
+	$scope.delete = (item) => {
+		message.dialog().then(
+			(x) => {
+				SiswaService.delete(item.idsiswa).then((x) => {
+					message.info('Data Berhasil Dihapus');
+				});
+			},
+			(err) => {
+				message.error('Data Gagal Dihapus');
+			}
+		);
+	};
+}
+
+function adminSiswaDetailController($scope, message, CalonSiswaService, helperServices, $stateParams) {
+	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
+	CalonSiswaService.getById($stateParams.id).then(
 		(result) => {
 			$scope.source = result;
 			$scope.helper.IsBusy = false;
@@ -84,32 +142,11 @@ function adminSiswaController($scope, message, CalonSiswaService, helperServices
 		$scope.model.tanggallahir = new Date(model.tanggallahir);
 		$scope.title = 'Edit Siswa';
 	};
-	$scope.save = (model) => {
-		$scope.helper.IsBusy = true;
-		if (model.idsiswa) {
-			SiswaService.put(model).then(
-				(x) => {
-					$scope.helper.IsBusy = false;
-					message.info('Data Berhasil Disimpan');
-				},
-				(err) => {
-					$scope.helper.IsBusy = false;
-					message.error('Data Gagal Disimpan');
-				}
-			);
-		} else {
-			SiswaService.post(model).then(
-				(result) => {
-					$scope.helper.IsBusy = false;
-					message.info('Data Berhasil Disimpan');
-				},
-				(err) => {
-					$scope.helper.IsBusy = false;
-					message.error('Data Gagal Disimpan');
-				}
-			);
-		}
+	$scope.view = (model) => {
+		$scope.File = helperServices.url + '/client/berkas/' + model.berkas;
+		$('#ViewDocument').modal('show');
 	};
+
 
 	$scope.delete = (item) => {
 		message.dialog().then(
@@ -284,4 +321,4 @@ function adminTahunAjaranController($scope, message, TahunAjaranService, helperS
 	};
 }
 
-function adminHomeController($scope, $state, AuthService) {}
+function adminHomeController($scope, $state, AuthService) { }

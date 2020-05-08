@@ -17,6 +17,12 @@ angular.module('admin.router', [ 'ui.router' ]).config(function($stateProvider, 
 			controller: 'adminSiswaController',
 			templateUrl: './client/views/admin/siswa.html'
 		})
+		.state('admin-detailsiswa', {
+			url: '/siswadetail/:id',
+			parent: 'admin',
+			controller: 'adminSiswaDetailController',
+			templateUrl: './client/views/admin/siswadetail.html'
+		})
 		.state('admin-ta', {
 			url: '/tahunajaran',
 			parent: 'admin',
