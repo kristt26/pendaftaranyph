@@ -12,7 +12,7 @@
                     BELUM DIBUKA
                 </button>
                 <a ui-sref="guest-daftar" ng-if="taActive" class="btn btn-outline-success">
-                    DAFTAR SEKARANG
+                    DAFTAR
                 </a>
             </div>
         </div>
@@ -21,14 +21,17 @@
             <div class="card-body bg-primary">
                 <p class="card-text">INFORMASI</p>
             </div>
-            <ul class="list-group list-group-flush" ng-repeat="item in informasi">
-                <li class="list-group-item"><a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+            <ul class="list-group list-group-flush" ng-repeat="item in informasi | limitTo:5">
+                <li class="list-group-item">
+                    <div class="listblog">
+                        <a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+                        <p>{{item.created|date:'dd-MM-yyyy hh:ss'}}</p>
+                    </div>
                 </li>
 
             </ul>
             <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a ui-sref="guest-informasi" class="card-link">More</a>
             </div>
         </div>
         <hr />
@@ -36,13 +39,16 @@
             <div class="card-body bg-warning">
                 <h5 class="card-title">PENGUMUMAN</h5>
             </div>
-            <ul class="list-group list-group-flush" ng-repeat="item in pengumuman">
-                <li class="list-group-item"><a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+            <ul class="list-group list-group-flush" ng-repeat="item in pengumuman | limitTo:5">
+                <li class="list-group-item">
+                    <div class="listblog">
+                        <a ui-sref="guest-detail({id:item.idcontent})">{{item.title}}</a>
+                        <p>{{item.created|date:'dd-MM-yyyy hh:ss'}}</p>
+                    </div>
                 </li>
             </ul>
             <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <a ui-sref="guest-pengumuman" class="card-link">More ...</a>
             </div>
         </div>
 
@@ -62,6 +68,6 @@
     }
 
     a:hover {
-        color: white;
+        color: rgb(136, 208, 245);
     }
 </style>

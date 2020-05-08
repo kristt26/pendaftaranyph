@@ -11,8 +11,8 @@ function guestController($scope, $state) {}
 
 function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 	ContentService.get().then((result) => {
-		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman');
-		$scope.informasi = result.filter((x) => x.type == 'informasi');
+		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman' && x.publish);
+		$scope.informasi = result.filter((x) => x.type == 'informasi' && x.publish);
 		var info = angular.copy(result[0]);
 		info.content = $sce.trustAsHtml(info.content);
 		$scope.selectedContent = info;
@@ -23,8 +23,23 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 	});
 }
 
-function informasiController($scope, $state) {}
-function pengumumanController($scope, $state) {}
+function informasiController($scope, $state, helperServices, ContentService) {
+	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
+	ContentService.get().then((result) => {
+		$scope.helper.IsBusy = false;
+		$scope.source = result.filter((x) => x.type == 'informasi' && x.publish);
+	});
+}
+
+function pengumumanController($scope, $state, helperServices, ContentService) {
+	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
+	ContentService.get().then((result) => {
+		$scope.helper.IsBusy = false;
+		$scope.source = result.filter((x) => x.type == 'pengumuman' && x.publish);
+	});
+}
 function daftarController(
 	$scope,
 	$state,
@@ -35,6 +50,7 @@ function daftarController(
 	PersyaratanService
 ) {
 	$scope.helper = helperServices;
+
 	$scope.steppers = [
 		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
 		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
@@ -48,6 +64,7 @@ function daftarController(
 	TahunAjaranService.get().then((result) => {
 		$scope.taActive = result.find((x) => x.status);
 		if (AuthService.userIsLogin()) {
+			$scope.showContent = false;
 			$scope.helper.IsBusy = true;
 			AuthService.profile().then((profile) => {
 				CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
@@ -98,6 +115,7 @@ function daftarController(
 								data.persyaratan = item.persyaratan;
 							}
 						});
+						$scope.showContent = true;
 					});
 				});
 			});
@@ -109,13 +127,17 @@ function daftarController(
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Wali' });
+			$scope.showContent = true;
 		}
 	});
 
 	$scope.select = (id) => {
 		$scope.steppers.forEach((element) => {
 			element.selected = false;
-			if (element.idstepper == id) element.selected = true;
+			if (element.idstepper == id) {
+				element.selected = true;
+				$scope.selectedSteperText = element.name;
+			}
 		});
 	};
 
@@ -203,6 +225,7 @@ function daftarController(
 			}
 			if (element.idstepper == id + 1) {
 				element.selected = true;
+				$scope.selectedSteperText = element.name;
 			}
 		});
 		setTimeout(() => {
@@ -251,8 +274,10 @@ function daftarController(
 						next(step.idstepper);
 					}
 					break;
-
 				default:
+					if (x.detailpersyaratan && x.detailpersyaratan.length > 0) {
+						step.complete = true;
+					}
 					break;
 			}
 		});

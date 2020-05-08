@@ -102,52 +102,56 @@ td {
     flex-wrap: nowrap;
     justify-content: center;
     margin: auto;
-    height: 100px;
+    height: 50px;
     width: 50%;
     align-items: center;
 
     .stepper-item {
         width: 20%;
-        border-radius: 5px;
-        background: #efeff6;
-        box-shadow: 9px 9px 18px #d4d3d3;
         margin: 2px;
-        padding: 15px;
         font-size: 15px;
-        height: 50px;
-        color: rgb(195, 195, 195);
-        .stepper-node {
-            text-align: center;
-            margin: auto;
+        height: 15px;
+        width: 100%;
+        button {
+            border-radius: 5px;
+            background: #e0e0e0;
+            box-shadow: 9px 9px 18px #d4d3d3;
+            width: 100%;
+            height: 100%;
         }
     }
 
     .stepper-selected {
         margin-left: 5px;
         margin-right: 5px;
-        padding: 18px;
-        background-color: #25d5f2 !important;
-        height: 60px;
-        a {
-            color: white !important;
+        height: 18px;
+        button {
+            background-color: #25d5f2 !important;
         }
     }
     .stepper-complete {
-        background-color: #2ec551;
-        a {
-            color: white !important;
+        margin-left: 5px;
+        margin-right: 5px;
+        button {
+            background-color: #2ec551;
         }
     }
 }
-
-#content-left {
-}
-
-#content-right {
+.listblog {
+    a {
+        font-size: 15px;
+    }
+    p {
+        font-size: 11px;
+    }
 }
 
 .fa-spinner {
     margin: 2px;
+}
+
+.page-body {
+    min-height: 75vh;
 }
 
 @media screen and (max-width: 600px) {

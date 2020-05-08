@@ -10,6 +10,8 @@ angular.module('app.fileinput.conponent', []).component('fileinput', {
 		src: '@'
 	},
 	controller: function($scope, CalonSiswaService) {
+		$scope.$ctrl.src = '';
+
 		setTimeout((x) => {
 			var inp = document.getElementById('data' + $scope.$ctrl.name);
 			inp.addEventListener('change', function(e) {
