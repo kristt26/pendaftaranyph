@@ -137,15 +137,21 @@ td {
         }
     }
 }
-
-#content-left {
-}
-
-#content-right {
+.listblog {
+    a {
+        font-size: 15px;
+    }
+    p {
+        font-size: 11px;
+    }
 }
 
 .fa-spinner {
     margin: 2px;
+}
+
+.page-body {
+    min-height: 75vh;
 }
 
 @media screen and (max-width: 600px) {

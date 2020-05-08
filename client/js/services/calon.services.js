@@ -3,8 +3,31 @@ angular.module('calon.service', []).factory('CalonSiswaService', CalonSiswaServi
 function CalonSiswaService($http, $q, message, AuthService, helperServices, StorageService) {
 	var service = {};
 	service.siswa = {};
+	service.Items = {};
 
-	service.get;
+	service.get = () => {
+		var def = $q.defer();
+		var url = helperServices.url + '/api/calonsiswa';
+		if (service.instance) {
+		} else {
+			$http({
+				method: 'Get',
+				url: url,
+				headers: AuthService.getHeader()
+			}).then(
+				(response) => {
+					service.Items = response.data;
+					def.resolve(service.Items);
+				},
+				(err) => {
+					message.error(err.data);
+					def.reject(err);
+				}
+			);
+		}
+
+		return def.promise;
+	};
 
 	service.getById = (id) => {
 		var def = $q.defer();

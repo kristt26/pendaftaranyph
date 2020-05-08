@@ -11,8 +11,8 @@ function guestController($scope, $state) {}
 
 function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 	ContentService.get().then((result) => {
-		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman');
-		$scope.informasi = result.filter((x) => x.type == 'informasi');
+		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman' && x.publish);
+		$scope.informasi = result.filter((x) => x.type == 'informasi' && x.publish);
 		var info = angular.copy(result[0]);
 		info.content = $sce.trustAsHtml(info.content);
 		$scope.selectedContent = info;
@@ -23,8 +23,23 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 	});
 }
 
-function informasiController($scope, $state) {}
-function pengumumanController($scope, $state) {}
+function informasiController($scope, $state, helperServices, ContentService) {
+	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
+	ContentService.get().then((result) => {
+		$scope.helper.IsBusy = false;
+		$scope.source = result.filter((x) => x.type == 'informasi' && x.publish);
+	});
+}
+
+function pengumumanController($scope, $state, helperServices, ContentService) {
+	$scope.helper = helperServices;
+	$scope.helper.IsBusy = true;
+	ContentService.get().then((result) => {
+		$scope.helper.IsBusy = false;
+		$scope.source = result.filter((x) => x.type == 'pengumuman' && x.publish);
+	});
+}
 function daftarController(
 	$scope,
 	$state,

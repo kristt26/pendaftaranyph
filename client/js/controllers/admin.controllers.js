@@ -9,9 +9,9 @@ angular
 	.controller('adminHomeController', adminHomeController);
 
 function adminController($scope, $state, AuthService) {
-	// if (!AuthService.userIsLogin()) {
-	// 	$state.go('login');
-	// }
+	if (!AuthService.userIsLogin()) {
+		$state.go('login');
+	}
 }
 
 function adminPersyartanController($scope, message, PersyaratanService, helperServices) {
@@ -66,13 +66,18 @@ function adminPersyartanController($scope, message, PersyaratanService, helperSe
 		);
 	};
 }
-function adminSiswaController($scope, message, SiswaService, helperServices) {
+function adminSiswaController($scope, message, CalonSiswaService, helperServices) {
 	$scope.helper = helperServices;
 	$scope.helper.IsBusy = true;
-	SiswaService.get().then((result) => {
-		$scope.source = result;
-		$scope.helper.IsBusy = false;
-	});
+	CalonSiswaService.get().then(
+		(result) => {
+			$scope.source = result;
+			$scope.helper.IsBusy = false;
+		},
+		(err) => {
+			$scope.helper.IsBusy = false;
+		}
+	);
 
 	$scope.edit = (model) => {
 		$scope.model = angular.copy(model);
@@ -133,7 +138,7 @@ function adminPengumumanController($scope, message, ContentService, helperServic
 	};
 	$scope.save = (model) => {
 		$scope.helper.IsBusy = true;
-		if (model.idpegawai) {
+		if (model.idcontent) {
 			ContentService.put(model).then(
 				(x) => {
 					$scope.helper.IsBusy = false;
@@ -186,7 +191,7 @@ function adminInformasiController($scope, ContentService, message, helperService
 	};
 	$scope.save = (model) => {
 		$scope.helper.IsBusy = true;
-		if (model.idpegawai) {
+		if (model.idcontent) {
 			ContentService.put(model).then(
 				(x) => {
 					$scope.helper.IsBusy = false;

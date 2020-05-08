@@ -151,8 +151,20 @@ td .btn {
   background-color: #2ec551;
 }
 
+.listblog a {
+  font-size: 15px;
+}
+
+.listblog p {
+  font-size: 11px;
+}
+
 .fa-spinner {
   margin: 2px;
+}
+
+.page-body {
+  min-height: 75vh;
 }
 
 @media screen and (max-width: 600px) {
