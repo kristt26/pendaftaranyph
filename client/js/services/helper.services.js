@@ -31,6 +31,11 @@ function helperServices($location) {
 	service.pekerjaan = [ 'Pegawai', 'Petani', 'Guru' ];
 	service.pendidikan = [ 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3' ];
 	service.semester = [ '1', '2' ];
+	service.agama = ['Islam', 'Kristen', 'Khatolik', 'Hindu', 'Budha', 'Konghuchu'];
+	service.kewarganegaraan = ['WNI', 'WNA'];
+	service.statusdalamkeluarga = ['Anak', 'Famili lain'];
+	service.golongandarah = ['A', 'A+', 'B', 'B+', 'AB', 'AB+', 'O', 'O+'];
+	service.statussmp = ['Negeri', 'Swasta'];
 
 	service.pendapatan = [ '> 1000000', '> 200000', '> 3000000' ];
 	service.tahunlahir = range(1930, 2010);
