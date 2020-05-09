@@ -7,7 +7,8 @@
 }
 
 .siswa {
-    padding: 30px;
+    width: 100%;
+
     text-align: center;
 
     .siswa-logo {
@@ -39,6 +40,26 @@
         a {
             width: 30%;
             padding: 20px;
+        }
+    }
+
+    .siswa-biodata {
+        width: 100%;
+        .siswa-biodata-body {
+            width: 100%;
+            text-align: start;
+            .form-group {
+                display: flex;
+                justify-content: flex-start;
+                padding-left: 10px;
+                label {
+                    width: 30%;
+                    text-align: start;
+                }
+                input {
+                    width: 60%;
+                }
+            }
         }
     }
 }

@@ -8,12 +8,21 @@
                 <p class="card-text text-light">PENDAFTARAN</p>
             </div>
             <div class="card-body text-center">
-                <button ng-if="!taActive" class="btn btn-outline-danger">
-                    BELUM DIBUKA
-                </button>
-                <a ui-sref="guest-daftar" ng-if="taActive" class="btn btn-outline-success">
-                    DAFTAR
-                </a>
+                <div ng-show="showMenu">
+                    <a ng-show="daftarComplete" ui-sref="siswa-home" class="btn btn-outline-success">
+                        <p>PROFILE</p>
+                    </a>
+
+                    <button ng-if="!taActive" class="btn btn-outline-danger">
+                        BELUM DIBUKA
+                    </button>
+
+                    <a ng-show="taActive && daftarComplete==false" ui-sref="guest-daftar"
+                        class="btn btn-outline-success">
+                        <p>DAFTAR</p>
+                    </a>
+                </div>
+
             </div>
         </div>
         <hr />
