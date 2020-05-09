@@ -19,6 +19,7 @@ class OrangTua_model extends CI_Model
                     'penghasilan' => $value['penghasilan'],
                     'jenisorangtua' => $value['jenisorangtua'],
                     'idcalonsiswa' => $value['idcalonsiswa'],
+                    'pekerjaan' => $value['pekerjaan']
                 ];
                 if ($value['idorangtua'] == 0) {
                     $this->db->insert('orangtua', $item);
@@ -51,6 +52,7 @@ class OrangTua_model extends CI_Model
                 'penghasilan' => $value->penghasilan,
                 'jenisorangtua' => $value->jenisorangtua,
                 'idcalonsiswa' => $value->idcalonsiswa,
+                'pekerjaan' => $value->pekerjaan
             ];
             $this->db->where('idorangtua', $value->idorangtua);
             $this->db->update('orangtua', $item);

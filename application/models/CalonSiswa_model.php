@@ -57,36 +57,57 @@ class CalonSiswa_Model extends CI_Model
                 'iduser' => $result[0]->iduser,
                 'idtahunajaran' => $result[0]->idtahunajaran,
                 'jurusan' => $result[0]->jurusan,
-                'status' => $result[0]->status=="1" ? "Lulus": $result[0]->status=="0" ? "Tidak Lulus":null,
-                'orangtua' => $orangtua,
-                'beasiswa' => $beasiswa,
+                'status' => $result[0]->status == "1" ? "Lulus" : $result[0]->status == "0" ? "Tidak Lulus" : null,
+                'nisn' => $result[0]->nisn,
+                'nik' => $result[0]->nik,
+                'agama' => $result[0]->agama,
+                'kewarganegaraan' => $result[0]->kewarganegaraan,
+                'statusdalamkeluarga' => $result[0]->statusdalamkeluarga,
+                'anakke' => $result[0]->anakke,
+                'jumlahsaudarakandung' => $result[0]->jumlahsaudarakandung,
+                'alamat' => $result[0]->alamat,
+                'beratbadan' => $result[0]->beratbadan,
+                'tinggibadan' => $result[0]->tinggibadan,
+                'golongandarah' => $result[0]->golongandarah,
+                'asalsuku' => $result[0]->asalsuku,
+                'asalsekolah' => $result[0]->asalsekolah,
+                'alamatsmp' => $result[0]->alamatsmp,
+                'statussmp' => $result[0]->statussmp,
+                'tahunlulus' => $result[0]->tahunlulus,
+                'email' => $result[0]->email,
                 'kesejahteraan' => $kesejahteraan,
                 'detailpersyaratan' => $detailpersyaratan,
                 'prestasi' => $prestasi,
-                'nilai' => $nilai
+                'nilai' => $nilai,
             ];
             if ($biodata) {
 
                 return (array) $biodata;
             } else {
                 return [];
-            }   
+            }
 
         } else {
             $result = $this->db->query("
             SELECT
-                *
+            `calonsiswa`.*
             FROM
             `calonsiswa`
+            LEFT JOIN `tahunajaran` ON `tahunajaran`.`idtahunajaran` =
+                `calonsiswa`.`idtahunajaran`
+            WHERE
+            `tahunajaran`.`status` = 1
             ");
             $data = $result->result_array();
             foreach ($data as $key => $value) {
-                if($value['status']=="1")
-                $data[$key]['status'] = "Lulus";
-                else if($value['status']=="0")
-                $data[$key]['status'] = "Tidak Lulus";
-                else
-                $data[$key]['status'] = null;
+                if ($value['status'] == "1") {
+                    $data[$key]['status'] = "Lulus";
+                } else if ($value['status'] == "0") {
+                    $data[$key]['status'] = "Tidak Lulus";
+                } else {
+                    $data[$key]['status'] = null;
+                }
+
             }
             return $data;
         }
@@ -109,7 +130,24 @@ class CalonSiswa_Model extends CI_Model
             'asalsekolah' => $data['asalsekolah'],
             "iduser" => $iduser,
             'idtahunajaran' => $data['idtahunajaran'],
-            'jurusan' => $data['jurusan']
+            'jurusan' => $data['jurusan'],
+            'nisn' => $data["nisn"],
+            'nik' => $data["nik"],
+            'agama' => $data["agama"],
+            'kewarganegaraan' => $data["kewarganegaraan"],
+            'statusdalamkeluarga' => $data["statusdalamkeluarga"],
+            'anakke' => $data["anakke"],
+            'jumlahsaudarakandung' => $data["jumlahsaudarakandung"],
+            'alamat' => $data["alamat"],
+            'beratbadan' => $data["beratbadan"],
+            'tinggibadan' => $data["tinggibadan"],
+            'golongandarah' => $data["golongandarah"],
+            'asalsuku' => $data["asalsuku"],
+            'asalsekolah' => $data["asalsekolah"],
+            'alamatsmp' => $data["alamatsmp"],
+            'statussmp' => $data["statussmp"],
+            'tahunlulus' => $data["tahunlulus"],
+            'email' => $data["email"]
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
@@ -136,9 +174,26 @@ class CalonSiswa_Model extends CI_Model
             "iduser" => $data['iduser'],
             'idtahunajaran' => $data['idtahunajaran'],
             'jurusan' => $data['jurusan'],
-            'status'=> $data['status']==="Lulus" ? 1 : $data['status']==="Tidak Lulus" ? 0: null
+            'status' => $data['status'] === "Lulus" ? 1 : $data['status'] === "Tidak Lulus" ? 0 : null,
+            'nisn' => $data["nisn"],
+            'nik' => $data["nik"],
+            'agama' => $data["agama"],
+            'kewarganegaraan' => $data["kewarganegaraan"],
+            'statusdalamkeluarga' => $data["statusdalamkeluarga"],
+            'anakke' => $data["anakke"],
+            'jumlahsaudarakandung' => $data["jumlahsaudarakandung"],
+            'alamat' => $data["alamat"],
+            'beratbadan' => $data["beratbadan"],
+            'tinggibadan' => $data["tinggibadan"],
+            'golongandarah' => $data["golongandarah"],
+            'asalsuku' => $data["asalsuku"],
+            'asalsekolah' => $data["asalsekolah"],
+            'alamatsmp' => $data["alamatsmp"],
+            'statussmp' => $data["statussmp"],
+            'tahunlulus' => $data["tahunlulus"],
+            'email' => $data["email"]
         ];
-        $item["status"] = $data['status']==="Lulus" ? 1 : 0;
+        $item["status"] = $data['status'] === "Lulus" ? 1 : 0;
         $this->db->trans_begin();
         $this->db->where('idcalonsiswa', $data['idcalonsiswa']);
         $this->db->update('calonsiswa', $item);
