@@ -18,6 +18,10 @@ class CalonSiswa_Model extends CI_Model
             $kesejahteraan = [];
             $prestasi = [];
             $detailpersyaratan = [];
+            $nilai = [];
+            $itemnilai = $this->db->query("SELECT * FROM `nilai` WHERE idcalonsiswa='$idcalonsiswa'");
+            $nilai = $itemnilai->result_array();
+            $nilai = $nilai[0];
             $itembeasiswa = $this->db->query("
             SELECT
             *
@@ -59,6 +63,7 @@ class CalonSiswa_Model extends CI_Model
                 'kesejahteraan' => $kesejahteraan,
                 'detailpersyaratan' => $detailpersyaratan,
                 'prestasi' => $prestasi,
+                'nilai' => $nilai
             ];
             if ($biodata) {
 
