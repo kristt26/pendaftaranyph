@@ -73,6 +73,8 @@ class CalonSiswa_Model extends CI_Model
                 'statussmp' => $result[0]->statussmp,
                 'tahunlulus' => $result[0]->tahunlulus,
                 'email' => $result[0]->email,
+                'orangtua' => $orangtua,
+                'beasiswa' => $beasiswa,
                 'kesejahteraan' => $kesejahteraan,
                 'detailpersyaratan' => $detailpersyaratan,
                 'prestasi' => $prestasi,
