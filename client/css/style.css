@@ -7,7 +7,7 @@
 }
 
 .siswa {
-  padding: 30px;
+  width: 100%;
   text-align: center;
 }
 
@@ -42,6 +42,34 @@
 .siswa .siswa-download a {
   width: 30%;
   padding: 20px;
+}
+
+.siswa .siswa-biodata {
+  width: 100%;
+}
+
+.siswa .siswa-biodata .siswa-biodata-body {
+  width: 100%;
+  text-align: start;
+}
+
+.siswa .siswa-biodata .siswa-biodata-body .form-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.siswa .siswa-biodata .siswa-biodata-body .form-group label {
+  width: 30%;
+  text-align: start;
+}
+
+.siswa .siswa-biodata .siswa-biodata-body .form-group input {
+  width: 60%;
 }
 
 .navbar-brand {

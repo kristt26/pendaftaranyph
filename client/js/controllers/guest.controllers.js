@@ -7,9 +7,16 @@ angular
 	.controller('daftarController', daftarController)
 	.controller('detailController', detailController);
 
-function guestController($scope, $state) {}
+function guestController($scope, $state, AuthService, TahunAjaranService, CalonSiswaService) {}
 
-function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
+function guestHomeController($scope, ContentService, $sce, TahunAjaranService, CalonSiswaService, AuthService) {
+	$scope.daftarComplete = false;
+	$scope.showMenu = false;
+
+	setTimeout(() => {
+		$scope.showMenu = true;
+	}, 3000);
+
 	ContentService.get().then((result) => {
 		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman' && x.publish);
 		$scope.informasi = result.filter((x) => x.type == 'informasi' && x.publish);
@@ -19,6 +26,18 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService) {
 
 		TahunAjaranService.get().then((result) => {
 			$scope.taActive = result.find((x) => x.status);
+			if (AuthService.userIsLogin()) {
+				AuthService.profile().then((profile) => {
+					CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
+						if (!x.detailpersyaratan || x.detailpersyaratan.length <= 0) {
+							$state.go('guest-daftar');
+						} else {
+							$scope.daftarComplete = true;
+						}
+						$scope.showMenu = true;
+					});
+				});
+			}
 		});
 	});
 }
