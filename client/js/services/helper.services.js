@@ -35,6 +35,7 @@ function helperServices($location) {
 	service.pendapatan = [ '> 1000000', '> 200000', '> 3000000' ];
 	service.tahunlahir = range(1930, 2010);
 
+
 	function range(start, end) {
 		var ans = [];
 		for (let i = start; i <= end; i++) {
@@ -42,6 +43,8 @@ function helperServices($location) {
 		}
 		return ans;
 	}
+
+	
 
 	return service;
 }

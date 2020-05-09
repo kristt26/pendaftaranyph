@@ -115,4 +115,8 @@ $route['api/persyaratan']['post'] = 'Persyaratan/Simpan';
 $route['api/persyaratan']['put'] = 'Persyaratan/ubah';
 $route['api/persyaratan/:num']['delete'] = 'Persyaratan/Hapus';
 
+/**
+ * Nilai
+ */
 
+$route['api/nilai']['post'] = 'Nilai/simpan';

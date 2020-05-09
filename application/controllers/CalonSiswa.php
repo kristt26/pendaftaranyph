@@ -14,7 +14,7 @@ class CalonSiswa extends \Restserver\Libraries\REST_Controller
 
     public function GetSiswa_get()
     {
-        $output = $this->CalonSiswa_model->select(isset($_GET) ? $_GET['idcalonsiswa'] : false);
+        $output = $this->CalonSiswa_model->select(isset($_GET['idcalonsiswa']) ? $_GET['idcalonsiswa'] : false);
         $this->response($output, REST_Controller::HTTP_OK);
 
     }
