@@ -38,32 +38,36 @@
 
                         <div class="form-group">
                             <label>NISN </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.nisn" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>NIK SISWA </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.nik" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Jurusan Pilihan </label>
+                            <input ng-model="model.jurusan" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Agama </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.agama" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Kewarganegaraan </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.kewarganegaraan" type="text" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label>Status Dalam Keluarga </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.statusdalamkeluarga" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Anak Ke </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.anakke" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Jumlah Saudara Kandung </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.jumlahsaudarakandung" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Alamat </label>
@@ -79,19 +83,19 @@
                         </div>
                         <div class="form-group">
                             <label>Berat Badan </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.beratbadan" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Tinggi Badan </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.tinggibadan" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Golongan Darah </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.golongandarah" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Asal Suku </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.asalsuku" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Alamat SMP </label>
@@ -99,15 +103,15 @@
                         </div>
                         <div class="form-group">
                             <label>Status SMP </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.statussmp" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Tahun Lulus </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.tahunlulus" type="text" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Email Siswa </label>
-                            <input ng-model="model.tidakAda" type="text" class="form-control">
+                            <input ng-model="model.email" type="text" class="form-control">
                         </div>
 
                     </div>
@@ -232,8 +236,8 @@
                             <tbody>
                                 <tr ng-repeat="beasiswa in model.beasiswa">
                                     <td scope="row">{{$index+1}}</td>
-                                    <td>{{beasiswa.jeniskesejahteraan}}</td>
-                                    <td>{{beasiswa.nomor}}</td>
+                                    <td>{{beasiswa.jenisbeasiswa}}</td>
+                                    <td>{{beasiswa.penyelenggaraan}}</td>
                                     <td>{{beasiswa.tahunmulai}}</td>
                                     <td>{{beasiswa.tahunselesai}}</td>
                                 </tr>
