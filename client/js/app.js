@@ -102,6 +102,60 @@ angular
 				return value;
 			}
 		}
+	})
+	.directive('numberInput', function() {
+		return {
+			restrict: 'A',
+			require: 'ngModel',
+			link: textNumberLink
+		};
+
+		function textNumberLink(scope, element, attributes, ngModel) {
+			// Simple date regex to accept YYYY/MM/DD formatted dates.
+			ngModel.$parsers.push(parser);
+			ngModel.$formatters.push(formatter);
+			function parser(value) {
+				if (value) {
+					return typeof value === 'string' ? parseInt(value) : typeof value === 'number' ? value : 0;
+				} else {
+					return 0;
+				}
+			}
+			function formatter(value) {
+				if (value) {
+					return typeof value === 'string' ? parseInt(value) : typeof value === 'number' ? value : 0;
+				} else {
+					return 0;
+				}
+			}
+		}
+	})
+	.directive('decimalInput', function() {
+		return {
+			restrict: 'A',
+			require: 'ngModel',
+			link: textDecimalLink
+		};
+
+		function textDecimalLink(scope, element, attributes, ngModel) {
+			// Simple date regex to accept YYYY/MM/DD formatted dates.
+			ngModel.$parsers.push(parser);
+			ngModel.$formatters.push(formatter);
+			function parser(value) {
+				if (value) {
+					return typeof value === 'string' ? parseFloat(value) : typeof value === 'number' ? value : 0;
+				} else {
+					return 0;
+				}
+			}
+			function formatter(value) {
+				if (value) {
+					return typeof value === 'string' ? parseFloat(value) : typeof value === 'number' ? value : 0;
+				} else {
+					return 0;
+				}
+			}
+		}
 	});
 
 function homeController($scope, AuthService) {

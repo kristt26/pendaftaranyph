@@ -9,13 +9,17 @@ angular
 
 function guestController($scope, $state, AuthService, TahunAjaranService, CalonSiswaService) {}
 
-function guestHomeController($scope, ContentService, $sce, TahunAjaranService, CalonSiswaService, AuthService) {
+function detailController($scope, $stateParams, $sce, ContentService) {
+	ContentService.getById($stateParams.id).then((result) => {
+		var info = angular.copy(result);
+		info.content = $sce.trustAsHtml(info.content);
+		$scope.model = info;
+	});
+}
+
+function guestHomeController($scope, ContentService, $sce, $state, TahunAjaranService, CalonSiswaService, AuthService) {
 	$scope.daftarComplete = false;
 	$scope.showMenu = false;
-
-	setTimeout(() => {
-		$scope.showMenu = true;
-	}, 3000);
 
 	ContentService.get().then((result) => {
 		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman' && x.publish);
@@ -28,15 +32,14 @@ function guestHomeController($scope, ContentService, $sce, TahunAjaranService, C
 			$scope.taActive = result.find((x) => x.status);
 			if (AuthService.userIsLogin()) {
 				AuthService.profile().then((profile) => {
-					CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
-						if (!x.detailpersyaratan || x.detailpersyaratan.length <= 0) {
-							$state.go('guest-daftar');
-						} else {
-							$scope.daftarComplete = true;
-						}
-						$scope.showMenu = true;
-					});
+					if (profile.biodata.statusselesai != '0') $state.go('guest-daftar');
+					else {
+						$scope.daftarComplete = true;
+					}
 				});
+				$scope.showMenu = true;
+			} else {
+				$scope.showMenu = true;
 			}
 		});
 	});
@@ -63,6 +66,7 @@ function pengumumanController($scope, $state, helperServices, ContentService) {
 function daftarController(
 	$scope,
 	$state,
+	message,
 	CalonSiswaService,
 	helperServices,
 	TahunAjaranService,
@@ -84,7 +88,6 @@ function daftarController(
 	TahunAjaranService.get().then((result) => {
 		$scope.taActive = result.find((x) => x.status);
 		if (AuthService.userIsLogin()) {
-			$scope.showContent = false;
 			$scope.helper.IsBusy = true;
 			AuthService.profile().then((profile) => {
 				CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
@@ -133,7 +136,6 @@ function daftarController(
 								data.persyaratan = item.persyaratan;
 							}
 						});
-						$scope.showContent = true;
 					});
 					setTimeout(() => {
 						setLastSteper(x);
@@ -166,31 +168,48 @@ function daftarController(
 		if (!$scope.siswa.prestasi) {
 			$scope.siswa.prestasi = [];
 		}
-		if (!model.idprestasi || model.idprestasi <= 0) {
+		if (!model.edit) {
 			$scope.siswa.prestasi.push(model);
 		}
+		model = {};
+	};
+	$scope.deletePrestasi = (model) => {
+		var index = $scope.siswa.prestasi.indexOf(model);
+		$scope.siswa.prestasi.splice(index, 1);
 	};
 
 	$scope.selectItem = (model) => {
 		$scope.model = model;
+		$scope.model.edit = true;
 	};
 
 	$scope.addKesejahteraan = (model) => {
 		if (!$scope.siswa.kesejahteraan) {
 			$scope.siswa.kesejahteraan = [];
 		}
-		if (!model.idkesejahteraan || model.idkesejahteraan <= 0) {
+		if (!model.edit) {
 			$scope.siswa.kesejahteraan.push(model);
 		}
+		model = {};
+	};
+	$scope.deleteKesejahteraan = (model) => {
+		var index = $scope.siswa.kesejahteraan.indexOf(model);
+		$scope.siswa.kesejahteraan.splice(index, 1);
 	};
 
 	$scope.addBeasiswa = (model) => {
 		if (!$scope.siswa.beasiswa) {
 			$scope.siswa.beasiswa = [];
 		}
-		if (!model.idbeasiswa || model.idbeasiswa <= 0) {
+		if (!model.edit) {
 			$scope.siswa.beasiswa.push(model);
 		}
+		model = {};
+	};
+
+	$scope.deleteBeasiswa = (model) => {
+		var index = $scope.siswa.beasiswa.indexOf(model);
+		$scope.siswa.beasiswa.splice(index, 1);
 	};
 
 	$scope.save = (idstepper, model) => {
@@ -199,37 +218,72 @@ function daftarController(
 		switch (idstepper) {
 			case 1:
 				model.idtahunajaran = $scope.taActive.idtahunajaran;
-				CalonSiswaService.saveCalonSiswa(model).then((x) => {
-					next(idstepper);
-					$scope.helper.IsBusy = false;
-				});
+				if (biodataValid(model))
+					CalonSiswaService.saveCalonSiswa(model).then((x) => {
+						next(idstepper);
+					});
 				break;
 			case 2:
 				CalonSiswaService.saveOrangTua(model).then((x) => {
 					next(idstepper);
-					$scope.helper.IsBusy = false;
 				});
 
 				break;
 
 			case 3:
-				CalonSiswaService.addPrestasi(model).then((x) => {
+				CalonSiswaService.saveNilai(model).then((x) => {
 					next(idstepper);
-					$scope.helper.IsBusy = false;
 				});
 				break;
 			case 4:
-				CalonSiswaService.addKesejahteraan(model).then((x) => {
+				if (model.length > 0) {
+					CalonSiswaService.addPrestasi(model).then((x) => {
+						next(idstepper);
+					});
+				} else {
 					next(idstepper);
-					$scope.helper.IsBusy = false;
-				});
+				}
+				break;
+			case 5:
+				if (model.length > 0) {
+					CalonSiswaService.addKesejahteraan(model).then((x) => {
+						next(idstepper);
+					});
+				} else {
+					next(idstepper);
+				}
 				break;
 
-			case 5:
-				CalonSiswaService.addBeasiswa(model).then((x) => {
+			case 6:
+				if (model.length > 0) {
+					CalonSiswaService.addBeasiswa(model).then((x) => {
+						next(idstepper);
+					});
+				} else {
 					next(idstepper);
-					$scope.helper.IsBusy = false;
+				}
+				break;
+
+			case 7:
+				var completePersyaratan = true;
+				model.forEach((element) => {
+					if (!element.berkas) completePersyaratan = false;
 				});
+
+				if (completePersyaratan) {
+					next(idstepper);
+				} else {
+					message.error('Lengkapi Berkas Persyaratan');
+					$scope.helper.IsBusy = false;
+				}
+				break;
+
+			case 8:
+				if (model) {
+					CalonSiswaService.finish(model.idcalonsiswa).then((x) => {
+						$state.go('siswa-home');
+					});
+				}
 				break;
 
 			default:
@@ -249,10 +303,15 @@ function daftarController(
 				$scope.selectedSteperText = element.name;
 			}
 		});
+		$scope.helper.IsBusy = false;
 		setTimeout(() => {
+			$scope.showContent = true;
 			var tabName = '#tab' + (id + 1).toString();
-			$('#myTab a[data-target="' + tabName + '"]').tab('show');
-		}, 300);
+			$scope.$apply((x) => {
+				//$(tabName).tab('show');
+			});
+			$('#myTab button[data-target="' + tabName + '"]').tab('show');
+		}, 2000);
 	}
 
 	function setLastSteper(x) {
@@ -262,53 +321,64 @@ function daftarController(
 
 			switch (step.idstepper) {
 				case 1:
-					nextSteper = changeStepper(x.idcalonsiswa, step.idstepper);
+					nextSteper = changeStepper(x.idcalonsiswa, step);
 					break;
 				case 2:
-					nextSteper = changeStepper(x.orangtua && x.orangtua.length > 0, step.idstepper);
+					var foundOrtu = false;
+					x.orangtua.forEach((ortu) => {
+						if (ortu.idorangtua > 0) foundOrtu = true;
+					});
+					nextSteper = changeStepper(foundOrtu, step);
 					break;
 				case 3:
-					nextSteper = changeStepper(x.nilai || x.nilai.idnilai > 0, step.idstepper);
+					nextSteper = changeStepper(x.nilai || x.nilai.idnilai > 0, step);
 					break;
 				case 4:
-					nextSteper = changeStepper(x.prestasi && x.prestasi.length > 0, step.idstepper);
+					nextSteper = changeStepper(x.prestasi && x.prestasi.length > 0, step);
 					break;
 				case 5:
-					nextSteper = changeStepper(x.kesejahteraan && x.kesejahteraan.length > 0, step.idstepper);
+					nextSteper = changeStepper(x.kesejahteraan && x.kesejahteraan.length > 0, step);
 					break;
 				case 6:
-					nextSteper = changeStepper(x.beasiswa && x.beasiswa.length > 0, step.idstepper);
+					nextSteper = changeStepper(x.beasiswa && x.beasiswa.length > 0, step);
 					break;
 				case 7:
-					nextSteper = changeStepper(x.detailpersyaratan && x.detailpersyaratan.length > 0, step.idstepper);
+					nextSteper = changeStepper(x.detailpersyaratan && x.detailpersyaratan.length > 0, step);
 					break;
 				default:
-					nextSteper = 7;
+					step.complete = true;
+					step.selected = false;
+					nextSteper = 8;
 					break;
 			}
 
 			if (nextSteper) {
-				next(nextSteper);
+				next(nextSteper - 1);
 				break;
 			}
 		}
 
-		function changeStepper(isTure, steperId) {
+		function changeStepper(isTure, step) {
 			if (isTure) {
 				step.complete = true;
 				step.selected = false;
 				return 0;
 			} else {
-				return steperId;
+				return step.idstepper;
 			}
 		}
 	}
-}
 
-function detailController($scope, $stateParams, $sce, ContentService) {
-	ContentService.getById($stateParams.id).then((result) => {
-		var info = angular.copy(result);
-		info.content = $sce.trustAsHtml(info.content);
-		$scope.model = info;
-	});
+	//validation
+
+	function biodataValid(model) {
+		var valid = true;
+
+		if (model.password !== model.confirm) {
+			message.error('Password Tidak Sama');
+			valid = false;
+		}
+
+		return valid;
+	}
 }

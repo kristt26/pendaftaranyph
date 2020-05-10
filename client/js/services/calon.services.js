@@ -21,6 +21,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				},
 				(err) => {
 					message.error(err.data);
+					helperServices.IsBusy = false;
 					def.reject(err);
 				}
 			);
@@ -43,6 +44,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
@@ -67,6 +69,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				},
 				(err) => {
 					message.error(err.data);
+					helperServices.IsBusy = false;
 					def.reject(err);
 				}
 			);
@@ -83,6 +86,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				},
 				(err) => {
 					message.error(err.data);
+					helperServices.IsBusy = false;
 					def.reject(err);
 				}
 			);
@@ -114,6 +118,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
@@ -126,6 +131,10 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 
 		model.forEach((element) => {
 			element.idcalonsiswa = service.siswa.idcalonsiswa;
+			if (!element.nama) {
+				var index = model.indexOf(element);
+				model.splice(index, 1);
+			}
 		});
 
 		$http({
@@ -144,6 +153,31 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
+				def.reject(err);
+			}
+		);
+
+		return def.promise;
+	};
+
+	service.saveNilai = function(model) {
+		var def = $q.defer();
+		var url = helperServices.url + '/api/nilai';
+
+		$http({
+			method: 'Post',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				service.siswa.nilai = response.data;
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
@@ -175,6 +209,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
@@ -205,6 +240,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
@@ -226,6 +262,28 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			},
 			(err) => {
 				message.error(err.data);
+				helperServices.IsBusy = false;
+				def.reject(err);
+			}
+		);
+		return def.promise;
+	};
+
+	service.finish = function(idcalonsiswa) {
+		var def = $q.defer();
+		var url = helperServices.url + '/api/statusselesai?idcalonsiswa=' + idcalonsiswa;
+		$http({
+			method: 'Get',
+			url: url,
+			headers: AuthService.getHeader(),
+			data: model
+		}).then(
+			(response) => {
+				def.resolve(response.data);
+			},
+			(err) => {
+				message.error(err.data);
+				helperServices.IsBusy = false;
 				def.reject(err);
 			}
 		);
