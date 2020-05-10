@@ -59,6 +59,7 @@ function pengumumanController($scope, $state, helperServices, ContentService) {
 		$scope.source = result.filter((x) => x.type == 'pengumuman' && x.publish);
 	});
 }
+
 function daftarController(
 	$scope,
 	$state,
@@ -69,15 +70,15 @@ function daftarController(
 	PersyaratanService
 ) {
 	$scope.helper = helperServices;
-
 	$scope.steppers = [
 		{ selected: true, idstepper: 1, name: 'Biodata', complete: false },
 		{ selected: false, idstepper: 2, name: 'Orang Tua', complete: false },
-		{ selected: false, idstepper: 3, name: 'Prestasi', complete: false },
-		{ selected: false, idstepper: 4, name: 'Kesejahteraan', complete: false },
-		{ selected: false, idstepper: 5, name: 'Beasiswa', complete: false },
-		{ selected: false, idstepper: 6, name: 'Berkas', complete: false },
-		{ selected: false, idstepper: 7, name: 'Selesai', complete: false }
+		{ selected: false, idstepper: 3, name: 'Nilai', complete: false },
+		{ selected: false, idstepper: 4, name: 'Prestasi', complete: false },
+		{ selected: false, idstepper: 5, name: 'Kesejahteraan', complete: false },
+		{ selected: false, idstepper: 6, name: 'Beasiswa', complete: false },
+		{ selected: false, idstepper: 7, name: 'Berkas', complete: false },
+		{ selected: false, idstepper: 8, name: 'Selesai', complete: false }
 	];
 
 	TahunAjaranService.get().then((result) => {
@@ -87,8 +88,6 @@ function daftarController(
 			$scope.helper.IsBusy = true;
 			AuthService.profile().then((profile) => {
 				CalonSiswaService.getById(profile.biodata.idcalonsiswa).then((x) => {
-					setLastSteper(x);
-
 					if (!x.orangtua) x.orangtua = [];
 					if (!x.orangtua.find((ortu) => ortu.jenisorangtua == 'Ayah'))
 						x.orangtua.push({
@@ -136,6 +135,9 @@ function daftarController(
 						});
 						$scope.showContent = true;
 					});
+					setTimeout(() => {
+						setLastSteper(x);
+					}, 3000);
 				});
 			});
 		} else {
@@ -254,52 +256,52 @@ function daftarController(
 	}
 
 	function setLastSteper(x) {
-		$scope.steppers.forEach((step) => {
+		var nextSteper = 0;
+		for (let index = 0; index < $scope.steppers.length; index++) {
+			var step = $scope.steppers[index];
+
 			switch (step.idstepper) {
 				case 1:
-					if (x.idcalonsiswa) {
-						step.complete = true;
-						step.selected = false;
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.idcalonsiswa, step.idstepper);
 					break;
-
 				case 2:
-					if (x.orangtua && x.orangtua.length > 0) {
-						step.complete = true;
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.orangtua && x.orangtua.length > 0, step.idstepper);
 					break;
 				case 3:
-					if (x.prestasi && x.prestasi.length > 0) {
-						step.complete = true;
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.nilai || x.nilai.idnilai > 0, step.idstepper);
 					break;
 				case 4:
-					if (x.kesejahteraan && x.kesejahteraan.length > 0) {
-						step.complete = true;
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.prestasi && x.prestasi.length > 0, step.idstepper);
 					break;
 				case 5:
-					if (x.beasiswa && x.beasiswa.length > 0) {
-						step.complete = true;
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.kesejahteraan && x.kesejahteraan.length > 0, step.idstepper);
 					break;
 				case 6:
-					if (x.detailpersyaratan && x.detailpersyaratan.length > 0) {
-						next(step.idstepper);
-					}
+					nextSteper = changeStepper(x.beasiswa && x.beasiswa.length > 0, step.idstepper);
+					break;
+				case 7:
+					nextSteper = changeStepper(x.detailpersyaratan && x.detailpersyaratan.length > 0, step.idstepper);
 					break;
 				default:
-					if (x.detailpersyaratan && x.detailpersyaratan.length > 0) {
-						step.complete = true;
-					}
+					nextSteper = 7;
 					break;
 			}
-		});
+
+			if (nextSteper) {
+				next(nextSteper);
+				break;
+			}
+		}
+
+		function changeStepper(isTure, steperId) {
+			if (isTure) {
+				step.complete = true;
+				step.selected = false;
+				return 0;
+			} else {
+				return steperId;
+			}
+		}
 	}
 }
 

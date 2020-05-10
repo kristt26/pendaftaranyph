@@ -22,5 +22,11 @@ angular.module('siswa.router', [ 'ui.router' ]).config(function($stateProvider, 
 			parent: 'siswa',
 			controller: 'siswaPengumumanController',
 			templateUrl: './client/views/siswa/pengumuman.html'
+		})
+		.state('siswa-edit', {
+			url: '/edit',
+			parent: 'siswa',
+			controller: 'daftarController',
+			templateUrl: './client/views/guest/daftar.html'
 		});
 });

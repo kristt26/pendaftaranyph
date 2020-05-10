@@ -3,7 +3,7 @@
         ng-repeat="item in steppers">
         <button ng-click="select(item.idstepper)" ng-disabled="!item.complete"
             ng-class="{'active':$index==0, 'disabled':!item.selected && !item.complete}" id="home-tab" data-toggle="tab"
-            href="" data-target="#tab{{item.idstepper}}" role="tab" aria-controls="home" aria-selected="true"></button>
+            data-target="#tab{{item.idstepper}}" role="tab" aria-controls="home" aria-selected="true"></button>
     </li>
 
 
@@ -89,7 +89,7 @@
                                         <label class="col-form-label">Jumlah Saudara Kandung</label>
                                         <input ng-model="siswa.jumlahsaudarakandung" type="text" class="form-control">
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label class="col-form-label">Suku Asal</label>
                                         <input ng-model="siswa.asalsuku" type="text" class="form-control">
@@ -250,6 +250,35 @@
         <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="messages-tab">
             <div class="card">
                 <div class="card-header bg-info">
+                    <h4> NILAI</h4>
+                </div>
+                <div class="card-body">
+                    <form ng-submit="save(3,siswa.orangtua)">
+                        <div class="card">
+                            <div class="card-header bg-primary">Nilai</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="col-form-label">NILAI UAS</label>
+                                    <input ng-model="item.nama" number-input type="number" class="form-control">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="messages-tab">
+            <div class="card">
+                <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
                         <h4 class="text-muted">Data Prestasi</h4>
                         <div> <a class="btn btn-outline-light" data-toggle="modal" data-target="#modalPrestasi" href=""
@@ -259,7 +288,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form ng-submit="save(3,siswa.prestasi)">
+                    <form ng-submit="save(4,siswa.prestasi)">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -307,7 +336,7 @@
             </div>
 
         </div>
-        <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="settings-tab">
+        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
@@ -320,7 +349,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form ng-submit="save(4,siswa.kesejahteraan)">
+                    <form ng-submit="save(5,siswa.kesejahteraan)">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -367,7 +396,7 @@
 
         </div>
 
-        <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="settings-tab">
+        <div class="tab-pane" id="tab6" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
@@ -380,7 +409,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form ng-submit="save(5,siswa.beasiswa)">
+                    <form ng-submit="save(6,siswa.beasiswa)">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -425,7 +454,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="tab6" role="tabpanel" aria-labelledby="settings-tab">
+        <div class="tab-pane" id="tab7" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
@@ -433,7 +462,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form ng-submit="save(6,siswa.detailpersyaratan)">
+                    <form ng-submit="save(7,siswa.detailpersyaratan)">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -467,7 +496,7 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="tab7" role="tabpanel" aria-labelledby="settings-tab">
+        <div class="tab-pane" id="tab8" role="tabpanel" aria-labelledby="settings-tab">
             <div class="card">
                 <div class="card-header bg-info">
                     <div class="d-flex justify-content-between">
