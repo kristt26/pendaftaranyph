@@ -70,10 +70,14 @@ function adminPersyartanController($scope, message, PersyaratanService, helperSe
 function adminSiswaController($scope, message, CalonSiswaService, helperServices, $state) {
 	$scope.helper = helperServices;
 	$scope.helper.IsBusy = true;
+
 	CalonSiswaService.get().then(
 		(result) => {
 			$scope.source = result;
 			$scope.helper.IsBusy = false;
+			setTimeout(() => {
+				exportTableToExcel();
+			}, 2000);
 		},
 		(err) => {
 			$scope.helper.IsBusy = false;
@@ -85,8 +89,7 @@ function adminSiswaController($scope, message, CalonSiswaService, helperServices
 			str = '0' + str;
 		}
 		return str;
-	}
-
+	};
 
 	$scope.edit = (model) => {
 		$scope.model = angular.copy(model);
@@ -94,7 +97,7 @@ function adminSiswaController($scope, message, CalonSiswaService, helperServices
 		$scope.title = 'Edit Siswa';
 	};
 	$scope.detail = (model) => {
-		$state.go("admin-detailsiswa", { id: model.idcalonsiswa }, { reload: true });
+		$state.go('admin-detailsiswa', { id: model.idcalonsiswa }, { reload: true });
 	};
 	$scope.save = (model) => {
 		$scope.helper.IsBusy = true;
@@ -122,6 +125,41 @@ function adminSiswaController($scope, message, CalonSiswaService, helperServices
 			}
 		);
 	};
+
+	function exportTableToExcel() {
+		var downloadLink;
+		var filename = 'test';
+		var dataType = 'application/vnd.ms-excel';
+		var tableSelect = document.getElementById('tableSiswa');
+		var tableHTML = tableSelect.outerHTML;
+
+		// Specify file name
+		filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+		// Create download link element
+		downloadLink = document.createElement('a');
+		var download = document.getElementById('download');
+		download.appendChild(downloadLink);
+		window.open('data:' + dataType + ',' + encodeURIComponent(tableHTML));
+		// if (navigator.msSaveOrOpenBlob) {
+		// 	var blob = new Blob([ '\ufeff', tableHTML ], {
+		// 		type: dataType
+		// 	});
+		// 	navigator.msSaveOrOpenBlob(blob, filename);
+		// } else {
+		// 	downloadLink.innerHTML = 'Donwload';
+		// 	var blob = new Blob([ '\ufeff', tableHTML ], {
+		// 		type: dataType
+		// 	});
+
+		// 	var reader = new FileReader();
+		// 	reader.readAsDataURL(blob);
+		// 	reader.onloadend = function() {
+		// 		var base64data = reader.result;
+		// 		downloadLink.href = base64data;
+		// 	};
+		// }
+	}
 }
 
 function adminSiswaDetailController($scope, message, CalonSiswaService, helperServices, $stateParams) {
@@ -146,7 +184,6 @@ function adminSiswaDetailController($scope, message, CalonSiswaService, helperSe
 		$scope.File = helperServices.url + '/client/berkas/' + model.berkas;
 		$('#ViewDocument').modal('show');
 	};
-
 
 	$scope.delete = (item) => {
 		message.dialog().then(
@@ -321,4 +358,4 @@ function adminTahunAjaranController($scope, message, TahunAjaranService, helperS
 	};
 }
 
-function adminHomeController($scope, $state, AuthService) { }
+function adminHomeController($scope, $state, AuthService) {}

@@ -95,9 +95,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		return def.promise;
 	};
 
-	service.addBeasiswa = function(model) {
+	service.addBeasiswa = function(model, idcalonsiswa) {
 		var def = $q.defer();
-		var url = helperServices.url + '/api/beasiswa';
+		var url = helperServices.url + '/api/beasiswa/' + idcalonsiswa;
 		model.forEach((element) => {
 			element.idcalonsiswa = service.siswa.idcalonsiswa;
 		});
@@ -185,9 +185,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		return def.promise;
 	};
 
-	service.addKesejahteraan = function(model) {
+	service.addKesejahteraan = function(model, idcalonsiswa) {
 		var def = $q.defer();
-		var url = helperServices.url + '/api/kesejahteraan';
+		var url = helperServices.url + '/api/kesejahteraan/' + idcalonsiswa;
 		model.forEach((element) => {
 			element.idcalonsiswa = service.siswa.idcalonsiswa;
 		});
@@ -217,9 +217,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		return def.promise;
 	};
 
-	service.addPrestasi = function(model) {
+	service.addPrestasi = function(model, idcalonsiswa) {
 		var def = $q.defer();
-		var url = helperServices.url + '/api/prestasi';
+		var url = helperServices.url + '/api/prestasi/' + idcalonsiswa;
 
 		model.forEach((element) => {
 			element.idcalonsiswa = service.siswa.idcalonsiswa;
@@ -275,8 +275,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 		$http({
 			method: 'Get',
 			url: url,
-			headers: AuthService.getHeader(),
-			data: model
+			headers: AuthService.getHeader()
 		}).then(
 			(response) => {
 				def.resolve(response.data);

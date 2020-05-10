@@ -32,7 +32,7 @@ function guestHomeController($scope, ContentService, $sce, $state, TahunAjaranSe
 			$scope.taActive = result.find((x) => x.status);
 			if (AuthService.userIsLogin()) {
 				AuthService.profile().then((profile) => {
-					if (profile.biodata.statusselesai != '0') $state.go('guest-daftar');
+					if (profile.biodata.statusselesai == '0') $state.go('guest-daftar');
 					else {
 						$scope.daftarComplete = true;
 					}
@@ -237,7 +237,7 @@ function daftarController(
 				break;
 			case 4:
 				if (model.length > 0) {
-					CalonSiswaService.addPrestasi(model).then((x) => {
+					CalonSiswaService.addPrestasi(model, $scope.siswa.idcalonsiswa).then((x) => {
 						next(idstepper);
 					});
 				} else {
@@ -246,7 +246,7 @@ function daftarController(
 				break;
 			case 5:
 				if (model.length > 0) {
-					CalonSiswaService.addKesejahteraan(model).then((x) => {
+					CalonSiswaService.addKesejahteraan(model, $scope.siswa.idcalonsiswa).then((x) => {
 						next(idstepper);
 					});
 				} else {
@@ -256,7 +256,7 @@ function daftarController(
 
 			case 6:
 				if (model.length > 0) {
-					CalonSiswaService.addBeasiswa(model).then((x) => {
+					CalonSiswaService.addBeasiswa(model, $scope.siswa.idcalonsiswa).then((x) => {
 						next(idstepper);
 					});
 				} else {
