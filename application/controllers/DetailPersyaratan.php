@@ -27,26 +27,25 @@ class DetailPersyaratan extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             $this->load->library('my_lib');
             $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-            if ((int)$POST['iddetailpersyaratan']!=0) {
+            if ((int) $POST['iddetailpersyaratan'] != 0) {
                 if (isset($POST['file'])) {
                     $itempersyaratan = $this->DetailPersyaratan_model->select($POST['iddetailpersyaratan']);
                     $dirFile = './client/berkas/' . $itempersyaratan['berkas'];
-                    if (unlink($dirFile)) {
-                        $encoded_string = !empty($POST['file']) ? $POST['file'] : 'V2ViZWFzeXN0ZXAgOik=';
-                        $item = $this->my_lib->upload_file($encoded_string);
-                        $item['extension'] = $this->my_lib->mime2ext($item['type']);
-                        $a = $item['extension'];
-                        $file = uniqid() . '.' . $a;
-                        $target_dir = './client/berkas/';
-                        $file_dir = $target_dir . $file;
-                        file_put_contents($file_dir, $item['file']);
-                        $POST['berkas'] = $file;
-                        $Output = $this->DetailPersyaratan_model->update($POST);
-                        if ($Output) {
-                            $this->response($POST, REST_Controller::HTTP_OK);
-                        } else {
-                            $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
-                        }
+                    unlink($dirFile);
+                    $encoded_string = !empty($POST['file']) ? $POST['file'] : 'V2ViZWFzeXN0ZXAgOik=';
+                    $item = $this->my_lib->upload_file($encoded_string);
+                    $item['extension'] = $this->my_lib->mime2ext($item['type']);
+                    $a = $item['extension'];
+                    $file = uniqid() . '.' . $a;
+                    $target_dir = './client/berkas/';
+                    $file_dir = $target_dir . $file;
+                    file_put_contents($file_dir, $item['file']);
+                    $POST['berkas'] = $file;
+                    $Output = $this->DetailPersyaratan_model->update($POST);
+                    if ($Output) {
+                        $this->response($POST, REST_Controller::HTTP_OK);
+                    } else {
+                        $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
                     }
                 } else {
                     $Output = $this->DetailPersyaratan_model->update($POST);

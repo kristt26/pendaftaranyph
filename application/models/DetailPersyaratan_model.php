@@ -28,7 +28,6 @@ class DetailPersyaratan_Model extends CI_Model
     public function update($data)
     {
         $item = [
-            'persyaratan'=>$data['persyaratan'],
             'idcalonsiswa'=> $data['idcalonsiswa'],
             'idpersyaratan'=> $data['idpersyaratan'],
             'berkas'=> $data['berkas']
