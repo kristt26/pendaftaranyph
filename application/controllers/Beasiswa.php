@@ -20,7 +20,7 @@ class Beasiswa extends \Restserver\Libraries\REST_Controller
         if ($is_valid_token['status'] === true) {
             try {
                 $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-                $Output = $this->Beasiswa_model->insert($POST);
+                $Output = $this->Beasiswa_model->insert($POST, $this->uri->segment(3));
                 if ($Output) {
                     $this->response($Output, REST_Controller::HTTP_OK);
                 }else{

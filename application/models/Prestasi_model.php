@@ -2,11 +2,13 @@
 
 class Prestasi_model extends CI_Model
 {
-    public function insert($data)
+    public function insert($data, $idcalonsiswa)
     {
         $this->load->library('Exceptions');
+        $this->load->library('my_lib');
         $this->db->trans_begin();
-        $data = $data;
+        $result = $this->db->query("SELECT * FROM prestasi WHERE idcalonsiswa='$idcalonsiswa'");
+        $dataprestasi = $result->result_array();
         try {
             foreach ($data as $key => $value) {
                 $item = [
@@ -25,6 +27,13 @@ class Prestasi_model extends CI_Model
                 } else {
                     $this->db->where('idprestasi', $value['idprestasi']);
                     $this->db->update('prestasi', $item);
+                }
+            }
+            foreach ($dataprestasi as $key => $value) {
+                $dataitem = $this->my_lib->FindPrestasi($data, $value['idprestasi']);
+                if (is_null($dataitem)) {
+                    $this->db->where('idprestasi', $value['idprestasi']);
+                    $this->db->delete('prestasi');
                 }
             }
             $this->db->trans_commit();

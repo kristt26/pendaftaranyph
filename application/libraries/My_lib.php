@@ -119,4 +119,34 @@ class My_Lib
         $conn->close();
     
     }
+    public function FindBeasiswa($data, $item)
+    {
+        $result = null;
+        foreach ($data as $value) {
+            if($value['idbeasiswa']==$item){
+                $result = $value;
+            }
+        }
+        return $result;
+    }
+    public function FindKesejahteraan($data, $item)
+    {
+        $result = null;
+        foreach ($data as $value) {
+            if($value['idkesejahteraan']==$item){
+                $result = $value;
+            }
+        }
+        return $result;
+    }
+    public function FindPrestasi($data, $item)
+    {
+        $result = null;
+        foreach ($data as $value) {
+            if($value['idprestasi']==$item){
+                $result = $value;
+            }
+        }
+        return $result;
+    }
 }

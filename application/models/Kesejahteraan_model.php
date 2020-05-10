@@ -2,11 +2,13 @@
 
 class Kesejahteraan_model extends CI_Model
 {
-    public function insert($data)
+    public function insert($data, $idcalonsiswa)
     {
         $this->load->library('Exceptions');
+        $this->load->library('my_lib');
         $this->db->trans_begin();
-        $data = $data;
+        $result = $this->db->query("SELECT * FROM kesejahteraan WHERE idcalonsiswa='$idcalonsiswa'");
+        $datakesejahteraan = $result->result_array();
         try {
             foreach ($data as $key => $value) {
                 $item = [
@@ -24,6 +26,13 @@ class Kesejahteraan_model extends CI_Model
                 } else {
                     $this->db->where('idkesejahteraan', $value['idkesejahteraan']);
                     $this->db->update('kesejahteraan', $item);
+                }
+            }
+            foreach ($datakesejahteraan as $key => $value) {
+                $dataitem = $this->my_lib->FindKesejahteraan($data, $value['idkesejahteraan']);
+                if (is_null($dataitem)) {
+                    $this->db->where('idkesejahteraan', $value['idkesejahteraan']);
+                    $this->db->delete('kesejahteraan');
                 }
             }
             $this->db->trans_commit();

@@ -75,12 +75,13 @@ class CalonSiswa_Model extends CI_Model
                     'statussmp' => $result[0]->statussmp,
                     'tahunlulus' => $result[0]->tahunlulus,
                     'email' => $result[0]->email,
+                    'statusselesai' => $result[0]->statusselesai == "1" ? true : false,
                     'orangtua' => $orangtua,
                     'beasiswa' => $beasiswa,
                     'kesejahteraan' => $kesejahteraan,
                     'detailpersyaratan' => $detailpersyaratan,
                     'prestasi' => $prestasi,
-                    'nilai' => $nilai,
+                    'nilai' => $nilai
                 ];
                 return (array) $biodata;
             } else {
@@ -107,7 +108,7 @@ class CalonSiswa_Model extends CI_Model
                 } else {
                     $data[$key]['status'] = null;
                 }
-
+                $data[$key]['statusselesai'] = $value['status'] == "1" ? true: false;
             }
             return $data;
         }

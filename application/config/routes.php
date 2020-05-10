@@ -74,17 +74,17 @@ $route['api/orangtua']['put'] = 'OrangTua/ubah';
 
 // Beasiswa
 $route['api/beasiswa']['get'] = 'Beasiswa/Ambil';
-$route['api/beasiswa']['post'] = 'Beasiswa/Simpan';
+$route['api/beasiswa/:num']['post'] = 'Beasiswa/Simpan';
 $route['api/beasiswa']['put'] = 'Beasiswa/ubah';
 
 // kesejahteraan
 $route['api/kesejahteraan']['get'] = 'Kesejahteraan/Ambil';
-$route['api/kesejahteraan']['post'] = 'Kesejahteraan/Simpan';
+$route['api/kesejahteraan/:num']['post'] = 'Kesejahteraan/Simpan';
 $route['api/kesejahteraan']['put'] = 'Kesejahteraan/ubah';
 
 // prestasi
 $route['api/prestasi']['get'] = 'Prestasi/Ambil';
-$route['api/prestasi']['post'] = 'Prestasi/Simpan';
+$route['api/prestasi/:num']['post'] = 'Prestasi/Simpan';
 $route['api/prestasi']['put'] = 'Prestasi/ubah';
 
 
@@ -120,3 +120,6 @@ $route['api/persyaratan/:num']['delete'] = 'Persyaratan/Hapus';
  */
 
 $route['api/nilai']['post'] = 'Nilai/simpan';
+
+
+$route['api/statusselesai']['get'] = 'Statusselesai/Ambil';
