@@ -19,69 +19,69 @@ class CalonSiswa_Model extends CI_Model
             $prestasi = [];
             $detailpersyaratan = [];
             $nilai = [];
-            $itemnilai = $this->db->query("SELECT * FROM `nilai` WHERE idcalonsiswa='$idcalonsiswa'");
-            $nilai = $itemnilai->result_array();
-            $nilai = $nilai[0];
-            $itembeasiswa = $this->db->query("
+
+            if (count($result) > 0) {
+                $itemnilai = $this->db->query("SELECT * FROM `nilai` WHERE idcalonsiswa='$idcalonsiswa'");
+                $nilai = $itemnilai->result_array();
+                $nilai = count($nilai) > 0 ? $nilai[0] : $nilai;
+                $itembeasiswa = $this->db->query("
             SELECT
             *
             FROM
             `beasiswa`
             WHERE idcalonsiswa='$idcalonsiswa'
             ");
-            $beasiswa = $itembeasiswa->result_array();
-            $itemorangtua = $this->db->query("SELECT * FROM `orangtua` WHERE idcalonsiswa='$idcalonsiswa'");
-            $orangtua = $itemorangtua->result_array();
-            $itemkesejahteraan = $this->db->query("SELECT * FROM `kesejahteraan` WHERE idcalonsiswa='$idcalonsiswa'");
-            $kesejahteraan = $itemkesejahteraan->result_array();
-            $itemprestasi = $this->db->query("SELECT * FROM `prestasi` WHERE idcalonsiswa='$idcalonsiswa'");
-            $prestasi = $itemprestasi->result_array();
-            $itempersyaratan = $this->db->query("SELECT
+                $beasiswa = $itembeasiswa->result_array();
+                $itemorangtua = $this->db->query("SELECT * FROM `orangtua` WHERE idcalonsiswa='$idcalonsiswa'");
+                $orangtua = $itemorangtua->result_array();
+                $itemkesejahteraan = $this->db->query("SELECT * FROM `kesejahteraan` WHERE idcalonsiswa='$idcalonsiswa'");
+                $kesejahteraan = $itemkesejahteraan->result_array();
+                $itemprestasi = $this->db->query("SELECT * FROM `prestasi` WHERE idcalonsiswa='$idcalonsiswa'");
+                $prestasi = $itemprestasi->result_array();
+                $itempersyaratan = $this->db->query("SELECT
                 `detailpersyaratan`.*,
                 `persyaratan`.`persyaratan`
             FROM
                 `detailpersyaratan`
                 LEFT JOIN `persyaratan` ON `persyaratan`.`idpersyaratan` =
                 `detailpersyaratan`.`idpersyaratan` WHERE idcalonsiswa='$idcalonsiswa'");
-            $detailpersyaratan = $itempersyaratan->result_array();
-            $biodata = [
-                'idcalonsiswa' => $result[0]->idcalonsiswa,
-                'nis' => $result[0]->nis,
-                'nama' => $result[0]->nama,
-                'jeniskelamin' => $result[0]->jeniskelamin,
-                'kontak' => $result[0]->kontak,
-                'alamat' => $result[0]->alamat,
-                'tempatlahir' => $result[0]->tempatlahir,
-                'tanggallahir' => $result[0]->tanggallahir,
-                'asalsekolah' => $result[0]->asalsekolah,
-                'iduser' => $result[0]->iduser,
-                'idtahunajaran' => $result[0]->idtahunajaran,
-                'jurusan' => $result[0]->jurusan,
-                'status' => $result[0]->status == "1" ? "Lulus" : $result[0]->status == "0" ? "Tidak Lulus" : null,
-                'nisn' => $result[0]->nisn,
-                'nik' => $result[0]->nik,
-                'agama' => $result[0]->agama,
-                'kewarganegaraan' => $result[0]->kewarganegaraan,
-                'statusdalamkeluarga' => $result[0]->statusdalamkeluarga,
-                'anakke' => $result[0]->anakke,
-                'jumlahsaudarakandung' => $result[0]->jumlahsaudarakandung,
-                'beratbadan' => $result[0]->beratbadan,
-                'tinggibadan' => $result[0]->tinggibadan,
-                'golongandarah' => $result[0]->golongandarah,
-                'asalsuku' => $result[0]->asalsuku,
-                'alamatsmp' => $result[0]->alamatsmp,
-                'statussmp' => $result[0]->statussmp,
-                'tahunlulus' => $result[0]->tahunlulus,
-                'email' => $result[0]->email,
-                'orangtua' => $orangtua,
-                'beasiswa' => $beasiswa,
-                'kesejahteraan' => $kesejahteraan,
-                'detailpersyaratan' => $detailpersyaratan,
-                'prestasi' => $prestasi,
-                'nilai' => $nilai,
-            ];
-            if ($biodata) {
-
+                $detailpersyaratan = $itempersyaratan->result_array();
+                $biodata = [
+                    'idcalonsiswa' => $result[0]->idcalonsiswa,
+                    'nis' => $result[0]->nis,
+                    'nama' => $result[0]->nama,
+                    'jeniskelamin' => $result[0]->jeniskelamin,
+                    'kontak' => $result[0]->kontak,
+                    'alamat' => $result[0]->alamat,
+                    'tempatlahir' => $result[0]->tempatlahir,
+                    'tanggallahir' => $result[0]->tanggallahir,
+                    'asalsekolah' => $result[0]->asalsekolah,
+                    'iduser' => $result[0]->iduser,
+                    'idtahunajaran' => $result[0]->idtahunajaran,
+                    'jurusan' => $result[0]->jurusan,
+                    'status' => $result[0]->status == "1" ? "Lulus" : $result[0]->status == "0" ? "Tidak Lulus" : null,
+                    'nisn' => $result[0]->nisn,
+                    'nik' => $result[0]->nik,
+                    'agama' => $result[0]->agama,
+                    'kewarganegaraan' => $result[0]->kewarganegaraan,
+                    'statusdalamkeluarga' => $result[0]->statusdalamkeluarga,
+                    'anakke' => $result[0]->anakke,
+                    'jumlahsaudarakandung' => $result[0]->jumlahsaudarakandung,
+                    'beratbadan' => $result[0]->beratbadan,
+                    'tinggibadan' => $result[0]->tinggibadan,
+                    'golongandarah' => $result[0]->golongandarah,
+                    'asalsuku' => $result[0]->asalsuku,
+                    'alamatsmp' => $result[0]->alamatsmp,
+                    'statussmp' => $result[0]->statussmp,
+                    'tahunlulus' => $result[0]->tahunlulus,
+                    'email' => $result[0]->email,
+                    'orangtua' => $orangtua,
+                    'beasiswa' => $beasiswa,
+                    'kesejahteraan' => $kesejahteraan,
+                    'detailpersyaratan' => $detailpersyaratan,
+                    'prestasi' => $prestasi,
+                    'nilai' => $nilai,
+                ];
                 return (array) $biodata;
             } else {
                 return [];
@@ -145,7 +145,7 @@ class CalonSiswa_Model extends CI_Model
             'alamatsmp' => $data["alamatsmp"],
             'statussmp' => $data["statussmp"],
             'tahunlulus' => $data["tahunlulus"],
-            'email' => $data["email"]
+            'email' => $data["email"],
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
@@ -189,7 +189,7 @@ class CalonSiswa_Model extends CI_Model
             'alamatsmp' => $data["alamatsmp"],
             'statussmp' => $data["statussmp"],
             'tahunlulus' => $data["tahunlulus"],
-            'email' => $data["email"]
+            'email' => $data["email"],
         ];
         $item["status"] = $data['status'] === "Lulus" ? 1 : 0;
         $this->db->trans_begin();
