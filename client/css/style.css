@@ -242,6 +242,10 @@ td .btn {
   }
 }
 
+.print-header {
+  display: none;
+}
+
 @media print {
   .nav-left-sidebar,
   .page-header,
@@ -254,6 +258,55 @@ td .btn {
   }
   .dashboard-wrapper {
     margin-left: 0px;
+  }
+  .print-header {
+    border-bottom: 1px black solid;
+    padding-bottom: 10px;
+    margin-top: -90px;
+    margin-bottom: 40px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .print-header .sideheader {
+    width: 10%;
+  }
+  .print-header .sideheader img {
+    width: 100%;
+  }
+  .print-header .centerheader {
+    width: 80%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .print-header .centerheader h3, .print-header .centerheader h5 {
+    margin: auto;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  .print-header .centerheader h5 {
+    font-style: italic;
+    padding: 0;
+    line-height: 15px !important;
+  }
+  .breakpage {
+    page-break-after: always;
   }
 }
 /*# sourceMappingURL=style.css.map */

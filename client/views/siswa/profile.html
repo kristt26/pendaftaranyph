@@ -15,6 +15,26 @@
             </div>
         </div>
     </div>
+    <div style="width: 100%; display: flex; justify-content: flex-end; padding-bottom: 20px; margin-right: 20px;">
+        <button class="btn btn-primary" ng-click="print()">Print</button>
+    </div>
+    
+    <div class="col-md-12 print-header">
+        <div class="sideheader">
+            <img src="/client/images/ypk.png" alt="">
+        </div>
+        <div class="centerheader">
+            <h3>YAYASAN PENDIDIKAN KRISTEN</h3>
+            <h3>DINAS PENDIDIKAN, PERPUSTAKAAN DAN ARSIP DAERAH</h3>
+            <h3><b>SMA YPK DIASPORA KOTARAJA</b></h3>
+            <h5>Alamat: Kompleks Pendidikan Kristen Kotaraja Dalam Jayapura Kode Pos 99351</h5>
+            <h5>Email : smaypkdiaspora@gmail.com website: http://smaypkdiaspora.sch.id</h5>
+        </div>
+        <div class="sideheader">
+            <img src="/client/images/depdikbud.png" alt="">
+        </div>
+        <hr/>
+    </div>
     <div class="siswa">
         <div class="siswa-biodata">
             <div class="col-md-12">
@@ -96,6 +116,7 @@
                             <label>Nomor HP/WA </label>
                             <input ng-model="model.kontak" type="text" class="form-control">
                         </div>
+                        
                         <div class="form-group">
                             <label>Nomor Peserta Ujian </label>
                             <input ng-model="model.tidakAda" type="text" class="form-control">
@@ -120,6 +141,7 @@
                             <label>Alamat SMP </label>
                             <input ng-model="model.asalsekolah " type="text" class="form-control">
                         </div>
+                        <div class="breakpage"></div>
                         <div class="form-group">
                             <label>Status SMP </label>
                             <input ng-model="model.statussmp" type="text" class="form-control">
@@ -329,7 +351,7 @@
                             <tbody>
                                 <tr ng-repeat="berkas in model.detailpersyaratan">
                                     <td scope="row">{{$index+1}}</td>
-                                    <td>{{berkas.nama}}</td>
+                                    <td>{{berkas.persyaratan}}</td>
                                     <td><span ng-show="berkas.berkas"> Ada</span> <span ng-show="!berkas.berkas">Tidak
                                             Ada</span></td>
                                 </tr>
@@ -342,6 +364,7 @@
 
     </div>
 </div>
+
 
 
 <style>

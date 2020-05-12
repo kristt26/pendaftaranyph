@@ -24,6 +24,12 @@ function siswaProfileController($scope, AuthService, CalonSiswaService) {
 			});
 		});
 	}
+	$scope.print=()=>{
+		setTimeout(() => {
+			window.print();
+		}, 3000);
+		
+	}
 }
 
 function siswaPengumumanController($scope) {}
