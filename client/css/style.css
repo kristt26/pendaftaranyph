@@ -241,4 +241,19 @@ td .btn {
     width: 90%;
   }
 }
+
+@media print {
+  .nav-left-sidebar,
+  .page-header,
+  #footer,
+  .dashboard-header {
+    display: none !important;
+  }
+  .siswa {
+    display: block;
+  }
+  .dashboard-wrapper {
+    margin-left: 0px;
+  }
+}
 /*# sourceMappingURL=style.css.map */

@@ -20,6 +20,25 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
+                        <h2 class="card-title">PENDAFTARAN</h2>
+                    </div>
+                    <div class="card-body siswa-biodata-body">
+                        <div class="form-group">
+                            <label>NOMOR PENDAFTARAN</label>
+                            <input ng-model="model.idcalonsiswa" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Tahun Ajaran</label>
+                            <input ng-model="model.jeniskelamin" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Daftar</label>
+                            <input ng-model="model.jeniskelamin" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
                         <h2 class="card-title">A. Biodata Siswa</h2>
                     </div>
                     <div class="card-body siswa-biodata-body">
@@ -158,9 +177,55 @@
                     </div>
 
                 </div>
+
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">C. Prestasi Yang Pernah Di Raih</h2>
+                        <h2 class="card-title">C. NILAI</h2>
+                    </div>
+                    <div class="card-body siswa-biodata-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: auto;">No</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th style="width: auto;">Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">1</td>
+                                    <td>Nilai UAS</td>
+                                    <td>{{model.nilai.uas}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">2</td>
+                                    <td>Nilai Bahasa Indonesia</td>
+                                    <td>{{model.nilai.bahasaindonesia}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">3</td>
+                                    <td>Nilai Bahasa Inggris</td>
+                                    <td>{{model.nilai.bahasainggris}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">4</td>
+                                    <td>Nilai Matematika</td>
+                                    <td>{{model.nilai.matematika}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">5</td>
+                                    <td>Nilai IPA</td>
+                                    <td>{{model.nilai.ipa}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">D. Prestasi Yang Pernah Di Raih</h2>
                     </div>
                     <div class="card-body siswa-biodata-body">
                         <table class="table">
@@ -191,7 +256,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">D. Kesejahteraan</h2>
+                        <h2 class="card-title">E. Kesejahteraan</h2>
                     </div>
                     <div class="card-body siswa-biodata-body">
                         <table class="table">
@@ -220,7 +285,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">E. Beasiswa</h2>
+                        <h2 class="card-title">F. Beasiswa</h2>
                     </div>
                     <div class="card-body siswa-biodata-body">
                         <table class="table">
@@ -248,9 +313,11 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">F. Persyaratan</h2>
+                        <h2 class="card-title">G. Persyaratan</h2>
+                        <a data-toggle="collapse" data-target="#collapsePersyaratan" role="button"><i
+                                class="fa fa-angle-double-down"></i></a>
                     </div>
-                    <div class="card-body siswa-biodata-body">
+                    <div class="card-body siswa-biodata-body" id="collapsePersyaratan">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -279,6 +346,7 @@
 
 <style>
     .card-header {
-        text-align: start;
+        display: flex;
+        justify-content: space-between;
     }
 </style>

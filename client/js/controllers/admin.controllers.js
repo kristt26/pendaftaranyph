@@ -126,40 +126,18 @@ function adminSiswaController($scope, message, CalonSiswaService, helperServices
 		);
 	};
 
-	function exportTableToExcel() {
+	$scope.download = () => {
 		var downloadLink;
-		var filename = 'test';
+		var filename = 'calonsiswa';
 		var dataType = 'application/vnd.ms-excel';
 		var tableSelect = document.getElementById('tableSiswa');
 		var tableHTML = tableSelect.outerHTML;
-
-		// Specify file name
 		filename = filename ? filename + '.xls' : 'excel_data.xls';
-
-		// Create download link element
 		downloadLink = document.createElement('a');
 		var download = document.getElementById('download');
 		download.appendChild(downloadLink);
 		window.open('data:' + dataType + ',' + encodeURIComponent(tableHTML));
-		// if (navigator.msSaveOrOpenBlob) {
-		// 	var blob = new Blob([ '\ufeff', tableHTML ], {
-		// 		type: dataType
-		// 	});
-		// 	navigator.msSaveOrOpenBlob(blob, filename);
-		// } else {
-		// 	downloadLink.innerHTML = 'Donwload';
-		// 	var blob = new Blob([ '\ufeff', tableHTML ], {
-		// 		type: dataType
-		// 	});
-
-		// 	var reader = new FileReader();
-		// 	reader.readAsDataURL(blob);
-		// 	reader.onloadend = function() {
-		// 		var base64data = reader.result;
-		// 		downloadLink.href = base64data;
-		// 	};
-		// }
-	}
+	};
 }
 
 function adminSiswaDetailController($scope, message, CalonSiswaService, helperServices, $stateParams) {
