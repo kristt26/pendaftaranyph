@@ -149,4 +149,14 @@ class My_Lib
         }
         return $result;
     }
+    public function RandomString()
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randstring = '';
+        for ($i = 0; $i < 5; $i++) {
+            $randstring = $randstring.$characters[rand(0, strlen($characters))];
+        }
+        return $randstring;
+    }
+
 }

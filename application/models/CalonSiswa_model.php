@@ -76,6 +76,7 @@ class CalonSiswa_Model extends CI_Model
                     'tahunlulus' => $result[0]->tahunlulus,
                     'email' => $result[0]->email,
                     'statusselesai' => $result[0]->statusselesai == "1" ? true : false,
+                    'nomorpendaftaran' => $result[0]->nomorpendaftaran,
                     'orangtua' => $orangtua,
                     'beasiswa' => $beasiswa,
                     'kesejahteraan' => $kesejahteraan,
@@ -115,11 +116,14 @@ class CalonSiswa_Model extends CI_Model
     }
     public function insert($data)
     {
+        $this->load->library('my_lib');
         $this->db->trans_begin();
         $pass = md5($data['password']);
         $user = $data['username'];
         $this->db->query("INSERT INTO user values('','$user', '$pass','true')");
         $iduser = $this->db->insert_id();
+        $tahunajaran = $this->db->query("SELECT * from tahunajaran WHERE status = '1'");
+        $tahun = $tahunajaran->result_array();
         $item = [
             'nis' => $data['nis'],
             'nama' => $data['nama'],
@@ -147,6 +151,8 @@ class CalonSiswa_Model extends CI_Model
             'statussmp' => $data["statussmp"],
             'tahunlulus' => $data["tahunlulus"],
             'email' => $data["email"],
+            'nomorpendaftaran' =>  $tahun[0]['tahunajaran'].$this->my_lib->RandomString()
+
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
