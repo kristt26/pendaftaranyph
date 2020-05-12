@@ -1,7 +1,7 @@
 <div style="margin-bottom: 10px;" ng-init="Init()">
     <div ng-show="$ctrl.showview=='false'" class="input-group mb-3">
-        <input id="{{'data'+$ctrl.name}}" style="display: none;" type="file">
-        <input ng-model="$ctrl.filename" type="text" class="form-control" placeholder="Pilih File">
+        <input name="{{'data'+$ctrl.name}}" id="{{'data'+$ctrl.name}}" style="display: none;" type="file">
+        <input name="dataInput" ng-model="$ctrl.filename" type="text" class="form-control" placeholder="Pilih File">
         <div class="input-group-append">
             <a class="input-group-text" ng-click="openFile()">File</a>
             <a class="input-group-text" ng-show="$ctrl.filename" target="_blank"

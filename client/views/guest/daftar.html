@@ -54,31 +54,30 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Jenis Kelamin</label>
-                                        <select class="form-control" required ng-model="siswa.jeniskelamin"
+                                        <select class="form-control" ng-model="siswa.jeniskelamin"
                                             ng-options="item as item for item in helper.genders">
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-form-label">Alamat</label>
-                                        <textarea required ng-model="siswa.alamat" class="form-control"
-                                            id="message-text"></textarea>
+                                        <textarea required ng-model="siswa.alamat" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Agama</label>
-                                        <select class="form-control" required ng-model="siswa.agama"
+                                        <select class="form-control" ng-model="siswa.agama"
                                             ng-options="item as item for item  in helper.agama">
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Kewarganegaraan</label>
-                                        <select class="form-control" required ng-model="siswa.kewarganegaraan"
+                                        <select class="form-control" ng-model="siswa.kewarganegaraan"
                                             ng-options="item as item for item  in helper.kewarganegaraan">
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Status dalam Keluarga</label>
-                                        <select class="form-control" required ng-model="siswa.statusdalamkeluarga"
+                                        <select class="form-control" ng-model="siswa.statusdalamkeluarga"
                                             ng-options="item as item for item  in helper.statusdalamkeluarga">
                                         </select>
                                     </div>
@@ -113,7 +112,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Golongan Darah</label>
-                                        <select class="form-control" required ng-model="siswa.golongandarah"
+                                        <select class="form-control" ng-model="siswa.golongandarah"
                                             ng-options="item as item for item  in helper.golongandarah">
                                         </select>
                                     </div>
@@ -123,12 +122,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Alamat SMP</label>
-                                        <textarea required ng-model="siswa.alamatsmp" class="form-control"
-                                            id="message-text"></textarea>
+                                        <textarea required ng-model="siswa.alamatsmp" class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Status SMP</label>
-                                        <select class="form-control" required ng-model="siswa.statussmp"
+                                        <select class="form-control" ng-model="siswa.statussmp"
                                             ng-options="item as item for item  in helper.statussmp">
                                         </select>
                                     </div>
@@ -142,13 +140,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="col-form-label">Jurusan Pilihan</label>
-                                        <select class="form-control" required ng-model="siswa.jurusan"
+                                        <select class="form-control" ng-model="siswa.jurusan"
                                             ng-options="item as item for item  in helper.jurusan">
                                         </select>
                                     </div>
 
 
-                                    <div style="margin-top: 30px;" ng-show="!siswa.idcalonsiswa">
+                                    <div style="margin-top: 30px;" ng-if="!siswa.idcalonsiswa">
                                         <h3>Data Akun</h3>
                                         <div class="form-group">
                                             <label class="col-form-label">User Name</label>
@@ -171,7 +169,6 @@
                         </div>
 
                         <div class="card-body">
-
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
                                         ng-show="helper.IsBusy"></i>NEXT</button>
@@ -209,19 +206,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label">Pekerjaan</label>
-                                    <select class="form-control" required ng-model="item.pekerjaan"
+                                    <select class="form-control" ng-model="item.pekerjaan"
                                         ng-options="item as item for item in helper.pekerjaan">
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label">Pendidikan</label>
-                                    <select class="form-control" required ng-model="item.pendidikan"
+                                    <select class="form-control" ng-model="item.pendidikan"
                                         ng-options="item as item for item in helper.pendidikan">
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label">Penghasilan Orang Tua</label>
-                                    <select class="form-control" required ng-model="item.penghasilan"
+                                    <select class="form-control" ng-model="item.penghasilan"
                                         ng-options="item as item for item in helper.pendapatan">
                                     </select>
                                 </div>
@@ -502,7 +499,7 @@
                                     <td scope="row">{{item.persyaratan}}</td>
                                     <td scope="row">
                                         <fileinput filename="item.berkas" name="item.idpersyaratan" showview="false"
-                                            persyaratan="item">
+                                            src='' persyaratan="item">
                                         </fileinput>
                                     </td>
                                 </tr>
@@ -574,7 +571,7 @@
 
                     <div class="form-group">
                         <label class="col-form-label">Tingkat</label>
-                        <select class="form-control" required ng-model="model.tingkat" required
+                        <select class="form-control" ng-model="model.tingkat"
                             ng-options="item as item for item in helper.tingkat">
                         </select>
                     </div>
@@ -681,10 +678,5 @@
 <style>
     #tabContent {
         min-height: 75vh;
-    }
-
-    a.disabled {
-        pointer-events: none;
-        cursor: default;
     }
 </style>

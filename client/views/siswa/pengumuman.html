@@ -15,16 +15,49 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="siswa">
-
+    <div class="siswa">
+        <div class="siswa-logo">
+            <img src="/client/images/ypk.png" alt="">
         </div>
+        <div class="siswa-header">
+            <h2>SMA YPK DIASPORA KOTARAJA</h2>
+            <h4>Jalan Lintas Liwa No 16, Kotaraja </h4>
+            <h4>KOTA JAYAPURA - PAPUA 99225</h4>
+        </div>
+        <div class="siswa-body" ng-show="pengumuman">
+            <h5 ng-show="siswa.biodata.status==='Lulus'">KAMI MENGUCAPKAN SELAMAT</h5>
+            <h5> KEPAD CALON SISWA ATAS NAMA :</h5>
+            <h2 id="nama">{{siswa.biodata.nama}}</h2>
+            <h6>Dengan Nomor Pendaftaran</h6>
+            <h2 id="nomor">{{siswa.biodata.nomor}}</h2>
+            <h6>ANDA DINYATAKAN </h6>
+            <h1 class="status bg-danger" ng-show="siswa.biodata.status!=='Lulus'">( TIDAK LULUS / TIDAK DITERIMA )
+            </h1>
+            <h1 class="status bg-success" ng-show="siswa.biodata.status==='Lulus'">( LULUS / DITERIMA )
+            </h1>
+        </div>
+        <div class="siswa-body" ng-show="belumAdaPengumuman">
+            <h1>MAAF,</h1>
+            <h1>BELUM ADA PENGUMUMAN</h1>
+        </div>
+
     </div>
+
 </div>
 
 
 <style>
-    .card-header {
-        text-align: start;
+    .siswa {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+
+    #nama {
+        text-transform: uppercase;
+        text-decoration: underline;
+        margin: 30px;
     }
 </style>

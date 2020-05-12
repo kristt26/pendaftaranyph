@@ -1,4 +1,4 @@
-<div id="login" class="row">
+<div id="login">
     <div class="col-sm-12 my-auto">
         <div style="margin: auto; width: 350px" class="card card-block">
             <div class="card">
@@ -16,9 +16,12 @@
                             <input ng-model="model.Password" required class="form-control" id="password" type="password"
                                 placeholder="Password">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class=" fa fa-spinner fa-spin"
-                                ng-show="helper.IsBusy"></i>Sign in</button>
-                                <a ui-sref="guest-home" class="btn btn-primary btn-lg btn-block">Back</a>
+                        <div class="loginFooter">
+                            <button ui-sref="guest-home" class="btn btn-danger">Back</button>
+                            <button type="submit" class="btn btn-primary"><i class=" fa fa-spinner fa-spin"
+                                    ng-show="helper.IsBusy"></i>Sign in</button>
+
+                        </div>
                     </form>
                 </div>
 
@@ -45,10 +48,23 @@
     form {
         padding: 20px 40px 40px 40px;
 
+
+    }
+
+    .loginFooter {
+        display: flex;
+        justify-content: center;
+    }
+
+    button {
+        margin: 5px;
+        width: 40%;
+        text-align: center;
     }
 
     #login {
+        display: flex;
+        align-items: center;
         height: 100vh;
-        overflow: hidden;
     }
 </style>
