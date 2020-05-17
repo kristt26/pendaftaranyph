@@ -146,6 +146,7 @@ function daftarController(
 			$scope.siswa = CalonSiswaService.siswa;
 			$scope.siswa.orangtua = [];
 			$scope.siswa.prestasi = [];
+			$scope.siswa.beasiswa = [];
 			$scope.siswa.kesejahteraan = [];
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });

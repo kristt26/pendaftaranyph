@@ -115,10 +115,10 @@ class Users extends \Restserver\Libraries\REST_Controller
                 $this->response((object)$return_data, REST_Controller::HTTP_OK);
             } else {
                 $message = [
-                    'status' => false,
+                    'status' => 401,
                     'message' => "Periksa Username dan Password",
                 ];
-                $this->response($message, REST_Controller::HTTP_NOT_FOUND);
+                $this->response($message, REST_Controller::HTTP_UNAUTHORIZED);
             }
         }
     }
