@@ -50,5 +50,5 @@ angular.module('app.fileinput.conponent', []).component('fileinput', {
 			inp.click();
 		};
 	},
-	templateUrl: 'client/js/components/templates/fileinput.html'
+	templateUrl: 'client/js/components/templates/fileInput.html'
 });
