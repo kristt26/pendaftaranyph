@@ -24,9 +24,12 @@ function guestHomeController($scope, ContentService, $sce, $state, TahunAjaranSe
 	ContentService.get().then((result) => {
 		$scope.pengumuman = result.filter((x) => x.type == 'pengumuman' && x.publish);
 		$scope.informasi = result.filter((x) => x.type == 'informasi' && x.publish);
-		var info = angular.copy(result[0]);
-		info.content = $sce.trustAsHtml(info.content);
-		$scope.selectedContent = info;
+		if($scope.pengumuman && $scope.pengumuman.length>0){
+			var info = angular.copy($scope.pengumuman[0]);
+			info.content = $sce.trustAsHtml(info.content);
+			$scope.selectedContent = info;
+		}
+		
 
 		TahunAjaranService.get().then((result) => {
 			$scope.taActive = result.find((x) => x.status);
