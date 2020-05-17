@@ -20,33 +20,39 @@ class CalonSiswa extends \Restserver\Libraries\REST_Controller
     }
     public function simpan_post()
     {
-        $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
-        $Output = $this->CalonSiswa_model->insert($POST);
-        if ($Output) {
-            $this->load->library('Authorization_Token');
-            $token_data['id'] = $Output['iduser'];
-            $token_data['Username'] = $POST['username'];
-            $token_data['Nama'] = $Output['nama'];
-            $token_data['Role'] = 'calonsiswa';
-            $token_data['time'] = time();
+        $this->load->library('Exceptions');
+        try {
+            $POST = json_decode($this->security->xss_clean($this->input->raw_input_stream), true);
+            $Output = $this->CalonSiswa_model->insert($POST);
+            if ($Output) {
+                $this->load->library('Authorization_Token');
+                $token_data['id'] = $Output['iduser'];
+                $token_data['Username'] = $POST['username'];
+                $token_data['Nama'] = $Output['nama'];
+                $token_data['Role'] = 'calonsiswa';
+                $token_data['time'] = time();
 
-            $UserToken = $this->authorization_token->generateToken($token_data);
-            // print_r($this->authorization_token->userData());
-            // exit;
+                $UserToken = $this->authorization_token->generateToken($token_data);
+                // print_r($this->authorization_token->userData());
+                // exit;
 
-            $return_data = [
-                'iduser' => $Output['iduser'],
-                'username' => $POST['username'],
-                'nama' => $Output['nama'],
-                'role' => 'calonsiswa',
-                'status' => true,
-                'Token' => $UserToken,
-                'biodata' => $Output,
-            ];
-            $this->response( $return_data, REST_Controller::HTTP_OK);
-        } else {
-            $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
+                $return_data = [
+                    'iduser' => $Output['iduser'],
+                    'username' => $POST['username'],
+                    'nama' => $Output['nama'],
+                    'role' => 'calonsiswa',
+                    'status' => true,
+                    'Token' => $UserToken,
+                    'biodata' => $Output,
+                ];
+                $this->response($return_data, REST_Controller::HTTP_OK);
+            } else {
+                $this->response(false, REST_Controller::HTTP_BAD_REQUEST);
+            }
+        } catch (Exception $error) {
+            $this->response($error->getMessage(), REST_Controller::HTTP_BAD_REQUEST);
         }
+
     }
     public function ubah_put()
     {

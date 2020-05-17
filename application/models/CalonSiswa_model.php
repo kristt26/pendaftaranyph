@@ -116,11 +116,13 @@ class CalonSiswa_Model extends CI_Model
     }
     public function insert($data)
     {
+        $this->load->library('Exceptions');
         $this->load->library('my_lib');
         $this->db->trans_begin();
         $pass = md5($data['password']);
         $user = $data['username'];
-        $this->db->query("INSERT INTO user values('','$user', '$pass','true')");
+        try {
+            $this->db->query("INSERT INTO user values('','$user', '$pass','true')");
         $iduser = $this->db->insert_id();
         $tahunajaran = $this->db->query("SELECT * from tahunajaran WHERE status = '1'");
         $tahun = $tahunajaran->result_array();
@@ -156,13 +158,16 @@ class CalonSiswa_Model extends CI_Model
         ];
         $this->db->query("INSERT INTO userinrole values('','$iduser', '2')");
         $this->db->insert('calonsiswa', $item);
+        $this->exceptions->checkForError();
         $item['idcalonsiswa'] = $this->db->insert_id();
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            $this->db->trans_commit();
+        $this->db->trans_commit();
             return $item;
+
+        } catch (IMySQLException $th) {
+            $this->db->trans_rollback();
+            $model = $th->getErrorMessage();
+            throw new Exception($model['error']['message']);
+            return false;
         }
     }
     public function update($data)
