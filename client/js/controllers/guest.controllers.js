@@ -151,6 +151,14 @@ function daftarController(
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ayah' });
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Ibu' });
 			$scope.siswa.orangtua.push({ idorangtua: 0, kebutuhankhusus: false, jenisorangtua: 'Wali' });
+
+			PersyaratanService.get().then((persyaratan) => {
+				$scope.siswa.detailpersyaratan = persyaratan.map((detail) => {
+					detail.berkas = null;
+					return detail;
+				});
+			});
+
 			$scope.showContent = true;
 		}
 	});

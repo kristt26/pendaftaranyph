@@ -253,6 +253,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.addBerkas = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/berkas';
+		model.idcalonsiswa = service.siswa.idcalonsiswa;
 		$http({
 			method: 'Post',
 			url: url,
