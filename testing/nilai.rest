@@ -1,0 +1,22 @@
+
+
+Post http://localhost/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "Username":"111123",
+    "Password":"11112"
+}
+
+
+####
+
+
+Post http://localhost/api/nilai HTTP/1.1
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwiVXNlcm5hbWUiOiIxMTExMjMiLCJOYW1hIjoiZGFzZCIsIlJvbGUiOiJjYWxvbnNpc3dhIiwidGltZSI6MTU4OTY1NjEwM30.7EtVJ10q7B8x0NvxbRfvBF900RHJoRTHGjuBTCteo8Y
+
+{
+    "Username":"111123",
+    "Password":"11112"
+}

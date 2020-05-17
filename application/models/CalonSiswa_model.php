@@ -18,12 +18,12 @@ class CalonSiswa_Model extends CI_Model
             $kesejahteraan = [];
             $prestasi = [];
             $detailpersyaratan = [];
-            $nilai = [];
+            $nilai = null;
 
             if (count($result) > 0) {
                 $itemnilai = $this->db->query("SELECT * FROM `nilai` WHERE idcalonsiswa='$idcalonsiswa'");
                 $nilai = $itemnilai->result_array();
-                $nilai = count($nilai) > 0 ? $nilai[0] : $nilai;
+                $nilai = count($nilai) > 0 ? $nilai[0] :(object) array('uas' => 0);
                 $itembeasiswa = $this->db->query("
             SELECT
             *

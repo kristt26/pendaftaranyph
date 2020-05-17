@@ -63,7 +63,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				data: model
 			}).then(
 				(response) => {
-					service.siswa = response.data;
+					service.siswa = response.data.biodata;
 					StorageService.addObject('user', response.data);
 					def.resolve(response.data);
 				},
@@ -144,11 +144,14 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 			data: model
 		}).then(
 			(response) => {
-				response.data.forEach((item) => {
-					var ortu = service.siswa.orangtua.find((x) => x.jenisorangtua == item.jenisorangtua);
-					ortu = item;
-				});
-				service.siswa.orangtua = response.data;
+				if (!service.siswa.orangtua) {
+					service.siswa.orangtua = response.data;
+				} else {
+					response.data.forEach((item) => {
+						var ortu = service.siswa.orangtua.find((x) => x.jenisorangtua == item.jenisorangtua);
+						ortu = item;
+					});
+				}
 				def.resolve(response.data);
 			},
 			(err) => {
@@ -164,6 +167,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.saveNilai = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/nilai';
+
+		if (model.idnilai == undefined) model.idnilai = 0;
+		model.idcalonsiswa = service.siswa.idcalonsiswa;
 
 		$http({
 			method: 'Post',

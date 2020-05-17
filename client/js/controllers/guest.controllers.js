@@ -171,7 +171,7 @@ function daftarController(
 		if (!model.edit) {
 			$scope.siswa.prestasi.push(model);
 		}
-		model = {};
+		$scope.model = null;
 	};
 	$scope.deletePrestasi = (model) => {
 		var index = $scope.siswa.prestasi.indexOf(model);
@@ -190,7 +190,7 @@ function daftarController(
 		if (!model.edit) {
 			$scope.siswa.kesejahteraan.push(model);
 		}
-		model = {};
+		$scope.model = null;
 	};
 	$scope.deleteKesejahteraan = (model) => {
 		var index = $scope.siswa.kesejahteraan.indexOf(model);
@@ -204,7 +204,7 @@ function daftarController(
 		if (!model.edit) {
 			$scope.siswa.beasiswa.push(model);
 		}
-		model = {};
+		$scope.model = null;
 	};
 
 	$scope.deleteBeasiswa = (model) => {
@@ -222,18 +222,24 @@ function daftarController(
 					CalonSiswaService.saveCalonSiswa(model).then((x) => {
 						next(idstepper);
 					});
+				else $scope.helper.IsBusy = false;
+
 				break;
 			case 2:
-				CalonSiswaService.saveOrangTua(model).then((x) => {
-					next(idstepper);
-				});
+				if (orangTuaValidate(model)) {
+					CalonSiswaService.saveOrangTua(model).then((x) => {
+						next(idstepper);
+					});
+				} else $scope.helper.IsBusy = false;
 
 				break;
 
 			case 3:
-				CalonSiswaService.saveNilai(model).then((x) => {
-					next(idstepper);
-				});
+				if (nilaiValidate(model))
+					CalonSiswaService.saveNilai(model).then((x) => {
+						next(idstepper);
+					});
+				else $scope.helper.IsBusy = false;
 				break;
 			case 4:
 				if (model.length > 0) {
@@ -331,7 +337,7 @@ function daftarController(
 					nextSteper = changeStepper(foundOrtu, step);
 					break;
 				case 3:
-					nextSteper = changeStepper(x.nilai || x.nilai.idnilai > 0, step);
+					nextSteper = changeStepper(x.nilai.uas || x.nilai.idnilai > 0, step);
 					break;
 				case 4:
 					nextSteper = changeStepper(x.prestasi && x.prestasi.length > 0, step);
@@ -380,5 +386,37 @@ function daftarController(
 		}
 
 		return valid;
+	}
+
+	function orangTuaValidate(model) {
+		var valid = true;
+		var messageError = '';
+		model.forEach((element) => {
+			if (valid && element.nama) {
+				if (!element.pekerjaan) {
+					valid = false;
+					messageError = 'Lengkapi Data Pekerjaan Orang Tua';
+				}
+				if (!element.pendidikan) {
+					valid = false;
+					messageError = 'Lengkapi Data Pedidikan Orang Tua';
+				}
+				if (!element.penghasilan) {
+					valid = false;
+					messageError = 'Lengkapi Data Pendapatan/Penghasilan Orang Tua';
+				}
+			}
+		});
+
+		if (!valid) message.error(messageError);
+		return valid;
+	}
+
+	function nilaiValidate(model) {
+		if (!model.uas || !model.bahasaindonesia || !model.bahasainggris) {
+			message.error('Lengkapi Nilai Anda');
+			return false;
+		}
+		return true;
 	}
 }
