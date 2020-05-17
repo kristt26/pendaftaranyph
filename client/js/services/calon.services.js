@@ -63,7 +63,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 				data: model
 			}).then(
 				(response) => {
-					service.siswa = response.data.biodata;
+					service.siswa.idcalonsiswa = response.data.biodata.idcalonsiswa;
 					StorageService.addObject('user', response.data);
 					def.resolve(response.data);
 				},
@@ -128,13 +128,9 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.saveOrangTua = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/orangtua';
-
-		model.forEach((element) => {
-			element.idcalonsiswa = service.siswa.idcalonsiswa;
-			if (!element.nama) {
-				var index = model.indexOf(element);
-				model.splice(index, 1);
-			}
+		model = model.filter((x) => x.nama).map((x) => {
+			x.idcalonsiswa = service.siswa.idcalonsiswa;
+			return x;
 		});
 
 		$http({
@@ -257,6 +253,7 @@ function CalonSiswaService($http, $q, message, AuthService, helperServices, Stor
 	service.addBerkas = function(model) {
 		var def = $q.defer();
 		var url = helperServices.url + '/api/berkas';
+		model.idcalonsiswa = service.siswa.idcalonsiswa;
 		$http({
 			method: 'Post',
 			url: url,
