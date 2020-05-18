@@ -34,6 +34,7 @@ function siswaProfileController($scope, AuthService, CalonSiswaService, TahunAja
 
 function siswaPengumumanController($scope, AuthService, TahunAjaranService) {
 	$scope.pengumuman = false;
+	$scope.belumAdaPengumuman = false;
 	TahunAjaranService.get().then((ta) => {
 		var taActive = ta.find((x) => x.status);
 		if (taActive.pengumuman) {
@@ -44,7 +45,7 @@ function siswaPengumumanController($scope, AuthService, TahunAjaranService) {
 
 		AuthService.profile().then((profile) => {
 			if (profile.biodata.status) {
-				$scope.pengumuman = true;
+				// $scope.pengumuman = true;
 				if (profile.biodata.status == '1') {
 					profile.biodata.status = 'Lulus';
 				} else {

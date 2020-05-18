@@ -10,6 +10,7 @@ class Tahun_model extends CI_Model
             $item = $result->result_object();
             foreach ($item as $key => $value) {
                 $value->status = boolval($value->status);
+                $value->pengumuman = $value->pengumuman == 1 ? true : false;
             }
             return $item;
         }else{
@@ -17,6 +18,7 @@ class Tahun_model extends CI_Model
             $item = $result->result_object();
             foreach ($item as $key => $value) {
                 $value->status = boolval($value->status);
+                $value->pengumuman = $value->pengumuman == 1 ? true : false;
             }
             return $item;
         }
@@ -55,7 +57,8 @@ class Tahun_model extends CI_Model
             "semester" => $data['semester'],
             "status" => $data['status']? 1: 0,
             "tanggalbuka" => $data['tanggalbuka'],
-            "tanggaltutup" => $data['tanggaltutup']
+            "tanggaltutup" => $data['tanggaltutup'],
+            "pengumuman" => $data['pengumuman']==true ? 1 : 0
         ];
         $this->db->trans_begin();
         $this->db->where('idtahunajaran', $data['idtahunajaran']);

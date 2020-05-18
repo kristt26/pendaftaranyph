@@ -77,6 +77,7 @@ class CalonSiswa_Model extends CI_Model
                     'email' => $result[0]->email,
                     'statusselesai' => $result[0]->statusselesai == "1" ? true : false,
                     'nomorpendaftaran' => $result[0]->nomorpendaftaran,
+                    'tanggaldaftar' => $result[0]->tanggaldaftar,
                     'orangtua' => $orangtua,
                     'beasiswa' => $beasiswa,
                     'kesejahteraan' => $kesejahteraan,
@@ -160,6 +161,7 @@ class CalonSiswa_Model extends CI_Model
         $this->db->insert('calonsiswa', $item);
         $this->exceptions->checkForError();
         $item['idcalonsiswa'] = $this->db->insert_id();
+        $item['tanggaldaftar'] = new DateTime();
         $this->db->trans_commit();
             return $item;
 
